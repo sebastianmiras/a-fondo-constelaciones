@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Constelaciones — Proyecto A fondo</title>
+  <meta name="description" content="Colección de constelaciones interactivas a partir de entrevistas del programa A fondo (RTVE).">
+  <style>
+    :root{--bg:#fff;--fg:#111827;--muted:#6b7280;--card:#f9fafb;--border:#e5e7eb;--link:#2563eb}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--fg);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    header{padding:24px 16px;border-bottom:1px solid var(--border)}
+    header .wrap, main .wrap{max-width:1100px;margin:0 auto}
+    h1{margin:0;font-size:28px}
+    p{color:var(--muted)}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin:20px 0 40px}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:8px}
+    .card a{color:var(--link);text-decoration:none}
+    .card a:hover{text-decoration:underline}
+    .thumb{width:100%;height:140px;background:#e5e7eb;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#6b7280;font-size:12px}
+    .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+    .chip{background:#eef2ff;border:1px solid #c7d2fe;color:#3730a3;border-radius:999px;padding:2px 8px;font-size:12px}
+    .toolbar{display:flex;gap:8px;align-items:center;margin-top:10px}
+    input[type="search"],select{border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:14px}
+    footer{border-top:1px solid var(--border);padding:18px 16px;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>Constelaciones — Proyecto A fondo</h1>
+      <p>Visualizaciones interactivas de referencias culturales, biográficas y contextuales a partir de entrevistas a escritores hispanoamericanos.</p>
+      <div class="toolbar">
+        <input id="q" type="search" placeholder="Buscar por título o etiqueta…">
+        <select id="tagSel"><option value="">Filtrar por etiqueta</option></select>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div class="wrap">
+      <div id="grid" class="grid"></div>
+    </div>
+  </main>
+  <footer>
+    <div class="wrap">Proyecto Constelaciones literarias A fondo · hcommons + GitHub Pages</div>
+  </footer>
+
+  <script>
+    const state = { items: [], tags: [] };
+
+    function render(list){
+      const grid = document.getElementById("grid");
+      grid.innerHTML = "";
+      if (!list.length){
+        grid.innerHTML = "<p>No hay resultados con los filtros actuales.</p>";
+        return;
+      }
+      list.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "card";
+        const a = document.createElement("a");
+        a.href = item.file;
+        a.target = "_blank";
+        a.rel = "noopener";
+        a.textContent = item.title || item.file;
+        const thumb = document.createElement("div");
+        thumb.className = "thumb";
+        if (item.thumb){
+          thumb.style.backgroundImage = `url('${item.thumb}')`;
+          thumb.style.backgroundSize = "cover";
+          thumb.style.backgroundPosition = "center";
+          thumb.textContent = "";
+        } else {
+          thumb.textContent = "Sin miniatura";
+        }
+        const meta = document.createElement("div");
+        meta.style.color = "#6b7280";
+        meta.style.fontSize = "13px";
+        meta.textContent = item.date ? `Fecha: ${item.date}` : "";
+        const chips = document.createElement("div");
+        chips.className = "chips";
+        (item.tags||[]).forEach(t => {
+          const chip = document.createElement("span");
+          chip.className = "chip";
+          chip.textContent = t;
+          chip.addEventListener("click", () => {
+            document.getElementById("tagSel").value = t;
+            applyFilters();
+          });
+          chips.appendChild(chip);
+        });
+        card.appendChild(thumb);
+        card.appendChild(a);
+        if (item.date) card.appendChild(meta);
+        if ((item.tags||[]).length) card.appendChild(chips);
+        grid.appendChild(card);
+      });
+    }
+
+    function applyFilters(){
+      const q = document.getElementById("q").value.trim().toLowerCase();
+      const tag = document.getElementById("tagSel").value;
+      const filtered = state.items.filter(it => {
+        let ok = true;
+        if (q){
+          const hay = (it.title||"") + " " + (it.tags||[]).join(" ");
+          ok = hay.toLowerCase().includes(q);
+        }
+        if (ok && tag){
+          ok = (it.tags||[]).includes(tag);
+        }
+        return ok;
+      });
+      render(filtered);
+    }
+
+    fetch("manifest.json").then(r => r.json()).then(items => {
+      state.items = items;
+      // collect tags
+      const tagSet = new Set();
+      items.forEach(it => (it.tags||[]).forEach(t => tagSet.add(t)));
+      const tagSel = document.getElementById("tagSel");
+      [...tagSet].sort().forEach(t => {
+        const opt = document.createElement("option");
+        opt.value = t; opt.textContent = t; tagSel.appendChild(opt);
+      });
+      render(items);
+      document.getElementById("q").addEventListener("input", applyFilters);
+      tagSel.addEventListener("change", applyFilters);
+    }).catch(err => {
+      document.getElementById("grid").innerHTML = "<p>Error cargando manifest.json.</p>";
+      console.error(err);
+    });
+  </script>
+</body>
+</html>
