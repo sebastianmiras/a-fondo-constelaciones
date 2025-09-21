@@ -39,8 +39,8 @@
       .range(["#000000", "#1f77b4"]);
 
     Promise.all([
-      d3.csv("carpentier_nodos_from_referencias.csv"),
-      d3.csv("carpentier_aristas_from_referencias.csv")
+      d3.csv("carpentier_nodos.csv"),
+      d3.csv("carpentier_aristas.csv")
     ]).then(([nodes, links]) => {
       const nodeById = new Map(nodes.map(d => [d.id, d]));
       const edges = links.map(d => Object.assign({}, d, {
