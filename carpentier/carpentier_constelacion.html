@@ -17,6 +17,8 @@
 
     .node { cursor:pointer; }
     .link { stroke:#bbb; stroke-opacity:.6; }
+    .dimmed { opacity: 0.15; } /* CAMBIO: para atenuar */
+    .highlight { stroke: yellow; stroke-width: 3; } /* CAMBIO: para resaltar */
   </style>
 </head>
 <body>
@@ -27,13 +29,13 @@
     <div id="content" class="ctx">—</div>
   </aside>
 
-  <!-- CAMBIO: leyenda SOLO categorías -->
+  <!-- CAMBIO: leyenda EXACTA de tus categorías -->
   <div class="legend">
     <strong>Categorías</strong><br/>
-    <div><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:red;margin-right:4px;"></span> Biográficas</div>
-    <div><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:green;margin-right:4px;"></span> Producción literaria</div>
-    <div><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:orange;margin-right:4px;"></span> Influencias y referencias culturales</div>
-    <div><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:purple;margin-right:4px;"></span> Contexto histórico y social</div>
+    <div><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:green;margin-right:4px;"></span> Pensamiento y conocimiento</div>
+    <div><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:purple;margin-right:4px;"></span> Contexto socio-histórico</div>
+    <div><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:red;margin-right:4px;"></span> Personales y biográficas</div>
+    <div><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:orange;margin-right:4px;"></span> Culturales y artísticas</div>
   </div>
 
   <!-- CAMBIO: caja de búsqueda funcional -->
@@ -45,50 +47,53 @@
   <script>
     const width = window.innerWidth - 340, height = window.innerHeight;
 
-    // CAMBIO: mapeo de colores robusto por label o id (normalizados)
-    const categoryColorsByLabel = {
-      "referencias biograficas": "red",
-      "produccion literaria": "green",
-      "influencias y referencias culturales": "orange",
-      "contexto historico y social": "purple"
+    // CAMBIO: mapeo EXACTO de colores por label
+    const categoryColorsExact = {
+      "pensamiento y conocimiento": "green",
+      "contexto socio-histórico": "purple",
+      "contexto socio-historico": "purple",   // por si el CSV viniera sin tilde
+      "personales y biográficas": "red",
+      "personales y biograficas": "red",
+      "culturales y artísticas": "orange",
+      "culturales y artisticas": "orange"
     };
+    // CAMBIO: mapeo por id "canónico" por si tus CSV usan ids estables
     const categoryColorsById = {
-      "categoria_referencias_biograficas": "red",
-      "categoria_produccion_literaria": "green",
-      "categoria_influencias_referencias_culturales": "orange",
-      "categoria_contexto_historico_social": "purple"
+      "categoria_pensamiento_y_conocimiento": "green",
+      "categoria_contexto_sociohistorico": "purple",
+      "categoria_personales_y_biograficas": "red",
+      "categoria_culturales_y_artisticas": "orange"
     };
     const blueRef = "#1f77b4";
 
-    // CAMBIO: normalizador (quita tildes, pasa a minúsculas)
+    // CAMBIO: normalizador (quita tildes y pasa a minúsculas)
     function norm(s) {
       if (!s) return "";
       return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
     }
 
     function colorForCategory(d) {
-      // intenta por label normalizado
-      const byLabel = categoryColorsByLabel[norm(d.label)];
+      // intenta por label exacto (normalizado)
+      const byLabel = categoryColorsExact[norm(d.label)];
       if (byLabel) return byLabel;
       // intenta por id exacto
       if (d.id && categoryColorsById[d.id]) return categoryColorsById[d.id];
-      // intenta por id parcialmente (por si cambian prefijos)
+      // heurística por palabras clave en id (último recurso)
       const idn = norm(d.id || "");
-      if (idn.includes("referencias") && idn.includes("biograf")) return "red";
-      if (idn.includes("produccion") || idn.includes("obra") || idn.includes("literaria")) return "green";
-      if (idn.includes("influencias") || idn.includes("culturales") || idn.includes("artisticas")) return "orange";
-      if (idn.includes("contexto") || idn.includes("historico") || idn.includes("social")) return "purple";
-      return "#000"; // fallback
+      if (idn.includes("pensamiento") || idn.includes("conocimiento")) return "green";
+      if (idn.includes("contexto") || idn.includes("socio") || idn.includes("histor")) return "purple";
+      if (idn.includes("personal") || idn.includes("biogra")) return "red";
+      if (idn.includes("cultur") || idn.includes("artist")) return "orange";
+      return "#000";
     }
 
-    function getColor(d) {
+    function colorNode(d) {
       if (d.type === "reference") return blueRef;
-      if (d.type === "category") return colorForCategory(d);
+      if (d.type === "category") return colorForCategory(d); // CAMBIO: categorías coloreadas
       if (d.type === "author") return "#000";
       return "#999";
     }
 
-    // Carga CSV inteligente (coma/; y sin caché)
     async function loadCsvSmart(url) {
       const txt = await fetch(url, { cache: "no-store" }).then(r => {
         if (!r.ok) throw new Error(`HTTP ${r.status} al cargar ${url}`);
@@ -106,12 +111,12 @@
           loadCsvSmart("carpentier_aristas.csv")
         ]);
 
-        // CAMBIO: filtramos aristas con ids inexistentes y trabajamos con objetos (mejor para el tick)
+        // Filtrado de aristas inválidas y objeto de acceso rápido
         const nodeById = new Map(nodes.map(d => [d.id, d]));
         links = links.filter(e => nodeById.has(e.source) && nodeById.has(e.target));
         links.forEach(e => { e.source = nodeById.get(e.source); e.target = nodeById.get(e.target); });
 
-        // CAMBIO: nodo central autor conectado a categorías
+        // CAMBIO: nodo central autor → conectado a TODAS las categorías
         const authorNode = { id: "autor", label: "Alejo Carpentier", type: "author" };
         nodes.push(authorNode);
         nodes.filter(n => n.type === "category").forEach(cat => {
@@ -140,7 +145,7 @@
           .selectAll("circle").data(nodes).join("circle")
           .attr("class", d => "node " + d.type)
           .attr("r", d => d.type==="category" ? 20 : (d.type==="author" ? 30 : 8))
-          .attr("fill", d => getColor(d)) // CAMBIO: aplica color de categoría
+          .attr("fill", d => colorNode(d))
           .call(d3.drag()
             .on("start", (event,d) => { if (!event.active) simulation.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
             .on("drag",  (event,d) => { d.fx = event.x; d.fy = event.y; })
@@ -152,14 +157,13 @@
           .selectAll("text").data(nodes).join("text")
           .text(d => d.label)
           .attr("dy", d => d.type==="category" ? -25 : (d.type==="author" ? -35 : -12))
-          .attr("font-size", d => d.type==="category" ? 14 : (d.type==="author" ? 18 : 11)) // CAMBIO: tamaños de texto
+          .attr("font-size", d => d.type==="category" ? 14 : (d.type==="author" ? 18 : 11))
           .attr("text-anchor", "middle")
           .attr("fill", "#333");
 
-        // Fuerzas (más distancia desde categorías y colisión fuerte para evitar solapamientos)
+        // Fuerzas: más separación desde categorías + colisión fuerte
         const simulation = d3.forceSimulation(nodes)
           .force("link", d3.forceLink(links).id(d => d.id).distance(l => {
-            // CAMBIO: mayor separación desde categorías
             return (l.source.type === "category" || l.target.type === "category") ? 130 : 90;
           }).strength(0.35))
           .force("charge", d3.forceManyBody().strength(-280))
@@ -170,30 +174,31 @@
           link
             .attr("x1", d => d.source.x).attr("y1", d => d.source.y)
             .attr("x2", d => d.target.x).attr("y2", d => d.target.y);
-
           node.attr("cx", d => d.x).attr("cy", d => d.y);
           label.attr("x", d => d.x).attr("y", d => d.y);
         });
 
-        // CAMBIO: zoom + pan y ajuste inicial fiable al terminar la simulación
-        const zoom = d3.zoom().scaleExtent([0.2, 4]).on("zoom", (event) => g.attr("transform", event.transform));
+        // CAMBIO: zoom + pan; fit SOLO una vez al final
+        const zoom = d3.zoom().scaleExtent([0.2, 2.2]).on("zoom", (event) => g.attr("transform", event.transform));
         svg.call(zoom);
-
+        let fitted = false; // CAMBIO: evita autofit tras clic
         simulation.on("end", () => {
-          // calcula el bbox del grupo y ajusta vista con margen
+          if (fitted) return;
           const box = g.node().getBBox();
           if (box.width === 0 || box.height === 0) return;
 
-          const margin = 40;
+          const margin = 60;
           const sx = (width - margin) / box.width;
           const sy = (height - margin) / box.height;
-          const k = Math.min(sx, sy) * 0.95;
+          let k = Math.min(sx, sy);
+          // CAMBIO: limita el zoom inicial a no pasar de 1.0 (que no “meta demasiado”)
+          k = Math.min(k, 1.0) * 0.95;
 
           const translateX = (width / 2) - k * (box.x + box.width / 2);
           const translateY = (height / 2) - k * (box.y + box.height / 2);
 
           const t = d3.zoomIdentity.translate(translateX, translateY).scale(k);
-          svg.transition().duration(600).call(zoom.transform, t);
+          svg.transition().duration(500).call(zoom.transform, t).on("end", () => { fitted = true; });
         });
 
         function showPanel(d) {
@@ -207,30 +212,41 @@
         }
         function escapeHtml(s) { return (s || "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;"); }
 
-        // CAMBIO: búsqueda funcional (resalta y centra el 1er match)
+        // CAMBIO: búsqueda — resalta y centra el 1er match, atenúa el resto
         const searchInput = document.getElementById("search");
         searchInput.addEventListener("input", () => {
           const q = norm(searchInput.value);
           let firstMatch = null;
 
-          node.attr("stroke", d => {
-              const hit = (d.type === "reference") && norm(d.label).includes(q) && q.length > 0;
-              if (hit && !firstMatch) firstMatch = d;
-              return hit ? "yellow" : null;
-            })
-            .attr("stroke-width", d => (d.type === "reference" && norm(d.label).includes(q) && q.length > 0) ? 3 : 1.5);
+          node.classed("highlight", false);
+          label.classed("highlight", false);
+          node.classed("dimmed", q.length > 0);
+          label.classed("dimmed", q.length > 0);
 
-          // centra en el primer match
+          node.each(function(d) {
+            const hit = (d.type === "reference") && norm(d.label).includes(q) && q.length > 0;
+            if (hit && !firstMatch) firstMatch = d;
+            d3.select(this).classed("highlight", hit).classed("dimmed", q.length>0 && !hit);
+          });
+          label.each(function(d) {
+            const hit = (d.type === "reference") && norm(d.label).includes(q) && q.length > 0;
+            d3.select(this).classed("highlight", hit).classed("dimmed", q.length>0 && !hit);
+          });
+
+          // centra en el primer match (si existe)
           if (firstMatch) {
-            const currentTransform = d3.zoomTransform(svg.node());
-            const scale = Math.max(0.8, Math.min(2.5, currentTransform.k)); // mantiene escala usable
+            const scale = Math.min(2.0, Math.max(0.9, d3.zoomTransform(svg.node()).k));
             const tx = (width / 2) - scale * firstMatch.x;
             const ty = (height / 2) - scale * firstMatch.y;
-            svg.transition().duration(400).call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
+            svg.transition().duration(450).call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
+          } else if (!q.length) {
+            // si se borra la búsqueda, quitamos atenuación
+            node.classed("dimmed", false);
+            label.classed("dimmed", false);
           }
         });
 
-        // Texto inicial (sin “datos cargados”)
+        // Texto inicial limpio
         document.getElementById("content").textContent = "—";
 
       } catch (err) {
