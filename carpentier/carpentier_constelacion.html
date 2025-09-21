@@ -17,7 +17,9 @@
 
     .node { cursor:pointer; transition: opacity .2s ease; }
     .link { stroke:#bbb; stroke-opacity:.6; transition: opacity .2s ease; }
-    .dimmed { opacity: .15; } /* CAMBIO: solo atenuar, sin resaltar */
+    .dimmed { opacity: .15; }
+    /* CAMBIO (zoom): ocultamos el gráfico hasta tener el fit aplicado */
+    .hidden { opacity: 0; }
   </style>
 </head>
 <body>
@@ -44,7 +46,6 @@
   <script>
     const width = window.innerWidth - 340, height = window.innerHeight;
 
-    // Colores por etiqueta de categoría (normalizado) y por ID canónico
     const categoryColorsExact = {
       "pensamiento y conocimiento": "green",
       "contexto socio-histórico": "purple",
@@ -106,8 +107,27 @@
         nodes.push(authorNode);
         nodes.filter(n => n.type==="category").forEach(cat => links.push({source:authorNode, target:cat}));
 
+        // CAMBIO (zoom): pre-layout OFF-SCREEN para evitar “saltos”
+        // Ejecutamos una simulación rápida solo para calcular posiciones antes de pintar
+        {
+          const preNodes = nodes.map(d => ({...d}));
+          const preLinks = links.map(l => ({source: preNodes[nodes.indexOf(l.source)], target: preNodes[nodes.indexOf(l.target)]}));
+          const preSim = d3.forceSimulation(preNodes)
+            .force("link", d3.forceLink(preLinks).id(d=>d.id).distance(l =>
+              (l.source.type==="category" || l.target.type==="category") ? 130 : 90
+            ).strength(0.35))
+            .force("charge", d3.forceManyBody().strength(-280))
+            .force("center", d3.forceCenter(width/2, height/2))
+            .force("collision", d3.forceCollide().radius(d => d.type==="category" ? 42 : (d.type==="author" ? 52 : 18)).strength(0.9))
+            .stop();
+          for (let i=0; i<250; i++) preSim.tick();   // ~250 iteraciones “rápidas”
+
+          // Copiamos posiciones a los nodos reales antes de pintar
+          preNodes.forEach((pn, i) => { nodes[i].x = pn.x; nodes[i].y = pn.y; });
+        }
+
         const svg = d3.select("#viz").append("svg").attr("width", width).attr("height", height);
-        const g = svg.append("g");
+        const g = svg.append("g").classed("hidden", true); // CAMBIO (zoom): oculto hasta aplicar fit
 
         // Flechas
         svg.append("defs").selectAll("marker")
@@ -130,9 +150,9 @@
           .attr("r", d => d.type==="category" ? 20 : (d.type==="author" ? 30 : 8))
           .attr("fill", d => colorNode(d))
           .call(d3.drag()
-            .on("start", (event,d) => { if(!event.active) simulation.alphaTarget(0.3).restart(); d.fx=d.x; d.fy=d.y; })
+            .on("start", (event,d) => { if(!event.active) sim.alphaTarget(0.3).restart(); d.fx=d.x; d.fy=d.y; })
             .on("drag",  (event,d) => { d.fx=event.x; d.fy=event.y; })
-            .on("end",   (event,d) => { if(!event.active) simulation.alphaTarget(0); d.fx=null; d.fy=null; })
+            .on("end",   (event,d) => { if(!event.active) sim.alphaTarget(0); d.fx=null; d.fy=null; })
           )
           .on("click", (event,d) => showPanel(d));
 
@@ -143,8 +163,8 @@
           .attr("font-size", d => d.type==="category" ? 14 : (d.type==="author" ? 18 : 11))
           .attr("text-anchor","middle").attr("fill","#333");
 
-        // Fuerzas
-        const simulation = d3.forceSimulation(nodes)
+        // Simulación “en vivo” (suave, ya parte del pre-layout)
+        const sim = d3.forceSimulation(nodes)
           .force("link", d3.forceLink(links).id(d=>d.id).distance(l =>
             (l.source.type==="category" || l.target.type==="category") ? 130 : 90
           ).strength(0.35))
@@ -152,31 +172,55 @@
           .force("center", d3.forceCenter(width/2, height/2))
           .force("collision", d3.forceCollide().radius(d => d.type==="category" ? 42 : (d.type==="author" ? 52 : 18)).strength(0.9));
 
-        simulation.on("tick", () => {
+        sim.on("tick", () => {
           link.attr("x1", d=>d.source.x).attr("y1", d=>d.source.y)
               .attr("x2", d=>d.target.x).attr("y2", d=>d.target.y);
           node.attr("cx", d=>d.x).attr("cy", d=>d.y);
           label.attr("x", d=>d.x).attr("y", d=>d.y);
         });
 
-        // CAMBIO: zoom libre + fit inicial UNA ÚNICA VEZ con timeout (no ligado a zoom ni a end)
+        // CAMBIO (zoom): zoom libre + FIT INICIAL SOLO al componente principal (ignorando huérfanas)
         const zoom = d3.zoom().scaleExtent([0.2, 2.2]).on("zoom", (event) => g.attr("transform", event.transform));
         svg.call(zoom);
 
-        // CAMBIO: fit inicial con más margen y cap de escala (0.85), sin reencuadres posteriores
-        setTimeout(() => {
-          const box = g.node().getBBox();
-          if (box.width === 0 || box.height === 0) return;
-          const margin = 120; // margen amplio
-          const sx = (width  - margin) / box.width;
-          const sy = (height - margin) / box.height;
-          let k = Math.min(sx, sy);
-          k = Math.min(k, 0.85); // cap para no acercar demasiado
-          const tx = (width/2)  - k * (box.x + box.width/2);
-          const ty = (height/2) - k * (box.y + box.height/2);
-          svg.call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(k));
-        }, 1200); // espera a que la simulación “asiente” un poco
+        // Encuentra el componente conectado al autor (autor→categorías→referencias)
+        function mainComponentNodes(){
+          const adj = new Map(nodes.map(n => [n.id, []]));
+          links.forEach(l => { adj.get(l.source.id).push(l.target.id); adj.get(l.target.id).push(l.source.id); });
+          const visited = new Set(); const stack = ["autor"];
+          while (stack.length){
+            const u = stack.pop();
+            if (visited.has(u)) continue;
+            visited.add(u);
+            (adj.get(u)||[]).forEach(v => { if(!visited.has(v)) stack.push(v); });
+          }
+          return new Set([...visited]); // ids
+        }
 
+        // Aplica fit a ese componente y muestra el gráfico sin “saltos”
+        (function initialFit(){
+          const ids = mainComponentNodes();
+          // clona posiciones para bbox del componente
+          const comp = g.append("g").attr("visibility","hidden");
+          const tmp = comp.selectAll("circle").data(nodes.filter(n => ids.has(n.id))).join("circle")
+                          .attr("cx", d=>d.x).attr("cy", d=>d.y).attr("r", 1);
+          const box = comp.node().getBBox();
+          comp.remove();
+
+          if (box.width && box.height){
+            const margin = 100;
+            const sx = (width  - margin) / box.width;
+            const sy = (height - margin) / box.height;
+            let k = Math.min(sx, sy);
+            k = Math.min(k, 0.85); // no acercar demasiado
+            const tx = (width/2)  - k * (box.x + box.width/2);
+            const ty = (height/2) - k * (box.y + box.height/2);
+            svg.call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(k));
+          }
+          g.classed("hidden", false); // mostrar ya encuadrado
+        })();
+
+        // Panel
         function showPanel(d){
           const panel = document.getElementById("content");
           if (d.type === "reference") {
@@ -188,40 +232,20 @@
         }
         function escapeHtml(s){ return (s||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;"); }
 
-        // CAMBIO: búsqueda — solo atenuar NO coincidencias; matches quedan tal cual (sin amarillo)
+        // Búsqueda (atenúa no-coincidentes; mantiene colores; centra en primer match)
         const searchInput = document.getElementById("search");
         searchInput.addEventListener("input", () => {
           const q = norm(searchInput.value);
           let firstMatch = null;
+          node.classed("dimmed", false); label.classed("dimmed", false); link.classed("dimmed", false);
+          if (!q.length) return;
 
-          // reset clases
-          node.classed("dimmed", false);
-          label.classed("dimmed", false);
-          link.classed("dimmed", false);
-
-          if (!q.length) return; // sin filtro, nada atenuado
-
-          // marca qué referencias coinciden
           const matchSet = new Set();
-          node.each(d => {
-            const hit = (d.type === "reference") && norm(d.label).includes(q);
-            if (hit) matchSet.add(d.id), (firstMatch ??= d);
-          });
+          node.each(d => { const hit = (d.type==="reference") && norm(d.label).includes(q); if (hit) { matchSet.add(d.id); if(!firstMatch) firstMatch = d; } });
+          node.classed("dimmed", d => d.type==="reference" ? !matchSet.has(d.id) : false);
+          label.classed("dimmed", d => d.type==="reference" ? !matchSet.has(d.id) : false);
+          link.classed("dimmed", e => !(matchSet.has(e.source.id) || matchSet.has(e.target.id)));
 
-          // atenuar nodos que NO coinciden (salvo categorías y autor, que se mantienen)
-          node.classed("dimmed", d =>
-            d.type === "reference" ? !matchSet.has(d.id) : false
-          );
-          label.classed("dimmed", d =>
-            d.type === "reference" ? !matchSet.has(d.id) : false
-          );
-
-          // atenuar links si ninguno de sus extremos es match
-          link.classed("dimmed", e =>
-            !(matchSet.has(e.source.id) || matchSet.has(e.target.id))
-          );
-
-          // centra en el primer match (si quieres desactivar el centrado, comenta estas 3 líneas)
           if (firstMatch) {
             const current = d3.zoomTransform(svg.node());
             const scale = Math.min(2.0, Math.max(0.9, current.k));
@@ -231,7 +255,6 @@
           }
         });
 
-        // texto inicial limpio
         document.getElementById("content").textContent = "—";
 
       }catch(err){
