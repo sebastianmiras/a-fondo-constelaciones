@@ -15,10 +15,9 @@
     .legend { position:absolute; left:10px; top:10px; background:rgba(255,255,255,.9); border:1px solid #e5e5e5; padding:8px; border-radius:6px; font-size:12px; }
     .search-box { position:absolute; right:360px; top:10px; background:white; border:1px solid #ccc; border-radius:6px; padding:4px; }
 
-    .node { cursor:pointer; }
-    .link { stroke:#bbb; stroke-opacity:.6; }
-    .dimmed { opacity: 0.15; } /* CAMBIO: para atenuar */
-    .highlight { stroke: yellow; stroke-width: 3; } /* CAMBIO: para resaltar */
+    .node { cursor:pointer; transition: opacity .2s ease; }
+    .link { stroke:#bbb; stroke-opacity:.6; transition: opacity .2s ease; }
+    .dimmed { opacity: .15; } /* CAMBIO: solo atenuar, sin resaltar */
   </style>
 </head>
 <body>
@@ -29,7 +28,6 @@
     <div id="content" class="ctx">—</div>
   </aside>
 
-  <!-- CAMBIO: leyenda EXACTA de tus categorías -->
   <div class="legend">
     <strong>Categorías</strong><br/>
     <div><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:green;margin-right:4px;"></span> Pensamiento y conocimiento</div>
@@ -38,7 +36,6 @@
     <div><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:orange;margin-right:4px;"></span> Culturales y artísticas</div>
   </div>
 
-  <!-- CAMBIO: caja de búsqueda funcional -->
   <div class="search-box">
     <input type="text" id="search" placeholder="Buscar referencia..." />
   </div>
@@ -47,17 +44,16 @@
   <script>
     const width = window.innerWidth - 340, height = window.innerHeight;
 
-    // CAMBIO: mapeo EXACTO de colores por label
+    // Colores por etiqueta de categoría (normalizado) y por ID canónico
     const categoryColorsExact = {
       "pensamiento y conocimiento": "green",
       "contexto socio-histórico": "purple",
-      "contexto socio-historico": "purple",   // por si el CSV viniera sin tilde
+      "contexto socio-historico": "purple",
       "personales y biográficas": "red",
       "personales y biograficas": "red",
       "culturales y artísticas": "orange",
       "culturales y artisticas": "orange"
     };
-    // CAMBIO: mapeo por id "canónico" por si tus CSV usan ids estables
     const categoryColorsById = {
       "categoria_pensamiento_y_conocimiento": "green",
       "categoria_contexto_sociohistorico": "purple",
@@ -66,62 +62,49 @@
     };
     const blueRef = "#1f77b4";
 
-    // CAMBIO: normalizador (quita tildes y pasa a minúsculas)
-    function norm(s) {
-      if (!s) return "";
-      return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
-    }
-
-    function colorForCategory(d) {
-      // intenta por label exacto (normalizado)
+    function norm(s){ return (s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim(); }
+    function colorForCategory(d){
       const byLabel = categoryColorsExact[norm(d.label)];
       if (byLabel) return byLabel;
-      // intenta por id exacto
       if (d.id && categoryColorsById[d.id]) return categoryColorsById[d.id];
-      // heurística por palabras clave en id (último recurso)
-      const idn = norm(d.id || "");
+      const idn = norm(d.id||"");
       if (idn.includes("pensamiento") || idn.includes("conocimiento")) return "green";
       if (idn.includes("contexto") || idn.includes("socio") || idn.includes("histor")) return "purple";
       if (idn.includes("personal") || idn.includes("biogra")) return "red";
       if (idn.includes("cultur") || idn.includes("artist")) return "orange";
       return "#000";
     }
-
-    function colorNode(d) {
+    function colorNode(d){
       if (d.type === "reference") return blueRef;
-      if (d.type === "category") return colorForCategory(d); // CAMBIO: categorías coloreadas
+      if (d.type === "category") return colorForCategory(d);
       if (d.type === "author") return "#000";
       return "#999";
     }
 
-    async function loadCsvSmart(url) {
-      const txt = await fetch(url, { cache: "no-store" }).then(r => {
-        if (!r.ok) throw new Error(`HTTP ${r.status} al cargar ${url}`);
-        return r.text();
+    async function loadCsvSmart(url){
+      const txt = await fetch(url, {cache:"no-store"}).then(r => {
+        if(!r.ok) throw new Error(`HTTP ${r.status} al cargar ${url}`); return r.text();
       });
-      const header = txt.split(/\r?\n/,1)[0] || "";
-      const sep = (header.split(";").length > header.split(",").length) ? ";" : ",";
+      const head = txt.split(/\r?\n/,1)[0] || "";
+      const sep = (head.split(";").length > head.split(",").length) ? ";" : ",";
       return d3.dsvFormat(sep).parse(txt);
     }
 
     (async () => {
-      try {
+      try{
         let [nodes, links] = await Promise.all([
           loadCsvSmart("carpentier_nodos.csv"),
           loadCsvSmart("carpentier_aristas.csv")
         ]);
 
-        // Filtrado de aristas inválidas y objeto de acceso rápido
         const nodeById = new Map(nodes.map(d => [d.id, d]));
         links = links.filter(e => nodeById.has(e.source) && nodeById.has(e.target));
         links.forEach(e => { e.source = nodeById.get(e.source); e.target = nodeById.get(e.target); });
 
-        // CAMBIO: nodo central autor → conectado a TODAS las categorías
-        const authorNode = { id: "autor", label: "Alejo Carpentier", type: "author" };
+        // Nodo central autor
+        const authorNode = { id:"autor", label:"Alejo Carpentier", type:"author" };
         nodes.push(authorNode);
-        nodes.filter(n => n.type === "category").forEach(cat => {
-          links.push({ source: authorNode, target: cat });
-        });
+        nodes.filter(n => n.type==="category").forEach(cat => links.push({source:authorNode, target:cat}));
 
         const svg = d3.select("#viz").append("svg").attr("width", width).attr("height", height);
         const g = svg.append("g");
@@ -129,17 +112,17 @@
         // Flechas
         svg.append("defs").selectAll("marker")
           .data(["arrow"]).join("marker")
-          .attr("id", "arrow").attr("viewBox", "0 -5 10 10")
-          .attr("refX", 14).attr("refY", 0)
-          .attr("markerWidth", 6).attr("markerHeight", 6)
-          .attr("orient", "auto")
-          .append("path").attr("d", "M0,-5L10,0L0,5").attr("fill", "#bbb");
+          .attr("id","arrow").attr("viewBox","0 -5 10 10")
+          .attr("refX",14).attr("refY",0)
+          .attr("markerWidth",6).attr("markerHeight",6)
+          .attr("orient","auto")
+          .append("path").attr("d","M0,-5L10,0L0,5").attr("fill","#bbb");
 
         const link = g.append("g")
           .selectAll("line").data(links).join("line")
-          .attr("class", "link")
-          .attr("stroke", "#bbb").attr("stroke-opacity", 0.6)
-          .attr("marker-end", "url(#arrow)");
+          .attr("class","link")
+          .attr("stroke","#bbb").attr("stroke-opacity",0.6)
+          .attr("marker-end","url(#arrow)");
 
         const node = g.append("g")
           .selectAll("circle").data(nodes).join("circle")
@@ -147,109 +130,111 @@
           .attr("r", d => d.type==="category" ? 20 : (d.type==="author" ? 30 : 8))
           .attr("fill", d => colorNode(d))
           .call(d3.drag()
-            .on("start", (event,d) => { if (!event.active) simulation.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
-            .on("drag",  (event,d) => { d.fx = event.x; d.fy = event.y; })
-            .on("end",   (event,d) => { if (!event.active) simulation.alphaTarget(0); d.fx = null; d.fy = null; })
+            .on("start", (event,d) => { if(!event.active) simulation.alphaTarget(0.3).restart(); d.fx=d.x; d.fy=d.y; })
+            .on("drag",  (event,d) => { d.fx=event.x; d.fy=event.y; })
+            .on("end",   (event,d) => { if(!event.active) simulation.alphaTarget(0); d.fx=null; d.fy=null; })
           )
-          .on("click", (event, d) => showPanel(d));
+          .on("click", (event,d) => showPanel(d));
 
         const label = g.append("g")
           .selectAll("text").data(nodes).join("text")
           .text(d => d.label)
           .attr("dy", d => d.type==="category" ? -25 : (d.type==="author" ? -35 : -12))
           .attr("font-size", d => d.type==="category" ? 14 : (d.type==="author" ? 18 : 11))
-          .attr("text-anchor", "middle")
-          .attr("fill", "#333");
+          .attr("text-anchor","middle").attr("fill","#333");
 
-        // Fuerzas: más separación desde categorías + colisión fuerte
+        // Fuerzas
         const simulation = d3.forceSimulation(nodes)
-          .force("link", d3.forceLink(links).id(d => d.id).distance(l => {
-            return (l.source.type === "category" || l.target.type === "category") ? 130 : 90;
-          }).strength(0.35))
+          .force("link", d3.forceLink(links).id(d=>d.id).distance(l =>
+            (l.source.type==="category" || l.target.type==="category") ? 130 : 90
+          ).strength(0.35))
           .force("charge", d3.forceManyBody().strength(-280))
-          .force("center", d3.forceCenter(width / 2, height / 2))
+          .force("center", d3.forceCenter(width/2, height/2))
           .force("collision", d3.forceCollide().radius(d => d.type==="category" ? 42 : (d.type==="author" ? 52 : 18)).strength(0.9));
 
         simulation.on("tick", () => {
-          link
-            .attr("x1", d => d.source.x).attr("y1", d => d.source.y)
-            .attr("x2", d => d.target.x).attr("y2", d => d.target.y);
-          node.attr("cx", d => d.x).attr("cy", d => d.y);
-          label.attr("x", d => d.x).attr("y", d => d.y);
+          link.attr("x1", d=>d.source.x).attr("y1", d=>d.source.y)
+              .attr("x2", d=>d.target.x).attr("y2", d=>d.target.y);
+          node.attr("cx", d=>d.x).attr("cy", d=>d.y);
+          label.attr("x", d=>d.x).attr("y", d=>d.y);
         });
 
-        // CAMBIO: zoom + pan; fit SOLO una vez al final
+        // CAMBIO: zoom libre + fit inicial UNA ÚNICA VEZ con timeout (no ligado a zoom ni a end)
         const zoom = d3.zoom().scaleExtent([0.2, 2.2]).on("zoom", (event) => g.attr("transform", event.transform));
         svg.call(zoom);
-        let fitted = false; // CAMBIO: evita autofit tras clic
-        simulation.on("end", () => {
-          if (fitted) return;
+
+        // CAMBIO: fit inicial con más margen y cap de escala (0.85), sin reencuadres posteriores
+        setTimeout(() => {
           const box = g.node().getBBox();
           if (box.width === 0 || box.height === 0) return;
-
-          const margin = 60;
-          const sx = (width - margin) / box.width;
+          const margin = 120; // margen amplio
+          const sx = (width  - margin) / box.width;
           const sy = (height - margin) / box.height;
           let k = Math.min(sx, sy);
-          // CAMBIO: limita el zoom inicial a no pasar de 1.0 (que no “meta demasiado”)
-          k = Math.min(k, 1.0) * 0.95;
+          k = Math.min(k, 0.85); // cap para no acercar demasiado
+          const tx = (width/2)  - k * (box.x + box.width/2);
+          const ty = (height/2) - k * (box.y + box.height/2);
+          svg.call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(k));
+        }, 1200); // espera a que la simulación “asiente” un poco
 
-          const translateX = (width / 2) - k * (box.x + box.width / 2);
-          const translateY = (height / 2) - k * (box.y + box.height / 2);
-
-          const t = d3.zoomIdentity.translate(translateX, translateY).scale(k);
-          svg.transition().duration(500).call(zoom.transform, t).on("end", () => { fitted = true; });
-        });
-
-        function showPanel(d) {
+        function showPanel(d){
           const panel = document.getElementById("content");
           if (d.type === "reference") {
             const ctx = (d.note && d.note.trim()) ? d.note : "Sin contexto breve disponible.";
-            panel.innerHTML = `<strong>${escapeHtml(d.label || "Referencia")}</strong>\n\n${escapeHtml(ctx)}`;
+            panel.innerHTML = `<strong>${escapeHtml(d.label||"Referencia")}</strong>\n\n${escapeHtml(ctx)}`;
           } else {
-            panel.innerHTML = `<strong>${escapeHtml(d.label || "Categoría")}</strong>`;
+            panel.innerHTML = `<strong>${escapeHtml(d.label||"Categoría")}</strong>`;
           }
         }
-        function escapeHtml(s) { return (s || "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;"); }
+        function escapeHtml(s){ return (s||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;"); }
 
-        // CAMBIO: búsqueda — resalta y centra el 1er match, atenúa el resto
+        // CAMBIO: búsqueda — solo atenuar NO coincidencias; matches quedan tal cual (sin amarillo)
         const searchInput = document.getElementById("search");
         searchInput.addEventListener("input", () => {
           const q = norm(searchInput.value);
           let firstMatch = null;
 
-          node.classed("highlight", false);
-          label.classed("highlight", false);
-          node.classed("dimmed", q.length > 0);
-          label.classed("dimmed", q.length > 0);
+          // reset clases
+          node.classed("dimmed", false);
+          label.classed("dimmed", false);
+          link.classed("dimmed", false);
 
-          node.each(function(d) {
-            const hit = (d.type === "reference") && norm(d.label).includes(q) && q.length > 0;
-            if (hit && !firstMatch) firstMatch = d;
-            d3.select(this).classed("highlight", hit).classed("dimmed", q.length>0 && !hit);
-          });
-          label.each(function(d) {
-            const hit = (d.type === "reference") && norm(d.label).includes(q) && q.length > 0;
-            d3.select(this).classed("highlight", hit).classed("dimmed", q.length>0 && !hit);
+          if (!q.length) return; // sin filtro, nada atenuado
+
+          // marca qué referencias coinciden
+          const matchSet = new Set();
+          node.each(d => {
+            const hit = (d.type === "reference") && norm(d.label).includes(q);
+            if (hit) matchSet.add(d.id), (firstMatch ??= d);
           });
 
-          // centra en el primer match (si existe)
+          // atenuar nodos que NO coinciden (salvo categorías y autor, que se mantienen)
+          node.classed("dimmed", d =>
+            d.type === "reference" ? !matchSet.has(d.id) : false
+          );
+          label.classed("dimmed", d =>
+            d.type === "reference" ? !matchSet.has(d.id) : false
+          );
+
+          // atenuar links si ninguno de sus extremos es match
+          link.classed("dimmed", e =>
+            !(matchSet.has(e.source.id) || matchSet.has(e.target.id))
+          );
+
+          // centra en el primer match (si quieres desactivar el centrado, comenta estas 3 líneas)
           if (firstMatch) {
-            const scale = Math.min(2.0, Math.max(0.9, d3.zoomTransform(svg.node()).k));
-            const tx = (width / 2) - scale * firstMatch.x;
-            const ty = (height / 2) - scale * firstMatch.y;
+            const current = d3.zoomTransform(svg.node());
+            const scale = Math.min(2.0, Math.max(0.9, current.k));
+            const tx = (width/2)  - scale * firstMatch.x;
+            const ty = (height/2) - scale * firstMatch.y;
             svg.transition().duration(450).call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
-          } else if (!q.length) {
-            // si se borra la búsqueda, quitamos atenuación
-            node.classed("dimmed", false);
-            label.classed("dimmed", false);
           }
         });
 
-        // Texto inicial limpio
+        // texto inicial limpio
         document.getElementById("content").textContent = "—";
 
-      } catch (err) {
+      }catch(err){
         document.getElementById("content").textContent = "Error cargando datos: " + err.message;
       }
     })();
