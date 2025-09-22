@@ -185,5 +185,71 @@
       "Fecha"
     ],
     "thumb": "img/rulfo_redondo.png"
+  },
+  {
+    "id": "sabato-ernesto",
+    "title": "Ernesto Sábato — Constelación",
+    "file": "sabato/sabato_constelacion.html",
+    "date": "",
+    "tags": [
+      "Argentina",
+      "Fecha"
+    ],
+    "thumb": "img/sabato_redondo.png"
+  },
+  {
+    "id": "sarduy-severo",
+    "title": "Severo Sarduy — Constelación",
+    "file": "sarduy/sarduy_constelacion.html",
+    "date": "",
+    "tags": [
+      "Cuba",
+      "Fecha"
+    ],
+    "thumb": "img/sarduy_redondo.png"
+  },
+  {
+    "id": "scorza-manuel",
+    "title": "Manuel Scorza — Constelación",
+    "file": "scorza/scorza_constelacion.html",
+    "date": "",
+    "tags": [
+      "Perú",
+      "Fecha"
+    ],
+    "thumb": "img/scorza_redondo.png"
+  },
+  {
+    "id": "skarmeta-antonio",
+    "title": "Antonio Skármeta — Constelación",
+    "file": "skarmeta/skarmeta_constelacion.html",
+    "date": "",
+    "tags": [
+      "Perú",
+      "Fecha"
+    ],
+    "thumb": "img/skarmeta_redondo.png"
+  },
+  {
+    "id": "uslarpietri-arturo",
+    "title": "Arturo Ulsar Pietri — Constelación",
+    "file": "uslarpietri/uslarpietri_constelacion.html",
+    "date": "",
+    "tags": [
+      "Perú",
+      "Fecha"
+    ],
+    "thumb": "img/uslarpietri_redondo.png"
+  },
+  {
+    "id": "vargasllosa-mario",
+    "title": "Mario Vargas Llosa — Constelación",
+    "file": "vargasllosa/vargasllosa_constelacion.html",
+    "date": "",
+    "tags": [
+      "Perú",
+      "Fecha"
+    ],
+    "thumb": "img/vargasllosa_redondo.png"
   }
 ]
