@@ -42,5 +42,49 @@
       "Fecha"
     ],
     "thumb": "img/borges2_redondo.png"
-  }
+  },
+  {
+    "id": "cabrerainfante-guillermo",
+    "title": "Guillermo Cabrera Infante — Constelación",
+    "file": "cabrerainfante/cabrerainfante_constelacion.html",
+    "date": "",
+    "tags": [
+      "Cuba",
+      "Fecha"
+    ],
+    "thumb": "img/cabrerainfante_redondo.png"
+  },
+  {
+    "id": "cortazar-julio",
+    "title": "Julio Cortázar — Constelación",
+    "file": "cortazar/cortazar_constelacion.html",
+    "date": "",
+    "tags": [
+      "Argentina",
+      "Fecha"
+    ],
+    "thumb": "img/cortazar_redondo.png"
+  },
+  {
+    "id": "dibenedetto-antonio",
+    "title": "Antonio Di Benedetto — Constelación",
+    "file": "dibenedetto/dibenedetto_constelacion.html",
+    "date": "",
+    "tags": [
+      "Argentina",
+      "Fecha"
+    ],
+    "thumb": "img/dibenedetto_redondo.png"
+  },
+  {
+    "id": "dibenedetto-antonio",
+    "title": "Antonio Di Benedetto — Constelación",
+    "file": "dibenedetto/dibenedetto_constelacion.html",
+    "date": "",
+    "tags": [
+      "Argentina",
+      "Fecha"
+    ],
+    "thumb": "img/dibenedetto_redondo.png"
+  },
 ]
