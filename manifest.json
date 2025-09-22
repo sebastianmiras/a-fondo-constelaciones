@@ -11,5 +11,18 @@
       "Literatura"
     ],
     "thumb": "img/carpentier_redondo.png"
+  },
+  {
+    "id": "benedetti-mario",
+    "title": "Mario Benedetti — Constelación",
+    "file": "benedetti/benedetti_constelacion.html",
+    "date": "",
+    "tags": [
+      "A fondo",
+      "Entrevista",
+      "uruguay",
+      "Literatura"
+    ],
+    "thumb": "img/benedetti_redondo.png"
   }
 ]
