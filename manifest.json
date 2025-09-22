@@ -77,14 +77,113 @@
     "thumb": "img/dibenedetto_redondo.png"
   },
   {
-    "id": "dibenedetto-antonio",
-    "title": "Antonio Di Benedetto — Constelación",
-    "file": "dibenedetto/dibenedetto_constelacion.html",
+    "id": "donoso-jose",
+    "title": "José Donoso — Constelación",
+    "file": "donoso/donoso_constelacion.html",
+    "date": "",
+    "tags": [
+      "Chile",
+      "Fecha"
+    ],
+    "thumb": "img/donoso_redondo.png"
+  },
+  {
+    "id": "edwards-jorge",
+    "title": "Jorge Edwards — Constelación",
+    "file": "edwards/edwards_constelacion.html",
+    "date": "",
+    "tags": [
+      "Chile",
+      "Fecha"
+    ],
+    "thumb": "img/edwards_redondo.png"
+  },
+  {
+    "id": "fuentes-carlos",
+    "title": "Carlos Fuentes — Constelación",
+    "file": "fuentes/fuentes_constelacion.html",
+    "date": "",
+    "tags": [
+      "México",
+      "Fecha"
+    ],
+    "thumb": "img/fuentes_redondo.png"
+  },
+  {
+    "id": "mujicalainez-manuel",
+    "title": "Manuel Mujica Láinez — Constelación",
+    "file": "mujicalainez/mujicalainez_constelacion.html",
     "date": "",
     "tags": [
       "Argentina",
       "Fecha"
     ],
-    "thumb": "img/dibenedetto_redondo.png"
+    "thumb": "img/mujicalainez_redondo.png"
   },
+  {
+    "id": "onetti-juancarlos",
+    "title": "Juan Carlos Onetti — Constelación",
+    "file": "onetti/onetti_constelacion.html",
+    "date": "",
+    "tags": [
+      "Uruguay",
+      "Fecha"
+    ],
+    "thumb": "img/onetti_redondo.png"
+  },
+  {
+    "id": "paz-octavio",
+    "title": "Octavio Paz — Constelación",
+    "file": "paz/paz_constelacion.html",
+    "date": "",
+    "tags": [
+      "México",
+      "Fecha"
+    ],
+    "thumb": "img/paz_redondo.png"
+  },
+  {
+    "id": "petitdemurat-ulyses",
+    "title": "Ulyses Petit de Murat — Constelación",
+    "file": "petitdemurat/petitdemurat_constelacion.html",
+    "date": "",
+    "tags": [
+      "Argentina",
+      "Fecha"
+    ],
+    "thumb": "img/petitdemurat_redondo.png"
+  },
+  {
+    "id": "puig-manuel",
+    "title": "Manuel Puig — Constelación",
+    "file": "puig/puig_constelacion.html",
+    "date": "",
+    "tags": [
+      "Argentina",
+      "Fecha"
+    ],
+    "thumb": "img/puig_redondo.png"
+  },
+  {
+    "id": "roabastos-augusto",
+    "title": "Augusto Roa Bastos — Constelación",
+    "file": "roabastos/roabastos_constelacion.html",
+    "date": "",
+    "tags": [
+      "Paraguay",
+      "Fecha"
+    ],
+    "thumb": "img/roabastos_redondo.png"
+  },
+  {
+    "id": "rulfo-juan",
+    "title": "Juan Rulfo — Constelación",
+    "file": "rulfo/rulfo_constelacion.html",
+    "date": "",
+    "tags": [
+      "México",
+      "Fecha"
+    ],
+    "thumb": "img/rulfo_redondo.png"
+  }
 ]
