@@ -5,10 +5,8 @@
     "file": "carpentier/carpentier_constelacion.html",
     "date": "",
     "tags": [
-      "A fondo",
-      "Entrevista",
       "Cuba",
-      "Literatura"
+      "Fecha"
     ],
     "thumb": "img/carpentier_redondo.png"
   },
@@ -18,11 +16,31 @@
     "file": "benedetti/benedetti_constelacion.html",
     "date": "",
     "tags": [
-      "A fondo",
-      "Entrevista",
-      "uruguay",
-      "Literatura"
+      "Uruguay",
+      "Fecha"
     ],
     "thumb": "img/benedetti_redondo.png"
+  },
+  {
+    "id": "borges1-jorgeluis",
+    "title": "Jorge Luis Borges 1 — Constelación",
+    "file": "borges1/borges1_constelacion.html",
+    "date": "",
+    "tags": [
+      "Argentina",
+      "Fecha"
+    ],
+    "thumb": "img/borges1_redondo.png"
+  },
+  {
+    "id": "borges2-jorgeluis",
+    "title": "Jorge Luis Borges 2 — Constelación",
+    "file": "borges2/borges2_constelacion.html",
+    "date": "",
+    "tags": [
+      "Argentina",
+      "Fecha"
+    ],
+    "thumb": "img/borges2_redondo.png"
   }
 ]
