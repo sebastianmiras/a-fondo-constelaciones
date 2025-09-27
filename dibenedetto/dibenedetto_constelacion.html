@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Constelación — Antonio di Benedetto</title>
+  <style>
+    :root{
+      --bg: #0b0f14; --panel:#111821; --text:#e6edf3; --muted:#9fb0c0;
+      --cat-green:#2e7d32; --cat-purple:#6a1b9a; --cat-red:#c62828; --cat-orange:#ef6c00;
+      --ref-blue:#4fc3f7; --grid:#1e293b; --link:#7a8a99;
+    }
+    body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin:0; display:flex; height:100vh; background:var(--bg); color:var(--text); }
+    #viz  { flex:1 1 auto; background: radial-gradient(1200px 900px at 30% 30%, #0d1420, #0b0f14); position:relative; }
+    #panel{ width:360px; border-left:1px solid var(--grid); padding:14px; background:var(--panel); overflow:auto; }
+    #panel h2 { font-size:14px; margin:0 0 6px; color:var(--muted); font-weight:600; }
+    #panel .ctx { white-space:pre-wrap; line-height:1.4; font-size:13px; color:var(--text); min-height:2em; }
+
+    .legend { position:absolute; left:10px; top:10px; background:rgba(17,24,33,.85); border:1px solid var(--grid); padding:8px; border-radius:8px; font-size:12px; color:var(--text); }
+    .search-box { position:absolute; right:380px; top:10px; background:#0f1720; border:1px solid var(--grid); border-radius:10px; padding:6px; display:flex; gap:6px; }
+    .search-box input{ background:transparent; border:none; outline:none; color:var(--text); font-size:12px; width:240px; }
+    .search-box button{ background:#0f1720; border:1px solid var(--grid); color:var(--text); padding:6px 10px; border-radius:8px; cursor:pointer; font-size:12px; }
+    .node { cursor:pointer; transition: opacity .2s ease; }
+    .link { stroke:var(--link); stroke-opacity:.5; transition: opacity .2s ease; }
+    .dimmed { opacity: .15; }
+    .hidden { opacity: 0; }
+    .label { fill:#cfd8dc; font-size:10px; pointer-events:none; }
+  </style>
+</head>
+<body>
+  <div id="viz"></div>
+  <aside id="panel">
+    <h2>Contexto</h2>
+    <div id="content" class="ctx">—</div>
+  </aside>
+
+  <div class="legend">
+    <strong style="display:block;margin-bottom:4px;">Categorías</strong>
+    <div><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--cat-green);margin-right:6px;"></span> Pensamiento y conocimiento</div>
+    <div><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--cat-purple);margin-right:6px;"></span> Contexto socio-histórico</div>
+    <div><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--cat-red);margin-right:6px;"></span> Personales y biográficas</div>
+    <div><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--cat-orange);margin-right:6px;"></span> Culturales y artísticas</div>
+  </div>
+
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Buscar referencia..." />
+    <button id="btnClear">Limpiar</button>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script>
+    const width = window.innerWidth - 360, height = window.innerHeight;
+
+    const catColors = {
+      "pensamiento y conocimiento": "var(--cat-green)",
+      "contexto socio-histórico": "var(--cat-purple)",
+      "contexto socio-historico": "var(--cat-purple)",
+      "personales y biográficas": "var(--cat-red)",
+      "personales y biograficas": "var(--cat-red)",
+      "culturales y artísticas": "var(--cat-orange)",
+      "culturales y artisticas": "var(--cat-orange)"
+    };
+    function norm(s){ return (s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim(); }
+    function colorForCategory(d){
+      const byLabel = catColors[norm(d.label)];
+      if (byLabel) return byLabel;
+      const idn = norm(d.id||"");
+      if (idn.includes("pensamiento") || idn.includes("conocimiento")) return "var(--cat-green)";
+      if (idn.includes("contexto") || idn.includes("socio") || idn.includes("histor")) return "var(--cat-purple)";
+      if (idn.includes("personal") || idn.includes("biogra")) return "var(--cat-red)";
+      if (idn.includes("cultur") || idn.includes("artist")) return "var(--cat-orange)";
+      return "var(--cat-orange)";
+    }
+    function colorNode(d){
+      if (d.type === "reference") return "var(--ref-blue)";
+      if (d.type === "category") return colorForCategory(d);
+      if (d.type === "author") return "#95a2ae";
+      return "#95a2ae";
+    }
+
+    async function loadCsvSmart(url){
+      const txt = await fetch(url, {cache:"no-store"}).then(r => { if(!r.ok) throw new Error(`HTTP ${r.status} al cargar ${url}`); return r.text(); });
+      const head = txt.split(/\r?\n/,1)[0] || "";
+      const sep = (head.split(";").length > head.split(",").length) ? ";" : ",";
+      return d3.dsvFormat(sep).parse(txt);
+    }
+
+    (async () => {
+      try{
+        let [nodes, links] = await Promise.all([
+          loadCsvSmart("dibenedetto_nodos.csv"),
+          loadCsvSmart("dibenedetto_aristas.csv")
+        ]);
+
+        const nodeById = new Map(nodes.map(d => [d.id, d]));
+        links = links.filter(e => nodeById.has(e.source) && nodeById.has(e.target));
+        links.forEach(e => { e.source = nodeById.get(e.source); e.target = nodeById.get(e.target); });
+
+        // Nodo central autor + enlaces a categorías
+        const authorNode = { id:"autor", label:"Antonio di Benedetto", type:"author" };
+        nodes.push(authorNode);
+        nodes.filter(n => n.type==="category").forEach(cat => links.push({source:authorNode, target:cat}));
+
+        // Pre-layout OFF-SCREEN para posiciones iniciales y separación
+        {
+          const preNodes = nodes.map(d => ({...d}));
+          const preLinks = links.map(l => ({source: preNodes[nodes.indexOf(l.source)], target: preNodes[nodes.indexOf(l.target)]}));
+          const preSim = d3.forceSimulation(preNodes)
+            .force("link", d3.forceLink(preLinks).id(d=>d.id).distance(l =>
+              (l.source.type==="category" || l.target.type==="category") ? 160 : 110
+            ).strength(0.35))
+            .force("charge", d3.forceManyBody().strength(-340))
+            .force("center", d3.forceCenter(width/2, height/2))
+            .force("collision", d3.forceCollide().radius(d => d.type==="category" ? 46 : (d.type==="author" ? 56 : 18)).strength(0.9))
+            .stop();
+          for (let i=0; i<260; i++) preSim.tick();
+          preNodes.forEach((pn, i) => { nodes[i].x = pn.x; nodes[i].y = pn.y; });
+        }
+
+        const svg = d3.select("#viz").append("svg").attr("width", width).attr("height", height);
+        const g = svg.append("g").classed("hidden", true);
+
+        svg.append("defs").selectAll("marker")
+          .data(["arrow"]).join("marker")
+          .attr("id","arrow").attr("viewBox","0 -5 10 10")
+          .attr("refX",14).attr("refY",0)
+          .attr("markerWidth",6).attr("markerHeight",6)
+          .attr("orient","auto")
+          .append("path").attr("d","M0,-5L10,0L0,5").attr("fill","var(--link)");
+
+        const link = g.append("g")
+          .selectAll("line").data(links).join("line")
+          .attr("class","link")
+          .attr("marker-end","url(#arrow)");
+
+        const node = g.append("g")
+          .selectAll("circle").data(nodes).join("circle")
+          .attr("class", d => "node " + d.type)
+          .attr("r", d => d.type==="category" ? 18 : (d.type==="author" ? 26 : 7))
+          .attr("fill", d => colorNode(d))
+          .call(d3.drag()
+            .on("start", (event,d) => { if(!event.active) sim.alphaTarget(0.35).restart(); d.fx=d.x; d.fy=d.y; })
+            .on("drag",  (event,d) => { d.fx=event.x; d.fy=event.y; })
+            .on("end",   (event,d) => { if(!event.active) sim.alphaTarget(0); d.fx=null; d.fy=null; })
+          )
+          .on("click", (event,d) => showContext(d));
+
+        const label = g.append("g")
+          .selectAll("text").data(nodes).join("text")
+          .attr("class","label")
+          .text(d => d.label)
+          .attr("dy", d => d.type==="category" ? -22 : (d.type==="author" ? -28 : -10))
+          .attr("text-anchor","middle");
+
+        const sim = d3.forceSimulation(nodes)
+          .force("link", d3.forceLink(links).id(d=>d.id).distance(l =>
+            (l.source.type==="category" || l.target.type==="category") ? 160 : 110
+          ).strength(0.35))
+          .force("charge", d3.forceManyBody().strength(-340))
+          .force("center", d3.forceCenter(width/2, height/2))
+          .force("collision", d3.forceCollide().radius(d => d.type==="category" ? 46 : (d.type==="author" ? 56 : 18)).strength(0.9));
+
+        sim.on("tick", () => {
+          link.attr("x1", d=>d.source.x).attr("y1", d=>d.source.y)
+              .attr("x2", d=>d.target.x).attr("y2", d=>d.target.y);
+          node.attr("cx", d=>d.x).attr("cy", d=>d.y);
+          label.attr("x", d=>d.x).attr("y", d=>d.y);
+        });
+
+        // Zoom + FIT inicial SOLO al componente principal (autor-centro)
+        const zoom = d3.zoom().scaleExtent([0.35, 2.4]).on("zoom", (event) => g.attr("transform", event.transform));
+        svg.call(zoom);
+
+        function mainComponentNodes(){
+          const adj = new Map(nodes.map(n => [n.id, []]));
+          links.forEach(l => { adj.get(l.source.id).push(l.target.id); adj.get(l.target.id).push(l.source.id); });
+          const visited = new Set(); const stack = ["autor"];
+          while (stack.length){
+            const u = stack.pop();
+            if (visited.has(u)) continue;
+            visited.add(u);
+            (adj.get(u)||[]).forEach(v => { if(!visited.has(v)) stack.push(v); });
+          }
+          return new Set([...visited]);
+        }
+
+        (function initialFit(){
+          const ids = mainComponentNodes();
+          const comp = g.append("g").attr("visibility","hidden");
+          comp.selectAll("circle").data(nodes.filter(n => ids.has(n.id))).join("circle")
+              .attr("cx", d=>d.x).attr("cy", d=>d.y).attr("r", 1);
+          const box = comp.node().getBBox(); comp.remove();
+
+          if (box.width && box.height){
+            const margin = 120; // un pelín más cerca que antes
+            const sx = (width  - margin) / box.width;
+            const sy = (height - margin) / box.height;
+            let k = Math.min(sx, sy);
+            k = Math.min(k, 1.0); // evita un zoom inicial excesivo
+            const tx = (width/2)  - k * (box.x + box.width/2);
+            const ty = (height/2) - k * (box.y + box.height/2);
+            svg.call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(k));
+          }
+          g.classed("hidden", false);
+        })();
+
+        // Panel: SOLO contexto literal del nodo de referencia
+        function showContext(d){
+          const panel = document.getElementById("content");
+          if (d.type === "reference") {
+            const ctx = (d.note && d.note.trim()) ? d.note : "—";
+            panel.textContent = ctx;
+          } else {
+            // categorías/autor vacían el panel
+            panel.textContent = "—";
+          }
+        }
+
+        // Búsqueda: atenúa y centra primer match
+        const input = document.getElementById("search");
+        const btnClear = document.getElementById("btnClear");
+        input.addEventListener("input", doSearch);
+        btnClear.addEventListener("click", clearSearch);
+
+        function doSearch(){
+          const q = norm(input.value);
+          let firstMatch = null;
+          node.classed("dimmed", false); label.classed("dimmed", false); link.classed("dimmed", false);
+          if (!q.length) return;
+
+          const matchSet = new Set();
+          node.each(d => { const hit = norm(d.label).includes(q); if (hit) { matchSet.add(d.id); if(!firstMatch) firstMatch = d; } });
+          node.classed("dimmed", d => !matchSet.has(d.id));
+          label.classed("dimmed", d => !matchSet.has(d.id));
+          link.classed("dimmed", e => !(matchSet.has(e.source.id) || matchSet.has(e.target.id)));
+
+          if (firstMatch) {
+            const current = d3.zoomTransform(svg.node());
+            const scale = Math.min(1.8, Math.max(1.0, current.k));
+            const tx = (width/2)  - scale * firstMatch.x;
+            const ty = (height/2) - scale * firstMatch.y;
+            svg.transition().duration(450).call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
+            showContext(firstMatch);
+          }
+        }
+        function clearSearch(){
+          input.value = "";
+          node.classed("dimmed", false); label.classed("dimmed", false); link.classed("dimmed", false);
+        }
+
+        // Selección inicial: panel vacío
+        document.getElementById("content").textContent = "—";
+
+      }catch(err){
+        document.getElementById("content").textContent = "Error cargando datos: " + err.message;
+      }
+    })();
+  </script>
+</body>
+</html>
