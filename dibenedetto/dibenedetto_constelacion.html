@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Constelación — Antonio di Benedetto</title>
+  <style>
+    :root{ --bg:#0b0f14; --panel:#111821; --text:#e6edf3; --muted:#9fb0c0; --grid:#1e293b;
+           --cat-green:#2e7d32; --cat-purple:#6a1b9a; --cat-red:#c62828; --cat-orange:#ef6c00; --link:#7a8a99; }
+    body{ margin:0; height:100vh; display:flex; background:var(--bg); color:var(--text); font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial; }
+    #viz{ flex:1 1 auto; position:relative; background:radial-gradient(1200px 900px at 30% 30%, #0d1420, #0b0f14); }
+    #panel{ width:360px; border-left:1px solid var(--grid); background:var(--panel); padding:14px; overflow:auto; }
+    #panel h2{ font-size:14px; margin:0 0 6px; color:var(--muted); font-weight:600; }
+    #panel .ctx{ white-space:pre-wrap; line-height:1.4; font-size:13px; min-height:2em; }
+
+    .legend{ position:absolute; left:10px; top:10px; background:rgba(17,24,33,.85); border:1px solid var(--grid);
+             padding:8px; border-radius:8px; font-size:12px; }
+    .search-box{ position:absolute; right:380px; top:10px; background:#0f1720; border:1px solid var(--grid); border-radius:10px; padding:6px; display:flex; gap:6px; }
+    .search-box input{ background:transparent; border:none; outline:none; color:var(--text); font-size:12px; width:240px; }
+    .search-box button{ background:#0f1720; border:1px solid var(--grid); color:var(--text); padding:6px 10px; border-radius:8px; cursor:pointer; font-size:12px; }
+
+    .node{ cursor:pointer; transition:opacity .2s ease; }
+    .link{ stroke:var(--link); stroke-opacity:.5; transition:opacity .2s ease; }
+    .label{ fill:#cfd8dc; font-size:10px; pointer-events:none; }
+    .dimmed{ opacity:.15; }
+
+    /* Mini YouTube bar */
+    #ytbar{ position:fixed; left:0; right:0; bottom:0; height:34px; display:flex; align-items:center; justify-content:center;
+            background:rgba(17,24,33,.92); border-top:1px solid var(--grid); backdrop-filter:blur(4px); z-index:9999; }
+    #ytbar a{ display:inline-flex; align-items:center; gap:8px; font-size:12px; color:#e6edf3; text-decoration:none;
+              background:#0f1720; border:1px solid var(--grid); padding:6px 10px; border-radius:999px; }
+    #ytbar a:hover{ background:#0f1a28; }
+  </style>
+</head>
+<body>
+  <div id="viz"></div>
+  <aside id="panel">
+    <h2>Contexto</h2>
+    <div id="ctx" class="ctx">—</div>
+  </aside>
+
+  <div class="legend">
+    <strong style="display:block;margin-bottom:4px;">Categorías</strong>
+    <div><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--cat-green);margin-right:6px;"></span>Pensamiento y conocimiento</div>
+    <div><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--cat-purple);margin-right:6px;"></span>Contexto socio-histórico</div>
+    <div><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--cat-red);margin-right:6px;"></span>Personales y biográficas</div>
+    <div><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--cat-orange);margin-right:6px;"></span>Culturales y artísticas</div>
+  </div>
+
+  <div class="search-box">
+    <input id="q" type="search" placeholder="Buscar referencia..." />
+    <button id="btnClear">Limpiar</button>
+  </div>
+
+  <div id="ytbar">
+    <a id="ytlink" href="https://youtu.be/C4iuDbt9RVg?si=IEwTtewAXUGrW1ts" target="_blank" rel="noopener">
+      ▶ Ver entrevista en YouTube
+    </a>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script>
+    const YT_BASE = "https://youtu.be/C4iuDbt9RVg";
+    const width = () => document.getElementById('viz').getBoundingClientRect().width;
+    const height = () => document.getElementById('viz').getBoundingClientRect().height;
+
+    function norm(s){ return (s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim(); }
+    const catColor = (d)=>{
+      const id=norm(d.id||""), lab=norm(d.label||"");
+      if (lab.includes("pensamiento")||id.includes("pensamiento")) return "var(--cat-green)";
+      if (lab.includes("contexto")||id.includes("socio")) return "var(--cat-purple)";
+      if (lab.includes("personal")||lab.includes("biogra")||id.includes("biogra")) return "var(--cat-red)";
+      if (lab.includes("cultur")||lab.includes("artist")) return "var(--cat-orange)";
+      return "var(--cat-orange)";
+    };
+    const colorNode = (d)=> d.type==="reference" ? "#4fc3f7" : (d.type==="category" ? catColor(d) : "#95a2ae");
+
+    async function loadCsvSmart(url){
+      const txt = await fetch(url, {cache:"no-store"}).then(r=>r.text());
+      const head = txt.split(/\\r?\\n/,1)[0] || "";
+      const sep = (head.split(\";\").length > head.split(\",\").length) ? \";\" : \",\";
+      return d3.dsvFormat(sep).parse(txt);
+    }
+
+    (async () => {
+      const [nodes, edges] = await Promise.all([
+        loadCsvSmart('dibenedetto_nodos.csv'),
+        loadCsvSmart('dibenedetto_aristas.csv')
+      ]);
+
+      // Normalize nulls and ensure strings
+      nodes.forEach(n => { for (const k of ['label','group','note','start_time','end_time']) if (n[k]==null) n[k]=''; });
+
+      const nodeById = new Map(nodes.map(n => [n.id, n]));
+      const links = edges.filter(e => nodeById.has(e.source) && nodeById.has(e.target))
+                         .map(e => ({source: nodeById.get(e.source), target: nodeById.get(e.target)}));
+
+      // Author already included in CSV? If not, create it and connect to categories
+      if (![...nodeById.keys()].some(id => (nodeById.get(id)||{}).type==='author')){
+        const author = {id:'autor', label:'Antonio di Benedetto', type:'author', note:''};
+        nodes.push(author);
+        nodes.filter(n=>n.type==='category').forEach(cat => links.push({source:author, target:cat}));
+        nodeById.set(author.id, author);
+      }
+
+      const svg = d3.select('#viz').append('svg').attr('width','100%').attr('height','100%');
+      const g = svg.append('g');
+
+      svg.append('defs').append('marker')
+        .attr('id','arrow').attr('viewBox','0 -5 10 10').attr('refX',14).attr('refY',0)
+        .attr('markerWidth',6).attr('markerHeight',6).attr('orient','auto')
+        .append('path').attr('d','M0,-5L10,0L0,5').attr('fill','var(--link)');
+
+      const link = g.append('g').selectAll('line').data(links).join('line').attr('class','link').attr('marker-end','url(#arrow)');
+      const node = g.append('g').selectAll('circle').data(nodes).join('circle')
+        .attr('class', d => 'node '+d.type)
+        .attr('r', d => d.type==='category'? 18 : (d.type==='author'? 26 : 7))
+        .attr('fill', d => colorNode(d))
+        .call(d3.drag()
+          .on('start', (event,d) => { if(!event.active) sim.alphaTarget(0.35).restart(); d.fx=d.x; d.fy=d.y; })
+          .on('drag', (event,d) => { d.fx=event.x; d.fy=event.y; })
+          .on('end',  (event,d) => { if(!event.active) sim.alphaTarget(0); d.fx=null; d.fy=null; })
+        )
+        .on('click', (_,d) => selectNode(d));
+
+      const label = g.append('g').selectAll('text').data(nodes).join('text')
+        .attr('class','label').text(d=>d.label)
+        .attr('dy', d => d.type==='category' ? -22 : (d.type==='author' ? -28 : -10))
+        .attr('text-anchor','middle');
+
+      const sim = d3.forceSimulation(nodes)
+        .force('link', d3.forceLink(links).id(d=>d.id).distance(l => (l.source.type==='category'||l.target.type==='category')? 170 : 115).strength(0.35))
+        .force('charge', d3.forceManyBody().strength(-360))
+        .force('center', d3.forceCenter(() => width()/2, () => height()/2))
+        .force('collision', d3.forceCollide().radius(d => d.type==='category'? 46 : (d.type==='author'? 56 : 18)).strength(0.95));
+
+      sim.on('tick', () => {
+        link.attr('x1', d=>d.source.x).attr('y1', d=>d.source.y).attr('x2', d=>d.target.x).attr('y2', d=>d.target.y);
+        node.attr('cx', d=>d.x).attr('cy', d=>d.y);
+        label.attr('x', d=>d.x).attr('y', d=>d.y);
+      });
+
+      const zoom = d3.zoom().scaleExtent([0.5, 2.4]).on('zoom', (ev)=> g.attr('transform', ev.transform));
+      svg.call(zoom);
+
+      function fitInitial(){
+        // Fit to the author-connected component
+        const ids = new Set();
+        const adj = new Map(nodes.map(n => [n.id, []]));
+        links.forEach(l => { adj.get(l.source.id).push(l.target.id); adj.get(l.target.id).push(l.source.id); });
+        const stack = [ [...nodes].find(n => n.type==='author').id ];
+        while(stack.length){ const u=stack.pop(); if(ids.has(u)) continue; ids.add(u); for(const v of (adj.get(u)||[])) if(!ids.has(v)) stack.push(v); }
+        const comp = nodes.filter(n => ids.has(n.id));
+        const minX = d3.min(comp, d=>d.x), maxX = d3.max(comp, d=>d.x);
+        const minY = d3.min(comp, d=>d.y), maxY = d3.max(comp, d=>d.y);
+        const margin = 120, w = width()-margin, h = height()-margin;
+        const sx = w/(maxX-minX||w), sy = h/(maxY-minY||h);
+        const k = Math.min(1.0, Math.min(sx, sy));
+        const tx = width()/2 - k*(minX+maxX)/2;
+        const ty = height()/2 - k*(minY+maxY)/2;
+        svg.call(zoom.transform, d3.zoomIdentity.translate(tx,ty).scale(k));
+      }
+      // run a bit and then fit
+      setTimeout(fitInitial, 350);
+
+      // Search
+      const q = document.getElementById('q');
+      const btnClear = document.getElementById('btnClear');
+      q.addEventListener('input', doSearch);
+      btnClear.addEventListener('click', clearSearch);
+
+      function doSearch(){
+        const term = norm(q.value);
+        node.classed('dimmed', false); label.classed('dimmed', false); link.classed('dimmed', false);
+        if(!term) return;
+        let first=null;
+        node.each(d => { const ok = norm(d.label).includes(term); if(!ok) d3.select(this).classed('dimmed', true); else if(!first) first=d; });
+        label.each(function(d){ const ok = norm(d.label).includes(term); d3.select(this).classed('dimmed', !ok); });
+        link.classed('dimmed', true);
+        if(first){ centerOn(first); selectNode(first); }
+      }
+      function clearSearch(){ q.value=''; node.classed('dimmed', false); label.classed('dimmed', false); link.classed('dimmed', false); }
+
+      // Panel: SOLO contexto (note). YT bar actualiza con timestamp si lo hay
+      const ctxEl = document.getElementById('ctx');
+      function selectNode(d){
+        if (d.type === 'reference'){
+          const text = (d.note||'').trim() || '—';
+          ctxEl.textContent = text;
+          // update yt link with start_time
+          const start = parseFloat(d.start_time||''); // seconds
+          const href = isFinite(start) ? `${YT_BASE}?t=${Math.floor(start)}s` : `${YT_BASE}`;
+          document.getElementById('ytlink').setAttribute('href', href);
+        } else {
+          ctxEl.textContent = '—';
+          document.getElementById('ytlink').setAttribute('href', `${YT_BASE}`);
+        }
+      }
+      function centerOn(d){
+        const current = d3.zoomTransform(svg.node());
+        const scale = Math.min(1.8, Math.max(1.0, current.k));
+        const tx = width()/2  - scale*d.x;
+        const ty = height()/2 - scale*d.y;
+        svg.transition().duration(450).call(zoom.transform, d3.zoomIdentity.translate(tx,ty).scale(scale));
+      }
+
+      // Inicial: panel vacío
+      ctxEl.textContent = '—';
+    })();
+  </script>
+</body>
+</html>
