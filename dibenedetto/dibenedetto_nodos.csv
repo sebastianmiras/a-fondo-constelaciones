@@ -1,0 +1,102 @@
+id,label,type,group,note,start_time,end_time
+cat_contexto_socio_historico,Contexto socio-histórico,category,Contexto socio-histórico,,,
+cat_culturales_y_artisticas,Culturales y artísticas,category,Culturales y artísticas,,,
+cat_pensamiento_y_conocimiento,Pensamiento y conocimiento,category,Pensamiento y conocimiento,,,
+cat_personales_y_biograficas,Personales y biográficas,category,Personales y biográficas,,,
+ref_academia_argentina_de_letras_miembro,Academia Argentina de Letras (miembro),reference,Contexto socio-histórico,que fue elegido miembro de la Academia Argentina de Letras,3545.62,3548.64
+ref_asuncion_paraguay,Asunción (Paraguay),reference,Contexto socio-histórico,Eso es Zama que discurre en Asunción,3433.3,3437.84
+ref_berlin_alemania,Berlín (Alemania),reference,Contexto socio-histórico,,,
+ref_bermejo_suburbio_rural,Bermejo (suburbio rural),reference,Contexto socio-histórico,es un suburbio de Bermejo pero ya un poco rural,1141.58,1145.26
+ref_brasil_puerto_de_llegada_familiar,Brasil (puerto de llegada familiar),reference,Contexto socio-histórico,"Por parte de su madre, aunque hija de italianos, nacida en el Brasil, ya hay en la sangre una inyección distinta que nos da naturalmente el medio ambiente, la geografía,",642.18,657.56
+ref_buenos_aires_argentina,Buenos Aires (Argentina),reference,Contexto socio-histórico,de la Argentina que se llama Buenos Aires,1766.7,1768.12
+ref_concurso_de_cuentos_policiales_siete_dias_1975,Concurso de cuentos policiales 'Siete Días' (1975),reference,Contexto socio-histórico,ganó el concurso latinoamericano de cuentos policiales,3542.12,3544.56
+ref_condecoraciones_italianas_y_francesas,Condecoraciones italianas y francesas,reference,Contexto socio-histórico,condecoraciones italianas y francesas que uno de sus cuentos,3527.92,3531.04
+ref_conferencia_sobre_literatura_fantastica_biblioteca_nacional_1958,"Conferencia sobre literatura fantástica (Biblioteca Nacional, 1958)",reference,Contexto socio-histórico,una conferencia el año 58 en la Biblioteca Nacional,1887.96,1891.38
+ref_cursos_universitarios_en_francia_literatura_fantastica,Cursos universitarios en Francia (literatura fantástica),reference,Contexto socio-histórico,La literatura fantástica es por otra parte una de las,1980.06,1984.38
+ref_departamento_de_estado_ee_uu,Departamento de Estado (EE. UU.),reference,Contexto socio-histórico,invitado por el departamento de Estado por América Central,3134.58,3137.04
+ref_diario_critica_rotativas,Diario 'Crítica' (rotativas),reference,Contexto socio-histórico,escupiendo diarios y era el diario crítica,1676.88,1682.12
+ref_dinamarca_y_suecia,Dinamarca y Suecia,reference,Contexto socio-histórico,del PEN Club en Dinamarca y Suecia,3552.48,3554.36
+ref_editorial_planeta_edicion_espanola_de_zama,Editorial Planeta (edición española de Zama),reference,Contexto socio-histórico,aparecida en 1956 publicada en España por Planeta,3238.22,3243.16
+ref_editorial_sudamericana_concurso_primera_plana,Editorial Sudamericana / Concurso Primera Plana,reference,Contexto socio-histórico,primera plana de editorial sudamericana es con la obra,3158.84,3162.04
+ref_editorial_de_acurcio_premio,Editorial de Acurcio (premio),reference,Contexto socio-histórico,de la región andina y el premio de Acurcio,3476.4,3479.92
+ref_fondo_nacional_de_las_artes_argentina,Fondo Nacional de las Artes (Argentina),reference,Contexto socio-histórico,del Fondo Nacional de las Artes de la Sociedad Argentina,3501.92,3504.74
+ref_fundacion_guggenheim_1973,Fundación Guggenheim (1973),reference,Contexto socio-histórico,fue becario de la fundación Guggenheim,3537.68,3540.5
+ref_hollywood_ee_uu,Hollywood / EE. UU.,reference,Contexto socio-histórico,,,
+ref_isla_de_pascua_rapa_nui,Isla de Pascua (Rapa Nui),reference,Contexto socio-histórico,de la isla de Pascua El silenciero la novela número 4,3339.78,3346.52
+ref_mencion_especial_primera_plana_sudamericana_1967,Mención especial Primera Plana / Sudamericana (1967),reference,Contexto socio-histórico,Leopoldo Marechal y Augusto Roa Bastos le concede mención especial,3153.9,3157.78
+ref_mendoza_argentina,Mendoza (Argentina),reference,Contexto socio-histórico,"Ha sido llamado muchas veces el inmóvil en Mendoza, el hombre que está apegado a su tierra, aunque ahora en estos últimos tiempos esté dedicado a una vida un tanto trashumante y nómada por Europa.",67.02,80.2
+ref_pen_club_dinamarca_y_suecia,PEN Club (Dinamarca y Suecia),reference,Contexto socio-histórico,además de invitado a las reuniones del PEN Club,3550.78,3553.12
+ref_paris_francia,París (Francia),reference,Contexto socio-histórico,la beca famosa del gobierno francés con la estancia,3111.72,3115.24
+ref_premio_municipal_mendoza_y_faja_de_honor_sade_mundo_animal,Premio Municipal (Mendoza) y faja de honor SADE (Mundo Animal),reference,Contexto socio-histórico,municipal en Mendoza y faja de honor,3050.82,3053.74
+ref_revista_agentes_de_buenos_aires_cuento_del_ano,Revista 'Agentes de Buenos Aires' (cuento del año),reference,Contexto socio-histórico,por la revista Agentes de Buenos Aires del 72,3533.72,3534.62
+ref_revista_leo_plan,Revista 'Leo Plan',reference,Contexto socio-histórico,lo que contenía la revista Leo Plan,1697.78,1700.5
+ref_revista_siete_dias_concurso_policial,Revista 'Siete Días' (concurso policial),reference,Contexto socio-histórico,de cuentos policiales de la revista Siete Días,3543.66,3545.62
+ref_revolucion_argentina_de_1955_cambio_en_borges,Revolución argentina de 1955 (cambio en Borges),reference,Contexto socio-histórico,abriga como significación el ser director de la Biblioteca Nacional,1931.48,1936.74
+ref_san_sebastian_espana,San Sebastián (España),reference,Contexto socio-histórico,en el festival de Berlín también en San Sebastián,3122.18,3124.94
+ref_semanal_la_semana_mendoza,Semanal 'La Semana' (Mendoza),reference,Contexto socio-histórico,de cine artístico y organiza la filial en Mendoza,3096.12,3098.84
+ref_sicilia_italia_troina_etna_vesubio_cenizas,Sicilia (Italia): Troina; Etna/Vesubio (cenizas),reference,Contexto socio-histórico,"La tez, otras características. El nombre del pueblo se llama Troina, Pequeña Troya. Y está en una montaña, bien salpicada por las cenizas del Vesubi, del Etna.",245.92,249.54
+ref_sociedad_argentina_de_escritores_sade,Sociedad Argentina de Escritores (SADE),reference,Contexto socio-histórico,la filial en Mendoza de la sociedad argentina de escritores,3098.02,3100.42
+ref_cante_hondo,Cante hondo,reference,Culturales y artísticas,y la de Beethoven y el cante hondo Bailar no sé,3690.32,3691.96
+ref_cuentos_claros,Cuentos claros,reference,Culturales y artísticas,si me falta alguno bueno cuentos claros y el juicio de Dios,3509.88,3511.02
+ref_declinacion_y_angel,Declinación y ángel,reference,Culturales y artísticas,habla de los dos cuentos declinación y ángel y,2358.38,2360.86
+ref_edgar_allan_poe,Edgar Allan Poe,reference,Culturales y artísticas,una de Edgar Allan Poe fue mi,1624.94,1626.84
+ref_el_pentagono_1955_annabella_reelaboracion,El Pentágono (1955) / Annabella (reelaboración),reference,Culturales y artísticas,de Annabella novela en forma de cuentos es el mismo Pentágono,3207.34,3209.06
+ref_el_carino_de_los_tontos_1961,El cariño de los tontos (1961),reference,Culturales y artísticas,El cariño de los tontos me hace usted el favor es este libro,3490.08,3494.56
+ref_el_conventillo_con_miguel_e_oliva,El conventillo (con Miguel E. Oliva),reference,Culturales y artísticas,después el conventillo junto a Miguel,2985.04,2987.46
+ref_el_juicio_de_dios,El juicio de Dios,reference,Culturales y artísticas,por este libro por el juicio de Dios otras cosas,3089.12,3090.38
+ref_el_silenciero,El silenciero,reference,Culturales y artísticas,el pentágono y el silenciero en el sentido,3357.64,3358.46
+ref_festival_de_berlin_berlinale,Festival de Berlín (Berlinale),reference,Culturales y artísticas,en el festival de Berlín también en San Sebastián,3122.18,3124.94
+ref_festival_de_cannes,Festival de Cannes,reference,Culturales y artísticas,más importantes en el festival de Cannes,3120.14,3122.18
+ref_festival_de_san_sebastian,Festival de San Sebastián,reference,Culturales y artísticas,en el festival de Berlín también en San Sebastián,3122.18,3124.94
+ref_fiodor_dostoievski,Fiódor Dostoievski,reference,Culturales y artísticas,"o la biografía de Dostoyevsky, porque no sé si usted sabe que un libro de él fue dos, El hombre del subsuelo y La patrona. Fueron escritos de esa manera,",497.64,499.46
+ref_greta_garbo,Greta Garbo,reference,Culturales y artísticas,era el tiempo de Greta Garbo entonces,2299.06,2299.98
+ref_grot_1957,Grot (1957),reference,Culturales y artísticas,hay un libro de cuentos el año 57 Grot,3470.34,3473.06
+ref_hollywood_viajes_de_trabajo,Hollywood (viajes de trabajo),reference,Culturales y artísticas,y en Hollywood sí muchas cosas de cine,3130.0,3132.1
+ref_honore_de_balzac,Honoré de Balzac,reference,Culturales y artísticas,un poco como reacción contra Balzac contra la manera de Balzac,2813.46,2816.6
+ref_johann_sebastian_bach,Johann Sebastian Bach,reference,Culturales y artísticas,que escribió un día música para mí la de Bach,3686.28,3689.56
+ref_jorge_amado,Jorge Amado,reference,Culturales y artísticas,como Miguel Ángel Asturias como Jorge Amado como tantos otros,3371.5,3373.16
+ref_jorge_luis_borges,Jorge Luis Borges,reference,Culturales y artísticas,una conferencia el año 58 en la Biblioteca Nacional,1887.96,1891.38
+ref_julio_cortazar,Julio Cortázar,reference,Culturales y artísticas,tan notables como Julio Cortázar por ejemplo,3274.46,3275.5
+ref_leopoldo_lugones,Leopoldo Lugones,reference,Culturales y artísticas,la figura de Leopoldo Lugones que es el papá,3080.9,3081.96
+ref_literatura_fantastica_argentina,Literatura fantástica (Argentina),reference,Culturales y artísticas,conferencias sobre eso la fantástica argentina,2003.02,2006.24
+ref_los_suicidas_1969,Los suicidas (1969),reference,Culturales y artísticas,de novela primera plana de editorial sudamericana,3158.46,3160.82
+ref_ludwig_van_beethoven,Ludwig van Beethoven,reference,Culturales y artísticas,,,
+ref_marlene_dietrich,Marlene Dietrich,reference,Culturales y artísticas,entonces o de Marlene Dietrich el cine para uno,2301.48,2303.18
+ref_miguel_de_cervantes_don_quijote,Miguel de Cervantes / Don Quijote,reference,Culturales y artísticas,que también había tenido que estar leyendo desde los ocho años,1637.92,1640.62
+ref_miguel_angel_asturias,Miguel Ángel Asturias,reference,Culturales y artísticas,sino el estilo americano como Miguel Ángel Asturias como Jorge Amado,3370.04,3371.5
+ref_mundo_animal_1953,Mundo Animal (1953),reference,Culturales y artísticas,en público Mundo Animal antes había escrito,2975.6,2980.1
+ref_objetivismo_nouveau_roman,Objetivismo / Nouveau Roman,reference,Culturales y artísticas,casi un anticipador del objetivismo o del objetivismo,2394.06,2398.44
+ref_victor_hugo,Víctor Hugo,reference,Culturales y artísticas,"¿Y cómo escribía su padre? Él tenía, propio de la época, una imaginación apegada a Víctor Hugo. Era el gran ejemplo de la novelística de esa época.",585.72,591.96
+ref_zama_1956,Zama (1956),reference,Culturales y artísticas,"en 30 días de vacaciones Sí, pero largamente gestada",3413.3,3417.8
+ref_culpa_de_haber_nacido_cadena_del_infortunio,Culpa de haber nacido / cadena del infortunio,reference,Pensamiento y conocimiento,"Creen que están vivos y ya está, pero no piensan el grave problema de haber nacido. El engendrador de culpas y remordimientos",830.52,833.22
+ref_dia_de_los_muertos_signo_vital,Día de los Muertos (signo vital),reference,Pensamiento y conocimiento,"Sí, muchos apelan a la referencia de los signos del zodíaco. Yo las paso por alto porque cuento con una predestinación especial, la fecha de mi nacimiento, excluyendo los otros signos y esa nominación religiosa que corresponde al día de los muertos.",108.12,115.74
+ref_preferencia_noche_y_silencio_beber_si_se,Preferencia: noche y silencio; 'beber sí sé',reference,Pensamiento y conocimiento,Bailar no sé Nadar no sé Beber sí sé,3691.96,3696.7
+ref_psicoanalisis_alusion,Psicoanálisis (alusión),reference,Pensamiento y conocimiento,"Antes del psicoanálisis yo tenía la convicción de que sí, que yo vivía a partir de ese día.",132.42,147.14
+ref_tecnica_cinematografica_aplicada_al_cuento,Técnica cinematográfica aplicada al cuento,reference,Pensamiento y conocimiento,a lo que usted dice los contagios del cine declinación y ángel,2404.64,2409.24
+ref_tecnica_narrativa_oral_madre,Técnica narrativa oral (madre),reference,Pensamiento y conocimiento,"porque, aparte de que el mérito es distinto, porque la técnica narrativa de ella era la oral. Ella no escribía.",775.1,777.72
+ref_abuelo_vitivinicultor_trae_amante_de_italia_abuela_40_anos_sin_hablarle,Abuelo vitivinicultor trae amante de Italia; abuela 40 años sin hablarle,reference,Personales y biográficas,a mi abuela le retiró la palabra y estuvo 40 años,1072.48,1077.44
+ref_alain_robbe_grillet,Alain Robbe-Grillet,reference,Personales y biográficas,Nouveau Romain y luego se le llamaba objetivismo,2602.96,2605.34
+ref_augusto_roa_bastos_jurado_1967,Augusto Roa Bastos (jurado 1967),reference,Personales y biográficas,Leopoldo Marechal y Augusto Roa Bastos le concede mención especial,3153.9,3157.78
+ref_boy_scout_autoridad_por_solidaridad_del_grupo,Boy scout; autoridad por solidaridad del grupo,reference,Personales y biográficas,,,
+ref_descendencia_italia_sicilia_troina_y_brasil_madre,"Descendencia: Italia (Sicilia, Troina) y Brasil (madre)",reference,Personales y biográficas,"Lo pienso y lo digo porque usted me lo ha preguntado. Por parte de su madre, aunque hija de italianos, nacida en el Brasil, ya hay en la sangre una inyección distinta",642.18,649.46
+ref_descubrimiento_de_la_imprenta_rotativas_de_critica,Descubrimiento de la imprenta (rotativas de 'Crítica'),reference,Personales y biográficas,era una rotativa que estaba escupiendo diarios,1674.44,1678.52
+ref_director_del_teatro_independencia_mendoza,Director del Teatro Independencia (Mendoza),reference,Personales y biográficas,de escritores director del teatro de independencia,3099.74,3102.48
+ref_docencia_redaccion_periodistica_escuela_superior_de_periodismo,Docencia: redacción periodística (Escuela Superior de Periodismo),reference,Personales y biográficas,de la enseñanza de redacción periodística en la Escuela Superior,3139.5,3142.18
+ref_estudios_de_derecho_universidad_fuera_de_mendoza,Estudios de Derecho (universidad fuera de Mendoza),reference,Personales y biográficas,para cursar en la universidad con eso me pagué los estudios y cuando usted había empezado,2268.64,2274.16
+ref_futbol_jugador_malo,Fútbol (jugador 'malo'),reference,Personales y biográficas,jugador pero malo pero como boy scout era bueno,1307.06,1310.68
+ref_gabriel_garcia_marquez_jurado_1967,Gabriel García Márquez (jurado 1967),reference,Personales y biográficas,compuesto por Gabriel García Márquez Leopoldo Marechal,3152.5,3153.9
+ref_infancia_con_abuelos_pobreza_y_cambio_de_estatus,Infancia con abuelos; pobreza y cambio de estatus,reference,Personales y biográficas,"Del padre serio, austero, de la madre alegre, comunicativa, aficionada a la música.",875.14,884.14
+ref_ingreso_profesional_al_diario_17_anos,Ingreso profesional al diario (17 años),reference,Personales y biográficas,si era secretario de redacción de un diario,2231.46,2233.42
+ref_leopoldo_marechal_jurado_1967,Leopoldo Marechal (jurado 1967),reference,Personales y biográficas,primera plana de editorial sudamericana es con la obra,3158.84,3162.04
+ref_madre_narradora_oral_alegria_familiar,Madre: narradora oral; alegría familiar,reference,Personales y biográficas,"Los resultados, quizás no sean tan felices como los de ella, porque, aparte de que el mérito es distinto, porque la técnica narrativa de ella era la oral.",764.36,777.72
+ref_miguel_e_oliva,Miguel E. Oliva,reference,Personales y biográficas,después el conventillo junto a Miguel,2985.04,2987.46
+ref_muerte_del_padre_13_02_1933_bermejo,"Muerte del padre (13/02/1933, Bermejo)",reference,Personales y biográficas,del 13 de febrero de 1933 cuando muere su padre,1134.22,1138.02
+ref_nacimiento_en_mendoza_dia_de_los_muertos_1922,"Nacimiento en Mendoza (Día de los Muertos, 1922)",reference,Personales y biográficas,"Yo las paso por alto porque cuento con una predestinación especial, la fecha de mi nacimiento, excluyendo los otros signos y esa nominación religiosa que corresponde al día de los muertos.",108.12,122.44
+ref_organizacion_fiesta_de_la_vendimia_1958,Organización Fiesta de la Vendimia (1958),reference,Personales y biográficas,de espectáculos como la fiesta de la vendimia,3108.58,3110.56
+ref_padre_militar_retirado_y_enologo,Padre: militar retirado y enólogo,reference,Personales y biográficas,"Sí. Y su padre, en cierto modo, hizo la carrera militar y luego se convirtió en enólogo, es decir, el elaborador exquisito de los vinos, luego los consumía.",357.38,365.16
+ref_plaza_al_buen_vecino_homenaje_al_padre,Plaza 'Al buen vecino' (homenaje al padre),reference,Personales y biográficas,a una plaza la plaza del buen vecino porque había sido,1379.06,1380.38
+ref_primeras_colaboraciones_la_semana_cine,Primeras colaboraciones: 'La Semana' (cine),reference,Personales y biográficas,,,
+ref_resistencia_personal_a_buenos_aires_de_nino,Resistencia personal a Buenos Aires (de niño),reference,Personales y biográficas,a Buenos Aires me creó una tremenda resistencia,1712.64,1716.04
+ref_revista_leo_plan_lecturas_de_infancia,Revista 'Leo Plan' (lecturas de infancia),reference,Personales y biográficas,lo que contenía la revista Leo Plan,1697.78,1700.5
+ref_subdirector_del_diario_los_andes_mendoza,Subdirector del diario 'Los Andes' (Mendoza),reference,Personales y biográficas,ha sido subdirector del diario Los Andes,3142.96,3145.94
+ref_suicidios_familiares_abuelo_nieto_primo,Suicidios familiares (abuelo/nieto; primo),reference,Personales y biográficas,"Un primo mío, es decir, nieto también de mi abuelo.",959.28,964.14
