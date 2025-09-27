@@ -135,7 +135,7 @@
         // === CARGA DIRECTA DE CSV EN LA MISMA CARPETA (GitHub) ===
         let [nodes, links] = await Promise.all([
           loadCsvSmart("borges1_nodos.csv"),
-          loadCsvSmart("borges2_aristas.csv")
+          loadCsvSmart("borges1_aristas.csv")
         ]);
 
         const nodeById = new Map(nodes.map(d => [d.id, d]));
