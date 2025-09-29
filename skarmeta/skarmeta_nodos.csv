@@ -1,0 +1,81 @@
+id,label,type,group,note
+cat_pensamiento,Pensamiento y conocimiento,category,Pensamiento y conocimiento,
+cat_contexto,Contexto socio-histórico,category,Contexto socio-histórico,
+cat_personales,Personales y biográficas,category,Personales y biográficas,
+cat_culturales,Culturales y artísticas,category,Culturales y artísticas,
+ref_antonio-skarmeta,Antonio Skármeta,reference,Personales y biográficas,Normalización de nombres en la entrevista
+ref_edward-albee,Edward Albee,reference,Personales y biográficas,Normalización de nombres en la entrevista
+ref_ariel-dorfman,Ariel Dorfman,reference,Personales y biográficas,Normalización de nombres en la entrevista
+ref_carlos-droguett,Carlos Droguett,reference,Personales y biográficas,Normalización de nombres en la entrevista
+ref_francisco-urondo,Francisco Urondo,reference,Personales y biográficas,Normalización de nombres en la entrevista
+ref_william-saroyan,William Saroyan,reference,Personales y biográficas,Normalización de nombres en la entrevista
+ref_jack-kerouac,Jack Kerouac,reference,Personales y biográficas,Normalización de nombres en la entrevista
+ref_radomiro-tomic,Radomiro Tomic,reference,Personales y biográficas,Normalización de nombres en la entrevista
+ref_isla-de-brac,Isla de Brač,reference,Personales y biográficas,Normalización de nombres en la entrevista
+ref_columbia-university,Columbia University,reference,Personales y biográficas,Normalización de nombres en la entrevista
+ref_joaquin-prieto-autor-antonio-prieto-interprete,Joaquín Prieto (autor) / Antonio Prieto (intérprete),reference,Personales y biográficas,Normalización de nombres en la entrevista
+ref_julio-cortazar,Julio Cortázar,reference,Culturales y artísticas,Tesis de máster y afinidad estética; mención de Rayuela
+ref_edward-albee-2,Edward Albee,reference,Culturales y artísticas,Montajes experimentales en Chile
+ref_ariel-dorfman-2,Ariel Dorfman,reference,Culturales y artísticas,Co-redactor en Revista Chilena de Literatura; postura anti-pedante
+ref_carlos-droguett-2,Carlos Droguett,reference,Culturales y artísticas,Jurado del Premio Casa por Desnudo en el tejado
+ref_jean-franco,Jean Franco,reference,Pensamiento y conocimiento,Jurado del Premio Casa
+ref_oscar-collazos,Óscar Collazos,reference,Culturales y artísticas,Jurado del Premio Casa
+ref_francisco-urondo-2,Francisco Urondo,reference,Culturales y artísticas,Jurado del Premio Casa
+ref_onelio-jorge-cardoso,Onelio Jorge Cardoso,reference,Culturales y artísticas,Jurado del Premio Casa
+ref_william-saroyan-2,William Saroyan,reference,Culturales y artísticas,Influencia de cuentos de ciudad; Nueva York/California
+ref_jack-kerouac-2,Jack Kerouac,reference,Culturales y artísticas,Modelo de viaje/road; espíritu beatnik
+ref_william-faulkner,William Faulkner,reference,Culturales y artísticas,Regiones del sur de EE. UU.
+ref_john-steinbeck,John Steinbeck,reference,Culturales y artísticas,Escenarios de California
+ref_gabriel-garcia-marquez,Gabriel García Márquez,reference,Culturales y artísticas,Panorama del boom latinoamericano
+ref_mario-vargas-llosa,Mario Vargas Llosa,reference,Culturales y artísticas,Panorama del boom
+ref_jose-lezama-lima,José Lezama Lima,reference,Culturales y artísticas,Panorama
+ref_juan-carlos-onetti,Juan Carlos Onetti,reference,Culturales y artísticas,Panorama
+ref_agustin-yanez,Agustín Yáñez,reference,Culturales y artísticas,Panorama
+ref_octavio-paz,Octavio Paz,reference,Culturales y artísticas,Panorama
+ref_manuel-rojas,Manuel Rojas,reference,Culturales y artísticas,Panorama
+ref_jose-donoso,José Donoso,reference,Culturales y artísticas,Panorama
+ref_manuel-puig,Manuel Puig,reference,Culturales y artísticas,Panorama
+ref_peter-lilienthal,Peter Lilienthal,reference,Culturales y artísticas,Director de dos films escritos por Skármeta
+ref_eduardo-frei-montalva,Eduardo Frei Montalva,reference,Contexto socio-histórico,"Gobierno, reforma agraria, semi-nacionalización del cobre"
+ref_radomiro-tomic-2,Radomiro Tomic,reference,Contexto socio-histórico,Candidato DC
+ref_salvador-allende,Salvador Allende,reference,Contexto socio-histórico,Unidad Popular; golpe
+ref_joaquin-prieto-autor-de-todos-enamorados-menos-yo,Joaquín Prieto (autor de 'Todos enamorados menos yo'),reference,Culturales y artísticas,Título de antología alemana
+ref_antonio-prieto-popularizo-la-novia,Antonio Prieto (popularizó 'La novia'),reference,Culturales y artísticas,Aclaración del entrevistador sobre intérprete
+ref_sone-que-la-nieve-ardia,Soñé que la nieve ardía,reference,Culturales y artísticas,Edición Planeta España; agotada
+ref_desnudo-en-el-tejado,Desnudo en el tejado,reference,Culturales y artísticas,Premio Casa de las Américas 1969
+ref_tiro-libre,Tiro libre,reference,Culturales y artísticas,Colección de cuentos
+ref_el-ciclista-del-san-cristobal,El ciclista del San Cristóbal,reference,Culturales y artísticas,Cuento con trasfondo social (cigarrillo)
+ref_todos-enamorados-menos-yo,Todos enamorados menos yo,reference,Culturales y artísticas,Edición alemana; título de canción
+ref_el-entusiasmo,El entusiasmo,reference,Culturales y artísticas,Debut; apuesta por coloquial chileno
+ref_tendencias-de-la-mas-nueva-narrativa-hispanoamericana,Tendencias de la más nueva narrativa hispanoamericana,reference,Pensamiento y conocimiento,Panorama crítico de autores
+ref_la-victoria,La Victoria,reference,Culturales y artísticas,Película en Chile; marzo 1973
+ref_reina-la-tranquilidad-en-todo-el-pais,Reina la tranquilidad en todo el país,reference,Culturales y artísticas,Dictadura latinoamericana (imaginaria)
+ref_la-busqueda-radioteatro,La búsqueda (radioteatro),reference,Culturales y artísticas,"Taxi, hijo desaparecido; conciencia social"
+ref_la-mancha,La Mancha,reference,Culturales y artísticas,Alegoría dictadura/luz vs oscuridad
+ref_rayuela-julio-cortazar,Rayuela (Julio Cortázar),reference,Culturales y artísticas,Máximo hito experimental
+ref_antofagasta,Antofagasta,reference,Culturales y artísticas,Lugar de nacimiento; norte minero y desierto
+ref_santiago-de-chile,Santiago de Chile,reference,Culturales y artísticas,"Vida, estudios, San Cristóbal"
+ref_buenos-aires,Buenos Aires,reference,Culturales y artísticas,"Infancia; fútbol, tangos"
+ref_berlin,Berlín,reference,Culturales y artísticas,Residencia; trabajo cine/radio
+ref_yugoslavia,Yugoslavia,reference,Culturales y artísticas,Origen de sus cuatro abuelos
+ref_isla-de-brac-2,Isla de Brač,reference,Culturales y artísticas,Procedencia familiar; normalización diacrítica
+ref_tango,Tango,reference,Culturales y artísticas,Afición en Buenos Aires
+ref_rock-and-roll,Rock and roll,reference,Culturales y artísticas,Aprendizaje de inglés por música popular
+ref_futbol,Fútbol,reference,Culturales y artísticas,Tema importante en su literatura
+ref_ciclismo,Ciclismo,reference,Culturales y artísticas,Tema y símbolo de movilidad (San Cristóbal)
+ref_democracia-cristiana-chile,Democracia Cristiana (Chile),reference,Contexto socio-histórico,Revolución en libertad; reforma agraria
+ref_unidad-popular-chile,Unidad Popular (Chile),reference,Contexto socio-histórico,Proceso de Allende; esperanzas del pueblo
+ref_golpe-de-estado-en-chile-1973,Golpe de Estado en Chile (1973),reference,Contexto socio-histórico,Derrocamiento de Allende; dictadura
+ref_reforma-agraria-chile,Reforma agraria (Chile),reference,Contexto socio-histórico,Impulsada por Frei; continuidades
+ref_nacionalizacion-del-cobre-chile,Nacionalización del cobre (Chile),reference,Contexto socio-histórico,Semi-nacionalización en Frei; central en Chile
+ref_instituto-nacional-santiago,Instituto Nacional (Santiago),reference,Pensamiento y conocimiento,Bachillerato
+ref_universidad-de-chile,Universidad de Chile,reference,Pensamiento y conocimiento,Filosofía y Letras
+ref_columbia-university-2,Columbia University,reference,Pensamiento y conocimiento,Máster en literatura
+ref_revista-chilena-de-literatura,Revista Chilena de Literatura,reference,Pensamiento y conocimiento,Consejo de redacción; giro anti-pedante
+ref_la-quinta-rueda,La Quinta Rueda,reference,Pensamiento y conocimiento,Revista cultural en Quimantú
+ref_quimantu,Quimantú,reference,Pensamiento y conocimiento,Publicación cultural estatal
+ref_feria-del-libro-de-frankfurt,Feria del Libro de Frankfurt,reference,Culturales y artísticas,Narrativa latinoamericana como foco
+ref_festival-de-cannes,Festival de Cannes,reference,Culturales y artísticas,Coberturas y asistencia
+ref_festival-de-berlin,Festival de Berlín,reference,Culturales y artísticas,Coberturas y vínculos
+ref_festival-de-san-sebastian,Festival de San Sebastián,reference,Culturales y artísticas,Coberturas y vínculos
+ref_programa-cultural-en-tv-chilena,Programa cultural en TV chilena,reference,Culturales y artísticas,"Entrevistas con 1,3% de audiencia"
