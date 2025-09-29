@@ -143,7 +143,7 @@
         links.forEach(e => { e.source = nodeById.get(e.source); e.target = nodeById.get(e.target); });
 
         // Nodo central del autor + enlaces a categorías
-        const authorNode = { id:"autor", label:"Jorge Luis Borges", type:"author" };
+        const authorNode = { id:"autor", label:"Julio Cortázar", type:"author" };
         nodes.push(authorNode);
         nodes.filter(n => n.type==="category").forEach(cat => links.push({source:authorNode, target:cat}));
 
