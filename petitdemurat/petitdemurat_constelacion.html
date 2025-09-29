@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Constelación — Ulyses Petit de Murat</title>
+  <style>
+    :root{
+      /* Estilo oscuro (memoria 61–62) */
+      --bg: #0b0f14;
+      --panel: #111821;
+      --panel-2: #0e1520;
+      --text: #e6edf3;
+      --muted: #a9b1bb;
+      --line: #223045;
+      --ref-blue: #64b5f6;
+      --green: #2e7d32;   /* Pensamiento y conocimiento */
+      --purple: #6a1b9a;  /* Contexto socio-histórico */
+      --red: #c62828;     /* Personales y biográficas */
+      --orange: #ef6c00;  /* Culturales y artísticas */
+    }
+    html, body { height: 100%; }
+    body { margin: 0; display: flex; background: var(--bg); color: var(--text); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    #viz { flex: 1 1 auto; position: relative; }
+    #panel { width: 360px; background: var(--panel); border-left: 1px solid var(--line); padding: 16px; box-sizing: border-box; position: relative; overflow:auto; }
+    #panel h2 { margin: 4px 0 6px; font-weight: 600; font-size: 18px; }
+    .meta { color: var(--muted); font-size: 12px; margin-bottom: 8px; }
+    .ctx { white-space: pre-wrap; line-height: 1.35; background: var(--panel-2); padding: 10px; border-radius: 8px; border: 1px solid var(--line); }
+
+    /* Leyenda movida un poco hacia abajo para no solapar el título superior */
+    .legend { position: absolute; left: 10px; top: 50px; background: var(--panel); color: var(--text); border: 1px solid var(--line); padding: 8px; border-radius: 8px; font-size: 12px; box-shadow: 0 4px 12px rgba(0,0,0,.25); }
+    .legend strong { display:block; margin-bottom: 4px; }
+    .legend .row { display:flex; align-items:center; gap:6px; margin: 2px 0; }
+    .dot { width: 12px; height: 12px; border-radius: 50%; display:inline-block; }
+
+    /* Título superior centrado, sin tapar panel derecho ni leyenda */
+    .header-title { position: absolute; top: 10px; left: 10px; right: 380px; text-align: center; font-size: 20px; font-weight: 600; color: var(--text); pointer-events:none; }
+
+    .search-box { position: absolute; right: 380px; top: 10px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; display:flex; align-items:center; gap:6px; }
+    .search-box input { background: transparent; border: none; outline: none; color: var(--text); width: 220px; font-size: 14px; }
+    .search-box input::placeholder { color: var(--muted); }
+
+    .node { cursor: pointer; transition: opacity .2s ease; }
+    .link { stroke: #7a8aa1; stroke-opacity: .6; transition: opacity .2s ease; }
+    .dimmed { opacity: .15; }
+    .hidden { opacity: 0; }
+
+    /* Barra YouTube inferior fija */
+    .ytbar { position: absolute; bottom: 10px; left: 16px; right: 16px; display:flex; align-items:center; gap:8px; padding:8px 10px; border:1px solid var(--line); border-radius: 10px; text-decoration:none; color: var(--text); background: var(--panel-2); font-size: 13px; }
+    .ytbar:hover { filter: brightness(1.1); }
+    .ytbar svg { flex: 0 0 auto; }
+  </style>
+</head>
+<body>
+  <div id="viz"></div>
+  <aside id="panel">
+    <h2 id="author-heading">Ulyses Petit de Murat</h2>
+    <div class="meta">Haz clic en una <strong>referencia</strong> para ver el contexto breve.</div>
+    <div id="content" class="ctx">—</div>
+
+    <a id="ytlink" href="https://youtu.be/pR8rIykC9Cc?si=Rx3MTt3GaKbnSZpX" target="_blank" rel="noopener noreferrer" class="ytbar" title="Ver entrevista en YouTube">
+      <svg viewBox="0 0 90 64" width="20" height="14" aria-hidden="true">
+        <path fill="#FF0000" d="M87.5 10.1c-1-3.9-4-7-7.8-8C73.1 0.6 45 0.6 45 0.6s-28.1 0-34.7 1.5c-3.8 1-6.8 4.1-7.8 8C1 16.7 1 32 1 32s0 15.3 1.5 21.9c1 3.9 4 7 7.8 8C17 63.4 45 63.4 45 63.4s28.1 0 34.7-1.5c3.8-1 6.8-4.1 7.8-8C89 47.3 89 32 89 32s0-15.3-1.5-21.9z"/>
+        <polygon fill="#fff" points="36,45 57,32 36,19"/>
+      </svg>
+      <span id="yttext">Ver entrevista en YouTube</span>
+    </a>
+  </aside>
+
+  <!-- Título superior -->
+  <div class="header-title">Constelación Ulyses Petit de Murat</div>
+
+  <div class="legend">
+    <strong>Categorías</strong>
+    <div class="row"><span class="dot" style="background:var(--green)"></span> Pensamiento y conocimiento</div>
+    <div class="row"><span class="dot" style="background:var(--purple)"></span> Contexto socio-histórico</div>
+    <div class="row"><span class="dot" style="background:var(--red)"></span> Personales y biográficas</div>
+    <div class="row"><span class="dot" style="background:var(--orange)"></span> Culturales y artísticas</div>
+  </div>
+
+  <div class="search-box">
+    <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+    <input type="text" id="search" placeholder="Buscar referencia..." />
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script>
+    const width = window.innerWidth - 360, height = window.innerHeight;
+
+    const categoryColorsExact = {
+      "pensamiento y conocimiento": getComputedStyle(document.documentElement).getPropertyValue('--green').trim(),
+      "contexto socio-histórico": getComputedStyle(document.documentElement).getPropertyValue('--purple').trim(),
+      "contexto socio-historico": getComputedStyle(document.documentElement).getPropertyValue('--purple').trim(),
+      "personales y biográficas": getComputedStyle(document.documentElement).getPropertyValue('--red').trim(),
+      "personales y biograficas": getComputedStyle(document.documentElement).getPropertyValue('--red').trim(),
+      "culturales y artísticas": getComputedStyle(document.documentElement).getPropertyValue('--orange').trim(),
+      "culturales y artisticas": getComputedStyle(document.documentElement).getPropertyValue('--orange').trim()
+    };
+    const categoryColorsById = {
+      "categoria_pensamiento_y_conocimiento": getComputedStyle(document.documentElement).getPropertyValue('--green').trim(),
+      "categoria_contexto_sociohistorico": getComputedStyle(document.documentElement).getPropertyValue('--purple').trim(),
+      "categoria_personales_y_biograficas": getComputedStyle(document.documentElement).getPropertyValue('--red').trim(),
+      "categoria_culturales_y_artisticas": getComputedStyle(document.documentElement).getPropertyValue('--orange').trim()
+    };
+    const blueRef = getComputedStyle(document.documentElement).getPropertyValue('--ref-blue').trim();
+
+    function norm(s){ return (s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim(); }
+    function colorForCategory(d){
+      const byLabel = categoryColorsExact[norm(d.label)];
+      if (byLabel) return byLabel;
+      if (d.id && categoryColorsById[d.id]) return categoryColorsById[d.id];
+      const idn = norm(d.id||"");
+      if (idn.includes("pensamiento") || idn.includes("conocimiento")) return categoryColorsExact["pensamiento y conocimiento"];
+      if (idn.includes("contexto") || idn.includes("socio") || idn.includes("histor")) return categoryColorsExact["contexto socio-historico"];
+      if (idn.includes("personal") || idn.includes("biogra")) return categoryColorsExact["personales y biograficas"];
+      if (idn.includes("cultur") || idn.includes("artist")) return categoryColorsExact["culturales y artisticas"];
+      return "#999";
+    }
+    function colorNode(d){
+      if (d.type === "reference") return blueRef;
+      if (d.type === "category") return colorForCategory(d);
+      if (d.type === "author") return "#e0e3e8";
+      return "#9aa7b3";
+    }
+
+    async function loadCsvSmart(url){
+      const txt = await fetch(url, {cache:"no-store"}).then(r => { if(!r.ok) throw new Error(`HTTP ${r.status} al cargar ${url}`); return r.text(); });
+      const head = txt.split(/\r?\n/,1)[0] || "";
+      const sep = (head.split(";").length > head.split(",").length) ? ";" : ",";
+      return d3.dsvFormat(sep).parse(txt);
+    }
+
+    (async () => {
+      try{
+        // === CARGA DIRECTA DE CSV EN LA MISMA CARPETA (GitHub) ===
+        let [nodes, links] = await Promise.all([
+          loadCsvSmart("petitdemurat_nodos.csv"),
+          loadCsvSmart("petitdemurat_aristas.csv")
+        ]);
+
+        const nodeById = new Map(nodes.map(d => [d.id, d]));
+        links = links.filter(e => nodeById.has(e.source) && nodeById.has(e.target));
+        links.forEach(e => { e.source = nodeById.get(e.source); e.target = nodeById.get(e.target); });
+
+        // Nodo central del autor + enlaces a categorías
+        const authorNode = { id:"autor", label:"Jorge Luis Borges", type:"author" };
+        nodes.push(authorNode);
+        nodes.filter(n => n.type==="category").forEach(cat => links.push({source:authorNode, target:cat}));
+
+        // Pre-layout (para evitar saltos al arrancar)
+        {
+          const preNodes = nodes.map(d => ({...d}));
+          const mapIdx = new Map(nodes.map((n,i)=>[n.id,i]));
+          const preLinks = links.map(l => ({source: preNodes[mapIdx.get(l.source.id)], target: preNodes[mapIdx.get(l.target.id)]}));
+          const preSim = d3.forceSimulation(preNodes)
+            .force("link", d3.forceLink(preLinks).id(d=>d.id).distance(l => (l.source.type==="category" || l.target.type==="category") ? 130 : 90).strength(0.35))
+            .force("charge", d3.forceManyBody().strength(-280))
+            .force("center", d3.forceCenter(width/2, height/2))
+            .force("collision", d3.forceCollide().radius(d => d.type==="category" ? 42 : (d.type==="author" ? 52 : 18)).strength(0.9))
+            .stop();
+          for (let i=0;i<250;i++) preSim.tick();
+          preNodes.forEach((pn,i) => { nodes[i].x = pn.x; nodes[i].y = pn.y; });
+        }
+
+        const svg = d3.select("#viz").append("svg").attr("width", width).attr("height", height).style("background", "transparent");
+        const g = svg.append("g").classed("hidden", true);
+
+        // Flechas
+        svg.append("defs").selectAll("marker")
+          .data(["arrow"]).join("marker")
+          .attr("id","arrow").attr("viewBox","0 -5 10 10")
+          .attr("refX",14).attr("refY",0)
+          .attr("markerWidth",6).attr("markerHeight",6)
+          .attr("orient","auto")
+          .append("path").attr("d","M0,-5L10,0L0,5").attr("fill","#7a8aa1");
+
+        const link = g.append("g")
+          .selectAll("line").data(links).join("line")
+          .attr("class","link")
+          .attr("stroke","#7a8aa1").attr("stroke-opacity",0.6)
+          .attr("marker-end","url(#arrow)");
+
+        const node = g.append("g")
+          .selectAll("circle").data(nodes).join("circle")
+          .attr("class", d => "node " + d.type)
+          .attr("r", d => d.type==="category" ? 20 : (d.type==="author" ? 30 : 8))
+          .attr("fill", d => colorNode(d))
+          .call(d3.drag()
+            .on("start", (event,d)=>{ if(!event.active) sim.alphaTarget(0.3).restart(); d.fx=d.x; d.fy=d.y; })
+            .on("drag",  (event,d)=>{ d.fx=event.x; d.fy=event.y; })
+            .on("end",   (event,d)=>{ if(!event.active) sim.alphaTarget(0); d.fx=null; d.fy=null; })
+          )
+          .on("click", (event,d) => showPanel(d));
+
+        const label = g.append("g")
+          .selectAll("text").data(nodes).join("text")
+          .text(d => d.label)
+          .attr("dy", d => d.type==="category" ? -25 : (d.type==="author" ? -35 : -12))
+          .attr("font-size", d => d.type==="category" ? 14 : (d.type==="author" ? 18 : 11))
+          .attr("text-anchor","middle")
+          .attr("fill", "#d6dbe1")
+          .attr("paint-order","stroke")
+          .attr("stroke", "#0b0f14")
+          .attr("stroke-width", 3)
+          .attr("stroke-linejoin", "round");
+
+        const sim = d3.forceSimulation(nodes)
+          .force("link", d3.forceLink(links).id(d=>d.id).distance(l => (l.source.type==="category" || l.target.type==="category") ? 130 : 90).strength(0.35))
+          .force("charge", d3.forceManyBody().strength(-280))
+          .force("center", d3.forceCenter(width/2, height/2))
+          .force("collision", d3.forceCollide().radius(d => d.type==="category" ? 42 : (d.type==="author" ? 52 : 18)).strength(0.9));
+
+        sim.on("tick", () => {
+          link.attr("x1", d=>d.source.x).attr("y1", d=>d.source.y)
+              .attr("x2", d=>d.target.x).attr("y2", d=>d.target.y);
+          node.attr("cx", d=>d.x).attr("cy", d=>d.y);
+          label.attr("x", d=>d.x).attr("y", d=>d.y);
+        });
+
+        // Zoom/pan + encuadre inicial al componente principal
+        const zoom = d3.zoom().scaleExtent([0.2, 2.2]).on("zoom", (event) => g.attr("transform", event.transform));
+        svg.call(zoom);
+
+        function mainComponentNodes(){
+          const adj = new Map(nodes.map(n => [n.id, []]));
+          links.forEach(l => { adj.get(l.source.id).push(l.target.id); adj.get(l.target.id).push(l.source.id); });
+          const visited = new Set(); const stack = ["autor"];
+          while (stack.length){
+            const u = stack.pop(); if (visited.has(u)) continue; visited.add(u);
+            (adj.get(u)||[]).forEach(v => { if(!visited.has(v)) stack.push(v); });
+          }
+          return new Set([...visited]); // ids
+        }
+
+        (function initialFit(){
+          const ids = mainComponentNodes();
+          const comp = g.append("g").attr("visibility","hidden");
+          comp.selectAll("circle").data(nodes.filter(n => ids.has(n.id))).join("circle")
+              .attr("cx", d=>d.x).attr("cy", d=>d.y).attr("r", 1);
+          const box = comp.node().getBBox(); comp.remove();
+          if (box.width && box.height){
+            const margin = 100;
+            const sx = (width  - margin) / box.width;
+            const sy = (height - margin) / box.height;
+            let k = Math.min(sx, sy); k = Math.min(k, 0.9);
+            const tx = (width/2)  - k * (box.x + box.width/2);
+            const ty = (height/2) - k * (box.y + box.height/2);
+            svg.call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(k));
+          }
+          g.classed("hidden", false);
+        })();
+
+        // Panel: mostrar SOLO el contexto para referencias
+        function showPanel(d){
+          const panel = document.getElementById("content");
+          if (d.type === "reference"){
+            const ctx = (d.note && d.note.trim()) ? d.note : "Sin contexto breve disponible.";
+            panel.innerHTML = `<strong>${escapeHtml(d.label||"Referencia")}</strong>\n\n${escapeHtml(ctx)}`;
+          } else {
+            panel.innerHTML = `<strong>${escapeHtml(d.label||"Categoría")}</strong>`;
+          }
+        }
+        function escapeHtml(s){ return (s||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;"); }
+
+        // Búsqueda con atenuación y centrado en primer match
+        const searchInput = document.getElementById("search");
+        searchInput.addEventListener("input", () => {
+          const q = norm(searchInput.value); let firstMatch = null;
+          node.classed("dimmed", false); label.classed("dimmed", false); link.classed("dimmed", false);
+          if (!q.length) return;
+          const matchSet = new Set();
+          node.each(d => { const hit = (d.type==="reference") && norm(d.label).includes(q); if (hit) { matchSet.add(d.id); if(!firstMatch) firstMatch = d; } });
+          node.classed("dimmed", d => d.type==="reference" ? !matchSet.has(d.id) : false);
+          label.classed("dimmed", d => d.type==="reference" ? !matchSet.has(d.id) : false);
+          link.classed("dimmed", e => !(matchSet.has(e.source.id) || matchSet.has(e.target.id)));
+          if (firstMatch) {
+            const current = d3.zoomTransform(svg.node());
+            const scale = Math.min(2.0, Math.max(0.9, current.k));
+            const tx = (width/2)  - scale * firstMatch.x;
+            const ty = (height/2) - scale * firstMatch.y;
+            svg.transition().duration(450).call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(scale));
+          }
+        });
+
+        // Fondo del área de visualización
+        document.getElementById("viz").style.background = 'var(--bg)';
+      }catch(err){
+        document.getElementById("content").textContent = "Error cargando datos: " + err.message;
+      }
+    })();
+  </script>
+</body>
+</html>
