@@ -1,0 +1,122 @@
+id,label,type,group,note
+cat_pensamiento,Pensamiento y conocimiento,category,Pensamiento y conocimiento,
+cat_contexto,Contexto socio-histórico,category,Contexto socio-histórico,
+cat_personales,Personales y biográficas,category,Personales y biográficas,
+cat_culturales,Culturales y artísticas,category,Culturales y artísticas,
+ref_nacimiento-en-caracas-1906,Nacimiento en Caracas (1906),reference,Personales y biográficas,«El doctor Uslar es un hombre que nace en 1906 en Caracas…»
+ref_infancia-bajo-dictadura-de-juan-vicente-gomez,Infancia bajo dictadura de Juan Vicente Gómez,reference,Personales y biográficas,«Vivió su infancia bajo la dictadura de Gómez…»
+ref_trayectoria-politica-ministro-secretario-de-la-presidencia-senador-embajador-en-la-unesco,"Trayectoria política (ministro, secretario de la Presidencia, senador, embajador en la UNESCO)",reference,Personales y biográficas,«…ha sido ministro… secretario de la presidencia… senador… embajador… en la unesco.»
+ref_detencion-durante-la-dictadura-de-perez-jimenez,Detención durante la dictadura de Pérez Jiménez,reference,Personales y biográficas,«yo salí de la cárcel modelo de Caracas a las 3 o 4 de la mañana…»
+ref_miguel-angel-asturias-amistad-y-carta-de-presentacion,Miguel Ángel Asturias (amistad y carta de presentación),reference,Personales y biográficas,«…con una carta que me dio Miguel Ángel Asturias… fue mi entrañable amigo…»
+ref_descendencia-y-familia-dos-hijos-varones-apellido-husler,Descendencia y familia (dos hijos varones; apellido Hüsler),reference,Personales y biográficas,«usted tiene dos hijos varones… el apellido Hussler…»
+ref_origenes-familiares-aleman-de-hanover-corsos,Orígenes familiares (alemán de Hanover; corsos),reference,Personales y biográficas,«…un alemán de Hanover… hubo una fuerte inmigración corso…»
+ref_legion-extranjera-con-bolivar-200-oficiales,Legión extranjera con Bolívar (200 oficiales),reference,Personales y biográficas,«…vino con una legión… de unos 200 oficiales… el año de 1818…»
+ref_las-lanzas-coloradas-novela,Las lanzas coloradas (novela),reference,Culturales y artísticas,«…se incluyen… *Las lanzas coloradas*…»
+ref_el-camino-del-dorado-novela,El camino del Dorado (novela),reference,Culturales y artísticas,«…*El camino del dorado*… López Aguirre…»
+ref_el-laberinto-de-la-fortuna-novela,El laberinto de la fortuna (novela),reference,Culturales y artísticas,«…*El laberinto de fortuna* con el título de Juan de Mena…»
+ref_barrabas-y-otros-relatos-cuentos,Barrabás y otros relatos (cuentos),reference,Culturales y artísticas,«Mi primer libro fue un libro de cuentos… *Barrabás y otros relatos*…»
+ref_la-otra-america-ensayo,La otra América (ensayo),reference,Culturales y artísticas,«…*la otra América*…»
+ref_tierra-venezolana-ensayo,Tierra venezolana (ensayo),reference,Culturales y artísticas,«…*tierra venezolana*…»
+ref_don-quijote-de-la-mancha,Don Quijote de la Mancha,reference,Culturales y artísticas,«…si uno lee el *Quijote*…»
+ref_menendez-pelayo-antologia-1892,Menéndez Pelayo (antología 1892),reference,Culturales y artísticas,«El propio Menéndez Pelayo… *antología de la poesía hispanoamericana*… 1892…»
+ref_jorge-luis-borges,Jorge Luis Borges,reference,Culturales y artísticas,«Jorge Luis Borges decía…»
+ref_inca-garcilaso-de-la-vega,Inca Garcilaso de la Vega,reference,Culturales y artísticas,«…es el Inca Garcilaso de la Vega… *Comentarios reales*…»
+ref_comentarios-reales-obra,Comentarios reales (obra),reference,Culturales y artísticas,«…ese fabuloso libro… *los comentarios reales*…»
+ref_juan-de-mena-poeta,Juan de Mena (poeta),reference,Culturales y artísticas,«…con el título de Juan de Mena…»
+ref_jose-ortega-y-gasset,José Ortega y Gasset,reference,Culturales y artísticas,«…se ha llamado a Uslar… un nuevo Ortega y Gasset…»
+ref_rufino-blanco-fombona,Rufino Blanco Fombona,reference,Culturales y artísticas,«…residió en España… fundó Editorial América…»
+ref_andres-eloy-blanco-poesia,Andrés Eloy Blanco (poesía),reference,Culturales y artísticas,«…Andrés Lloyd Blanco… *Angelitos Negros*…»
+ref_la-voragine-novela-mencion-como-boragine,La vorágine (novela; mención como 'Borágine'),reference,Culturales y artísticas,"«…títulos… Borágine, Doña Bárbara, Don Segundo Sombra…»"
+ref_dona-barbara-novela,Doña Bárbara (novela),reference,Culturales y artísticas,«…títulos… Doña Bárbara…»
+ref_don-segundo-sombra-novela,Don Segundo Sombra (novela),reference,Culturales y artísticas,«…títulos… Don Segundo Sombra…»
+ref_realismo-magico-termino-critico,Realismo mágico (término crítico),reference,Culturales y artísticas,«…en 1948… hable del realismo mágico…»
+ref_bello-andres-bello,Bello (Andrés Bello),reference,Culturales y artísticas,«…se publicó a Bello…»
+ref_domingo-f-sarmiento,Domingo F. Sarmiento,reference,Culturales y artísticas,«…se publicó a Sarmiento…»
+ref_eugenio-maria-de-hostos,Eugenio María de Hostos,reference,Culturales y artísticas,«…se publicó a Hostos…»
+ref_poetas-del-modernismo,Poetas del modernismo,reference,Culturales y artísticas,«…se publicaron los poetas del modernismo…»
+ref_adaptacion-cinematografica-de-las-lanzas-coloradas-intentos,Adaptación cinematográfica de Las lanzas coloradas (intentos),reference,Culturales y artísticas,«Se ha intentado… llevarlo al cine… no se ha cuajado…»
+ref_barroco-de-indias-arte,Barroco de Indias (arte),reference,Culturales y artísticas,«…sale esa creación extraordinaria que es el barroco de indias…»
+ref_angelitos-negros-cancion-a-partir-del-poema,"Angelitos negros (canción, a partir del poema)",reference,Culturales y artísticas,«…canto español que dio origen a una canción llamada *Angelitos Negros*…»
+ref_coran,Corán,reference,Pensamiento y conocimiento,«…en el Corán no se menciona al camello…»
+ref_mahoma,Mahoma,reference,Pensamiento y conocimiento,«…para Mahoma el camello no era nada…»
+ref_francisco-de-vitoria-salamanca,Francisco de Vitoria (Salamanca),reference,Pensamiento y conocimiento,«…dice… España no tiene derecho a conquistar a las Indias…»
+ref_bartolome-de-las-casas,Bartolomé de las Casas,reference,Pensamiento y conocimiento,«…aquella frase… “todas las naciones son hombres”…»
+ref_universidad-de-salamanca-juntas-teologosjuristas,Universidad de Salamanca (juntas teólogos/juristas),reference,Pensamiento y conocimiento,«…en la universidad de Salamanca… juntas de teólogos y juristas…»
+ref_premios-nobel-mencion-prospectiva,Premios Nobel (mención prospectiva),reference,Pensamiento y conocimiento,«…empezarían a aparecer… en las listas de premios Nobel…»
+ref_juan-vicente-gomez-caudillo,Juan Vicente Gómez (caudillo),reference,Contexto socio-histórico,«…ejerció el poder… 27 años… caudillo hispanoamericano…»
+ref_caudillo-hispanoamericano-concepto,Caudillo hispanoamericano (concepto),reference,Contexto socio-histórico,«…el caudillo hispanoamericano es un fenómeno…»
+ref_rafael-leonidas-trujillo-dictador,Rafael Leónidas Trujillo (dictador),reference,Contexto socio-histórico,«Trujillo fue un dictador…»
+ref_juan-manuel-de-rosas,Juan Manuel de Rosas,reference,Contexto socio-histórico,«…Rosas en la Argentina… caudillo rural…»
+ref_facundo-quiroga,Facundo Quiroga,reference,Contexto socio-histórico,"«…unos subcaudillos como Facundo, el hombre de Sarmiento…»"
+ref_porfirio-diaz,Porfirio Díaz,reference,Contexto socio-histórico,«…caudillos en México como Porfirio Díaz…»
+ref_jose-antonio-paez,José Antonio Páez,reference,Contexto socio-histórico,«…dio Venezuela… José Antonio Páez… el Taita Páez…»
+ref_cipriano-castro-mencionado-como-castro,Cipriano Castro (mencionado como 'Castro'),reference,Contexto socio-histórico,«…se mete en una aventura… con Castro…»
+ref_marcos-perez-jimenez-dictadura,Marcos Pérez Jiménez (dictadura),reference,Contexto socio-histórico,«…dictadura de Marcos Pérez Jiménez…»
+ref_eleazar-lopez-contreras,Eleazar López Contreras,reference,Contexto socio-histórico,«…una figura… el general Eleazar López Contreras…»
+ref_isaias-medina-angarita,Isaías Medina Angarita,reference,Contexto socio-histórico,«…vino… el general Isaias Medina…»
+ref_golpe-del-18-de-octubre-de-1945,Golpe del 18 de octubre de 1945,reference,Contexto socio-histórico,«…se produjo el golpe de estado del 18 de octubre…»
+ref_accion-democratica-ad,Acción Democrática (AD),reference,Contexto socio-histórico,«…un partido político pequeño… Acción Democrática…»
+ref_romulo-gallegos-presidente-y-novelista,Rómulo Gallegos (presidente y novelista),reference,Contexto socio-histórico,«…resulta electo Rómulo Gallegos… duró nueve meses…»
+ref_carlos-delgado-chalbaud-presidente-nominal,Carlos Delgado Chalbaud (presidente nominal),reference,Contexto socio-histórico,«…había un presidente nominal que era Delgado Chalbó…»
+ref_copei-partido-socialcristiano,COPEI (partido socialcristiano),reference,Contexto socio-histórico,«…el partido de copay…»
+ref_rafael-caldera-presidente,Rafael Caldera (presidente),reference,Contexto socio-histórico,«…fue al poder el doctor Caldera…»
+ref_carlos-andres-perez-presidente-slogans,Carlos Andrés Pérez (presidente; slogans),reference,Contexto socio-histórico,«…el presidente actual Carlos Andrés Pérez… ‘democracia con energía’ / ‘ese hombre que camina’…»
+ref_opep-organizacion-petrolera,OPEP (organización petrolera),reference,Contexto socio-histórico,«…por iniciativa de un ministro de ustedes se ha creado la OPEP…»
+ref_sela-sistema-economico-latinoamericano,SELA (Sistema Económico Latinoamericano),reference,Contexto socio-histórico,"«…lo que se acaba de fundar ahora, la SELA…»"
+ref_mercado-comun-latinoamericano-alalc,Mercado Común Latinoamericano (ALALC),reference,Contexto socio-histórico,«…existe el mercado común latinoamericano…»
+ref_pacto-andino,Pacto Andino,reference,Contexto socio-histórico,«…existe el pacto subregional andino…»
+ref_mercado-comun-centroamericano,Mercado Común Centroamericano,reference,Contexto socio-histórico,«…existe el mercado común centroamericano…»
+ref_organizacion-de-mercado-comun-de-las-antillas,Organización de mercado común de las Antillas,reference,Contexto socio-histórico,«…organización de mercado común de las antillas…»
+ref_comunidad-europea-integracion,Comunidad Europea (integración),reference,Contexto socio-histórico,«…qué está trazando hacer Europa con la comunidad europea…»
+ref_union-sovietica,Unión Soviética,reference,Contexto socio-histórico,«…países como la Unión Soviética…»
+ref_estados-unidos,Estados Unidos,reference,Contexto socio-histórico,«…por los Estados Unidos y el mundo anglosajón…»
+ref_espana-reyes-catolicos-carlos-v-felipe-ii-fernando-vii,España (Reyes Católicos; Carlos V; Felipe II; Fernando VII),reference,Contexto socio-histórico,«…Fernando e Isabel… luego Carlos V… carta a Felipe II… Fernando VII…»
+ref_junta-de-burgos-leyes-de-indias,Junta de Burgos (leyes de Indias),reference,Contexto socio-histórico,«…la junta de Burgos… de donde salieron las primeras leyes de India…»
+ref_renovales-general-espanol,Renovales (general español),reference,Contexto socio-histórico,«…hubo generales españoles que le ofrecieron a Bolívar colaborar… como Renovales…»
+ref_ayacucho-batalla,Ayacucho (batalla),reference,Contexto socio-histórico,«…después de haber hecho la independencia… en Ayacucho…»
+ref_cuba-y-puerto-rico-independencia-proyectada-por-bolivar,Cuba y Puerto Rico (independencia proyectada por Bolívar),reference,Contexto socio-histórico,«…expedición… contra Cuba y Puerto Rico…»
+ref_globalizacion-interdependencia,Globalización / interdependencia,reference,Contexto socio-histórico,«…la condición del mundo es de interdependencia…»
+ref_caracas-crecimiento-urbano,Caracas (crecimiento urbano),reference,Contexto socio-histórico,«…Caracas… 150.000 habitantes… hoy 2.500.000…»
+ref_san-cristobal-cucuta-frontera,San Cristóbal – Cúcuta (frontera),reference,Contexto socio-histórico,«…el camino… de San Cristóbal a Cúcuta…»
+ref_la-carlota-aeropuerto,La Carlota (aeropuerto),reference,Contexto socio-histórico,«…desde el aeropuerto de la Carlota…»
+ref_palacio-de-miraflores-caracas,Palacio de Miraflores (Caracas),reference,Contexto socio-histórico,«…me dirigí al palacio de Miraflores…»
+ref_caracas-carcel-modelo,Caracas (Cárcel Modelo),reference,Contexto socio-histórico,«…salí de la cárcel modelo de Caracas…»
+ref_la-paz-bolivia,La Paz (Bolivia),reference,Contexto socio-histórico,«…en el punto en que está el Mont Blanc… está una ciudad… La Paz…»
+ref_mont-blanc-alpes,Mont Blanc (Alpes),reference,Contexto socio-histórico,«…punto en que está el Mont Blanc…»
+ref_amazonas-rio-y-selva,Amazonas (río y selva),reference,Contexto socio-histórico,«…el Amazonas es un mar… la selva amazónica…»
+ref_orinoco-rio,Orinoco (río),reference,Contexto socio-histórico,«…tributarios del… Orinoco…»
+ref_magdalena-rio,Magdalena (río),reference,Contexto socio-histórico,«…tributarios del… Magdalena…»
+ref_rin-sena-tamesis-rios-europeos,"Rin, Sena, Támesis (ríos europeos)",reference,Contexto socio-histórico,"«…el Rin, el Sena, el Támesis… serían… afluentes del Amazonas…»"
+ref_europa-dimension-continental,Europa (dimensión continental),reference,Contexto socio-histórico,«…dimensión que no se conoce en Europa…»
+ref_premio-de-la-real-academia-espanola-a-andres-eloy-blanco-1923,Premio de la Real Academia Española a Andrés Eloy Blanco (1923),reference,Contexto socio-histórico,«…el año de 1923 se le dieron un premio de la Academia Española…»
+ref_acto-solemne-en-santander-con-los-reyes-premio-a-e-blanco,Acto solemne en Santander con los reyes (premio A. E. Blanco),reference,Contexto socio-histórico,«…hubo un acto solemne allí en Santander donde estaban los reyes…»
+ref_fundacion-de-sela-momento-de-la-entrevista,Fundación de SELA (momento de la entrevista),reference,Contexto socio-histórico,"«…lo que se acaba de fundar ahora, la SELA…»"
+ref_mestizaje-cultural-concepto,Mestizaje cultural (concepto),reference,Pensamiento y conocimiento,«…considero… el fenómeno fundamental… el mestizaje cultural…»
+ref_tenochtitlan-ciudad-prehispanica,Tenochtitlán (ciudad prehispánica),reference,Pensamiento y conocimiento,«…cuando Cortés llega a Tenochtitlán…»
+ref_bernal-diaz-del-castillo-cronicas,Bernal Díaz del Castillo (crónicas),reference,Pensamiento y conocimiento,«…está en Bernal Díaz del Castillo el asombro…»
+ref_garcilaso-de-la-vega-capitan-padre-del-inca,Garcilaso de la Vega (capitán; padre del Inca),reference,Pensamiento y conocimiento,«…el hijo del capitán español Garcilaso de la Vega…»
+ref_isabel-chimpuocchio-nusta,Isabel Chimpuocchio (ñusta),reference,Pensamiento y conocimiento,«…la ñusta Isabel Chimpuocchio…»
+ref_cortes-hernan,Cortés (Hernán),reference,Pensamiento y conocimiento,«…cuando Cortés llega a Tenochtitlán…»
+ref_editorial-zeus-espana,Editorial Zeus (España),reference,Culturales y artísticas,«…pequeña editorial… se llamaba Zeus…»
+ref_editorial-salvat-biblioteca-basica,Editorial Salvat (Biblioteca Básica),reference,Culturales y artísticas,"«…lo hizo la editorial Salvati, en la biblioteca básica… 450.000 ejemplares…»"
+ref_editorial-america-madrid,Editorial América (Madrid),reference,Culturales y artísticas,«…fundó… Editorial América… dio a conocer la literatura hispanoamericana…»
+ref_el-nacional-diario-caracas,"El Nacional (diario, Caracas)",reference,Culturales y artísticas,«…un diario que se llama *El Nacional*…»
+ref_el-noticiero-universal-espana,El Noticiero Universal (España),reference,Culturales y artísticas,"«…en un periódico español, en *el noticiero universal*…»"
+ref_excelsior-ciudad-de-mexico,Excélsior (Ciudad de México),reference,Culturales y artísticas,"«…en diarios de Ciudad de México, en *Excelsior*…»"
+ref_revista-vision-sede-en-londres,Revista Visión (sede en Londres),reference,Culturales y artísticas,«…revista… se llama *Visión*… sede en Londres…»
+ref_obras-selectas-tomo-en-espana,Obras Selectas (tomo en España),reference,Culturales y artísticas,«…en este tomo de *obras selectas*…»
+ref_los-sada-posible-losada-ediciones,"‘Los Sada’ (posible Losada, ediciones)",reference,Culturales y artísticas,«…14 o 15 ediciones de los Sada…»
+ref_leyenda-negra-leyenda-dorada-conquista,Leyenda negra / leyenda dorada (conquista),reference,Contexto socio-histórico,«…la leyenda negra ha pesado… ninguna de las dos leyendas es exactamente verdadera…»
+ref_leyes-de-indias-prohibicion-esclavitud-indigena,Leyes de Indias (prohibición esclavitud indígena),reference,Contexto socio-histórico,«…trajo las leyes de indias… impedir la esclavitud de los indios…»
+ref_carta-de-lope-de-aguirre-a-felipe-ii-mencionado-como-lopez,Carta de Lope de Aguirre a Felipe II (mencionado como ‘López’),reference,Contexto socio-histórico,«…una carta extraordinaria de López de Aguirre para Felipe II…»
+ref_esclavitud-negra-comercio-guinea,Esclavitud negra (comercio; ‘Guinea’),reference,Contexto socio-histórico,«…España fue la potencia que menos participó… la moneda… se llama Guinea…»
+ref_mercado-mundial-de-materias-primas-energia,Mercado mundial de materias primas / energía,reference,Contexto socio-histórico,«…problema energético… materias primas…»
+ref_figura-publica-televisiva-mas-de-20-anos,Figura pública televisiva (más de 20 años),reference,Personales y biográficas,«…más de 20 años a una cita semanal… estrella de televisión…»
+ref_redes-de-radio-y-television-en-venezuela-1500000-televisores,Redes de radio y televisión en Venezuela (1.500.000 televisores),reference,Contexto socio-histórico,«…debe haber… cerca de 1.500.000 televisores…»
+ref_urbanizacion-tres-cuartas-partes-poblacion-urbana,Urbanización (tres cuartas partes población urbana),reference,Contexto socio-histórico,«…tres cuartas partes de población urbana…»
+ref_geologia-meteorologia-mencionadas,Geología / meteorología (mencionadas),reference,Pensamiento y conocimiento,"«…la geología, la meteorología…»"
+ref_comunicacion-humana-como-fundamento-juridico-vitoria,Comunicación humana como fundamento jurídico (Vitoria),reference,Pensamiento y conocimiento,«…porque existe una comunidad humana y nadie puede negarse a la comunicación…»
+ref_cervantes,Cervantes,reference,Culturales y artísticas,«…para Cervantes la naturaleza no era importante…»
+ref_sarmiento-obra-facundo,Sarmiento (obra ‘Facundo’),reference,Culturales y artísticas,"«…Facundo, el hombre de Sarmiento…»"
+ref_guerra-de-independencia-hispanoamericana-miranda-bolivar-sucre,"Guerra de Independencia Hispanoamericana (Miranda, Bolívar, Sucre)",reference,Contexto socio-histórico,"«…los hombres que dio Venezuela en la independencia: Miranda, Bolívar, Sucre…»"
+ref_salvador-de-madariaga-biografia-de-bolivar,Salvador de Madariaga (biografía de Bolívar),reference,Culturales y artísticas,«…no les gusta la biografía de Bolívar escrita por Madariaga…»
