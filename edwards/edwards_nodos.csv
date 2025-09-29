@@ -1,0 +1,96 @@
+id,label,type,group,note
+cat_pensamiento,Pensamiento y conocimiento,category,Pensamiento y conocimiento,
+cat_contexto,Contexto socio-histórico,category,Contexto socio-histórico,
+cat_personales,Personales y biográficas,category,Personales y biográficas,
+cat_culturales,Culturales y artísticas,category,Culturales y artísticas,
+ref_jorge-edwards-diplomatico-y-escritor,Jorge Edwards (diplomático y escritor),reference,Personales y biográficas,Diplomático de carrera y escritor; misión en La Habana y testimonio en 'Persona non grata'.
+ref_nombramiento-a-la-habana-7-de-diciembre-de-1970,Nombramiento a La Habana (7 de diciembre de 1970),reference,Personales y biográficas,“Eso ocurrió exactamente el 7 de diciembre de 1970”.
+ref_encargado-de-negocios-rango,Encargado de negocios (rango),reference,Personales y biográficas,Fue enviado sin rango de embajador para evitar veto del Senado de Chile.
+ref_llegada-a-aeropuerto-de-rancho-boyeros-la-habana,Llegada a aeropuerto de Rancho Boyeros (La Habana),reference,Personales y biográficas,“Llegué al aeropuerto de Rancho Bolleros… y no había nadie esperándome”.
+ref_conversacion-nocturna-con-fidel-castro-cita-en-cancilleria,Conversación nocturna con Fidel Castro (cita en Cancillería),reference,Personales y biográficas,Encuentro inesperado con Fidel y Raúl Roa la víspera de su salida a París.
+ref_traslado-posterior-a-paris-ministro-consejero,Traslado posterior a París (ministro consejero),reference,Personales y biográficas,Debía pasar como Ministro Consejero a la Embajada en París con Neruda.
+ref_relacion-con-escritores-cubanos-grupo-critico,Relación con escritores cubanos (grupo crítico),reference,Personales y biográficas,Amigos desde 1968; el gobierno los consideraba “agentes” contrarrevolucionarios.
+ref_pablo-neruda-embajador-y-amigo,Pablo Neruda (embajador y amigo),reference,Personales y biográficas,Trabajaron juntos en París; Neruda anima a Edwards a escribir su testimonio.
+ref_neruda-sugiere-a-edwards-para-paris-mencion-en-memorias,Neruda sugiere a Edwards para París (mención en memorias),reference,Personales y biográficas,El entrevistador cita la mención de Neruda a Edwards en su libro de memorias.
+ref_contacto-con-fidel-castro-conversaciones,Contacto con Fidel Castro (conversaciones),reference,Personales y biográficas,Conversación en el periódico Granma; interés de Fidel por Perú y Chile.
+ref_raul-castro-reunion-formal,Raúl Castro (reunión formal),reference,Personales y biográficas,"Describe su eficiencia y formalidad, contraste con Fidel."
+ref_raul-roa-canciller-cubano,Raúl Roa (canciller cubano),reference,Personales y biográficas,Ensayista y conversador; “tipo de intelectual latinoamericano”.
+ref_relacion-con-neruda-trabajo-en-deudas-y-juicios-del-cobre,Relación con Neruda: trabajo en deudas y juicios del cobre,reference,Personales y biográficas,Embajada en París: frente de negociación del crédito y litigios con compañías del cobre.
+ref_persona-non-grata-libro-testimonio,Persona non grata (libro-testimonio),reference,Culturales y artísticas,“Género de narración autobiográfica”; rechazo a “novelar” los hechos.
+ref_el-peso-de-la-noche-novela,El peso de la noche (novela),reference,Culturales y artísticas,Calificada como la más importante entre sus primeras obras.
+ref_las-mascaras-relatos,Las máscaras (relatos),reference,Culturales y artísticas,“El libro que a mí… me gusta más… el mejor realizado literariamente”.
+ref_el-patio-obra,El patio (obra),reference,Culturales y artísticas,Mencionada entre los títulos del entrevistador.
+ref_gente-de-la-ciudad-obra,Gente de la ciudad (obra),reference,Culturales y artísticas,Listada entre sus libros.
+ref_temas-y-variaciones-ensayos,Temas y variaciones (ensayos),reference,Culturales y artísticas,Listada entre sus libros.
+ref_genero-narracion-autobiografica-tradicion-chilena,Género: narración autobiográfica (tradición chilena),reference,Culturales y artísticas,Género entre historia y novela; fuerte en Chile por influencias inglesas y francesas.
+ref_boom-latinoamericano-termino,Boom latinoamericano (término),reference,Culturales y artísticas,Usa la “horrible palabra boom”.
+ref_alfonso-reyes,Alfonso Reyes,reference,Culturales y artísticas,Ejemplo de vínculo orgánico con España; humanismo universal.
+ref_ruben-dario,Rubén Darío,reference,Culturales y artísticas,Cita su contacto con el mundo hispánico.
+ref_pablo-neruda-memorias,Pablo Neruda (memorias),reference,Culturales y artísticas,El entrevistador cita una página 466 donde lo menciona.
+ref_luis-de-gongora,Luis de Góngora,reference,Culturales y artísticas,Neruda hablaba a españoles de Góngora.
+ref_francisco-de-quevedo,Francisco de Quevedo,reference,Culturales y artísticas,Neruda portaba ediciones antiguas de Quevedo.
+ref_juan-de-tasis-conde-de-villamediana,"Juan de Tasis, Conde de Villamediana",reference,Culturales y artísticas,Mencionado por Neruda; erratas orales en la entrevista.
+ref_joanot-martorell-tirant-lo-blanc,Joanot Martorell — Tirant lo Blanc,reference,Culturales y artísticas,Vargas Llosa escribe “excepcionalmente” sobre Martorell.
+ref_flaubert-gustave,Flaubert (Gustave),reference,Culturales y artísticas,Ensayos de Vargas Llosa sobre autores franceses.
+ref_albert-camus,Albert Camus,reference,Culturales y artísticas,Ensayos de Vargas Llosa sobre Camus.
+ref_georges-bataille,Georges Bataille,reference,Culturales y artísticas,Citado por el entrevistador como tema de ensayo.
+ref_mario-vargas-llosa,Mario Vargas Llosa,reference,Culturales y artísticas,Ensayista versátil; 'Pantaleón' como muestra de versatilidad.
+ref_pantaleon-y-las-visitadoras-novela,Pantaleón y las visitadoras (novela),reference,Culturales y artísticas,Se menciona ‘Pantaleón’ al comentar su versatilidad.
+ref_jorge-luis-borges,Jorge Luis Borges,reference,Culturales y artísticas,Parte de la tradición previa que el boom no debería olvidar.
+ref_romulo-gallegos-dona-barbara,Rómulo Gallegos — Doña Bárbara,reference,Culturales y artísticas,Canon regionalista latinoamericano.
+ref_ricardo-guiraldes-don-segundo-sombra,Ricardo Güiraldes — Don Segundo Sombra,reference,Culturales y artísticas,Canon rioplatense.
+ref_arturo-uslar-pietri-las-lanzas-coloradas,Arturo Uslar Pietri — Las lanzas coloradas,reference,Culturales y artísticas,Ejemplo de tradición previa.
+ref_federico-garcia-lorca,Federico García Lorca,reference,Culturales y artísticas,Neruda contaba anécdotas y lo recordaba con afecto.
+ref_rafael-alberti,Rafael Alberti,reference,Culturales y artísticas,Recuerdos de Neruda.
+ref_miguel-de-cervantes-don-quijote-de-la-mancha,Miguel de Cervantes — Don Quijote de la Mancha,reference,Culturales y artísticas,Se alude a tradición clásica española en conjunto.
+ref_granma-periodico,Granma (periódico),reference,Culturales y artísticas,Conversación con Fidel en la redacción del periódico.
+ref_buque-escuela-chileno-visita-a-la-habana,Buque Escuela chileno (visita a La Habana),reference,Culturales y artísticas,Motiva encuentro con Raúl Castro.
+ref_platon-republica-poetas-fuera-de-la-ciudad,Platón — República (poetas fuera de la ciudad),reference,Pensamiento y conocimiento,Cita el pasaje sobre coronar poetas y expulsarlos de la República.
+ref_universidad-de-princeton-conferencia-de-fidel-1959,"Universidad de Princeton (conferencia de Fidel, 1959)",reference,Pensamiento y conocimiento,"Edwards lo ve por primera vez en 1959, conferencia de Fidel."
+ref_historia-de-la-guerra-del-pacifico-lectura-de-fidel,Historia de la guerra del Pacífico (lectura de Fidel),reference,Pensamiento y conocimiento,Fidel demuestra conocimiento detallado de la historia.
+ref_salvador-allende-presidente,Salvador Allende (presidente),reference,Contexto socio-histórico,Reanuda relaciones con Cuba y lo envía como primer diplomático.
+ref_restablecimiento-relaciones-chilecuba,Restablecimiento relaciones Chile–Cuba,reference,Contexto socio-histórico,Primera fisura en el bloqueo latinoamericano a Cuba.
+ref_oea-bloqueo-a-cuba-1964-excepcion-mexico,OEA — bloqueo a Cuba (1964; excepción México),reference,Contexto socio-histórico,“La OEA estableció el bloqueo… con única excepción de México”.
+ref_mexico-excepcion-al-bloqueo,México (excepción al bloqueo),reference,Contexto socio-histórico,Único país que no acató la medida de la OEA.
+ref_revolucion-cubana-utopismo-primera-etapa,Revolución cubana (utopismo primera etapa),reference,Contexto socio-histórico,Crítica a estímulos morales sin incentivos materiales.
+ref_che-guevara-ministro-de-industria,Che Guevara (ministro de Industria),reference,Contexto socio-histórico,Primera etapa industrializadora que “hasta cierto punto ha fracasado”.
+ref_escuela-en-el-campo-politica-educativa,Escuela en el campo (política educativa),reference,Contexto socio-histórico,Niños aprenden junto al cultivo de caña y tabaco.
+ref_turismo-norteamericano-pre-revolucion,Turismo norteamericano (pre-revolución),reference,Contexto socio-histórico,La Habana como centro de juego y prostitución antes de 1959.
+ref_ausentismo-laboral-sin-incentivos-materiales,Ausentismo laboral (sin incentivos materiales),reference,Contexto socio-histórico,Consecuencia de política de “estímulos morales”.
+ref_eberto-padilla-poeta-prision,Eberto Padilla (poeta; prisión),reference,Contexto socio-histórico,Señala el caso como manifestación pública del conflicto.
+ref_seguridad-del-estado-obsesion,Seguridad del Estado / obsesión,reference,Contexto socio-histórico,Advierte del paso de seguridad necesaria a obsesión policial.
+ref_intentos-de-asesinato-contra-fidel-reconocidos-en-ee-uu,Intentos de asesinato contra Fidel (reconocidos en EE. UU.),reference,Contexto socio-histórico,Dice que después se reconocieron en Estados Unidos.
+ref_mercado-comun-europeo-mce-mencion-del-entrevistado,Mercado Común Europeo (MCE) — mención del entrevistado,reference,Contexto socio-histórico,El entrevistador lo menciona al enumerar destinos.
+ref_embajada-de-chile-en-lima-cargo-previo,Embajada de Chile en Lima (cargo previo),reference,Contexto socio-histórico,Interés de Fidel por la revolución peruana y por Chile.
+ref_revolucion-peruana-militar-nacionalismo,Revolución peruana (militar; nacionalismo),reference,Contexto socio-histórico,Fidel muestra gran interés en Perú y el caso chileno.
+ref_deuda-externa-de-chile-negociacion-en-paris,Deuda externa de Chile (negociación en París),reference,Contexto socio-histórico,Embajada en París como frente de negociación con acreedores.
+ref_companias-del-cobre-juicios-en-francia,Compañías del cobre (juicios en Francia),reference,Contexto socio-histórico,Procesos contra el Estado chileno tras nacionalización.
+ref_cacerolazos-amas-de-casa,Cacerolazos (amas de casa),reference,Contexto socio-histórico,"Impacto del bloqueo en importaciones básicas (trigo, carne, azúcar, café)."
+ref_unidad-popular-gobierno,Unidad Popular (gobierno),reference,Contexto socio-histórico,Dificultades internas y externas; efectos en economía.
+ref_gonzalez-videla-periodo-de-destierro-de-neruda,González Videla (periodo de destierro de Neruda),reference,Contexto socio-histórico,Neruda regresa del destierro en tiempos de González Videla.
+ref_la-familia-edwards-y-el-mercurio-derecha-chilena,La familia Edwards y El Mercurio (derecha chilena),reference,Contexto socio-histórico,Diferentes ramas; leyenda negra; oposición a Edwards escritor.
+ref_la-nacion-diario-rival,La Nación (diario rival),reference,Contexto socio-histórico,Joaquín Edwards Bello trabajó como periodista allí.
+ref_la-habana-cuba,La Habana (Cuba),reference,Contexto socio-histórico,Ciudad deteriorada; prioridades agrarias de la Revolución.
+ref_chile,Chile,reference,Contexto socio-histórico,País de origen y eje de la entrevista.
+ref_cuba,Cuba,reference,Contexto socio-histórico,Bloqueo OEA; revolución; políticas agrarias.
+ref_mexico-excepcion-al-bloqueo-oea,México (excepción al bloqueo OEA),reference,Contexto socio-histórico,No acató la resolución de 1964.
+ref_peru-embajada-chilena-revolucion-militar,Perú (Embajada chilena; revolución militar),reference,Contexto socio-histórico,Cargo previo de Edwards; interés de Fidel.
+ref_paris-embajada-memorias-de-neruda,París (Embajada; memorias de Neruda),reference,Contexto socio-histórico,Sede de la embajada con Neruda; anécdotas literarias.
+ref_madrid-arguelles-libreros-de-viejo,Madrid (Argüelles; libreros de viejo),reference,Contexto socio-histórico,Neruda: libreros de viejo; ediciones de Quevedo.
+ref_barcelona-residencia-del-boom,Barcelona (residencia del boom),reference,Contexto socio-histórico,Residencia de muchos autores del boom; vínculos no cortados.
+ref_londres-cosmopolitismo-del-boom,Londres (cosmopolitismo del boom),reference,Contexto socio-histórico,Geografías errantes de la generación.
+ref_lima-residencia-temporal-inicio-de-novela,Lima (residencia temporal; inicio de novela),reference,Contexto socio-histórico,Edwards inició una novela en Lima en 1970.
+ref_caracas-itinerario-de-autores,Caracas (itinerario de autores),reference,Contexto socio-histórico,Listado de ciudades que frecuenta la generación.
+ref_mexico-ciudad-y-pais-literarios,México (ciudad y país literarios),reference,Contexto socio-histórico,Red cultural hispanoamericana.
+ref_belgica-destino-diplomatico,Bélgica (destino diplomático),reference,Contexto socio-histórico,Parte del itinerario profesional.
+ref_francia-embajadas-y-redes,Francia (embajadas y redes),reference,Contexto socio-histórico,Embajada; negociación de deuda; juicio del cobre.
+ref_europa-cosmopolitismo,Europa (cosmopolitismo),reference,Contexto socio-histórico,Influencia francesa/inglesa; cosmopolitismo del boom.
+ref_congreso-cultural-de-la-habana-1968,Congreso Cultural de La Habana (1968),reference,Contexto socio-histórico,Edwards viaja en 1968 y forma parte de un jurado.
+ref_bloqueo-latinoamericano-a-cuba-1964,Bloqueo latinoamericano a Cuba (1964),reference,Contexto socio-histórico,"Casi total, salvo México."
+ref_visita-del-buque-escuela-chileno-a-cuba,Visita del buque escuela chileno a Cuba,reference,Contexto socio-histórico,Encuentro con Raúl Castro en ese marco.
+ref_unidad-popular-huelgas-y-protestas-cacerolas,Unidad Popular: huelgas y protestas (cacerolas),reference,Contexto socio-histórico,Impacto del bloqueo y la deuda en la vida diaria.
+ref_prision-de-eberto-padilla-1971,Prisión de Eberto Padilla (1971),reference,Contexto socio-histórico,El caso se menciona como hito del conflicto con escritores.
+ref_familia-edwards-clan-ramas,Familia Edwards (clan; ramas),reference,Personales y biográficas,"Diversas ramas: una ligada a El Mercurio, otra a letras (Joaquín Edwards Bello)."
+ref_joaquin-edwards-bello-escritor-y-periodista,Joaquín Edwards Bello (escritor y periodista),reference,Culturales y artísticas,Cita su humor sobre el “imperio de los Edwards” y su trabajo en La Nación.
+ref_andres-bello-gramatico-e-intelectual,Andrés Bello (gramático e intelectual),reference,Culturales y artísticas,Se menciona filiación de otra rama (no la de Jorge Edwards).
+ref_cosmopolitismo-de-la-generacion-del-boom,Cosmopolitismo de la generación del boom,reference,Culturales y artísticas,"Se alimenta de múltiples tradiciones (inglesa, italiana, norteamericana, española)."
