@@ -6,24 +6,68 @@
   <title>Constelaciones — Galería de entrevistas "A fondo"</title>
   <meta name="description" content="Galería de rostros; cada imagen abre la constelación correspondiente.">
   <style>
-    :root{--bg:#fff;--fg:#111827;--muted:#6b7280;--border:#e5e7eb;--accent:#2563eb}
+    /* === Tema oscuro alineado con las constelaciones === */
+    :root{
+      --bg:#0b0f14;               /* fondo general */
+      --panel:#111821;            /* paneles / tarjetas */
+      --panel-2:#0e1520;          /* elementos secundarios */
+      --fg:#e6edf3;               /* texto principal */
+      --muted:#9aa6b2;            /* texto atenuado */
+      --border:rgba(230,237,243,0.08);
+      /* Colores de categorías (por coherencia visual) */
+      --cat-pens:#2e7d32;         /* Pensamiento y conocimiento */
+      --cat-ctx:#6a1b9a;          /* Contexto socio-histórico */
+      --cat-pers:#c62828;         /* Personales y biográficas */
+      --cat-cult:#ef6c00;         /* Culturales y artísticas */
+      --accent: var(--cat-cult);  /* acento general para la galería */
+      --ring: rgba(239,108,0,0.35); /* halo de enfoque/hover */
+    }
+
     html,body{margin:0;background:var(--bg);color:var(--fg);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
-    header{padding:24px 16px;border-bottom:1px solid var(--border)}
-    header .wrap, main .wrap{max-width:1100px;margin:0 auto}
-    h1{margin:0;font-size:28px}
+
+    /* Header */
+    header{padding:24px 16px;border-bottom:1px solid var(--border);background:linear-gradient(180deg, rgba(14,21,32,0.9), rgba(14,21,32,0.6));backdrop-filter: blur(6px);position:sticky;top:0;z-index:10}
+    header .wrap, main .wrap, footer .wrap{max-width:1100px;margin:0 auto}
+    h1{margin:0;font-size:28px;letter-spacing:.2px}
     p{color:var(--muted);margin:6px 0 0}
+
+    /* Toolbar */
     .toolbar{display:flex;gap:8px;align-items:center;margin-top:12px}
-    input[type="search"]{border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-size:14px;width:320px;max-width:100%}
+    input[type="search"]{
+      border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-size:14px;width:320px;max-width:100%;
+      background:var(--panel-2);color:var(--fg);outline:none;transition:border-color .2s, box-shadow .2s
+    }
+    input[type="search"]::placeholder{color:#7f8a99}
+    input[type="search"]:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--ring)}
+
+    /* Grid */
     .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:18px;padding:18px 0 40px}
-    .card{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
-    .face{width:160px;height:160px;border-radius:50%;border:2px solid var(--border);overflow:hidden;background:#f3f4f6;display:flex;align-items:center;justify-content:center}
+
+    /* Card */
+    .card{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;background:transparent;border-radius:14px;padding:8px;transition:transform .15s ease}
+    .card:hover{transform:translateY(-2px)}
+
+    /* Face */
+    .face{width:160px;height:160px;border-radius:50%;border:1px solid var(--border);overflow:hidden;background:var(--panel-2);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,0.25)}
     .face img{width:100%;height:100%;object-fit:cover;display:block}
+
+    /* Name */
     .name{font-weight:600}
+
+    /* Tags */
     .tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
-    .tag{background:#eef2ff;border:1px solid #c7d2fe;color:#3730a3;border-radius:999px;padding:2px 8px;font-size:12px}
-    a.cardlink{color:inherit;text-decoration:none}
+    .tag{background:rgba(230,237,243,0.06);border:1px solid var(--border);color:var(--fg);border-radius:999px;padding:2px 8px;font-size:12px}
+
+    /* Links */
+    a.cardlink{color:inherit;text-decoration:none;outline:none;border-radius:16px}
+    a.cardlink:focus-visible{box-shadow:0 0 0 4px var(--ring)}
     a.cardlink:hover .name{color:var(--accent);text-decoration:underline}
-    footer{border-top:1px solid var(--border);padding:18px 16px;color:var(--muted)}
+
+    /* Footer */
+    footer{border-top:1px solid var(--border);padding:18px 16px;color:var(--muted);background:linear-gradient(180deg, rgba(14,21,32,0.35), rgba(11,15,20,0.6))}
+
+    /* Empty state */
+    .empty{color:var(--muted);padding:32px 0}
   </style>
 </head>
 <body>
@@ -32,7 +76,7 @@
       <h1>Galería de entrevistas</h1>
       <p>Pulsa en la imagen para abrir la constelación.</p>
       <div class="toolbar">
-        <input id="q" type="search" placeholder="Buscar por nombre o etiqueta…">
+        <input id="q" type="search" placeholder="Buscar por nombre o etiqueta…" aria-label="Buscar en la galería">
       </div>
     </div>
   </header>
@@ -52,7 +96,7 @@
       const grid = document.getElementById("grid");
       grid.innerHTML = "";
       if (!list.length){
-        grid.innerHTML = "<p>No hay resultados.</p>";
+        grid.innerHTML = '<p class="empty">No hay resultados.</p>';
         return;
       }
       list.forEach(it => {
@@ -69,7 +113,7 @@
         const img = document.createElement("img");
         img.loading = "lazy";
         img.alt = it.title || it.id;
-        img.src = it.thumb || "img/carpentier_placeholder.svg"; // placeholder if missing
+        img.src = it.thumb || "img/carpentier_placeholder.svg"; // placeholder si falta
         face.appendChild(img);
 
         const name = document.createElement("div");
@@ -102,15 +146,17 @@
       render(filtered);
     }
 
-      // Opción A
-      fetch("manifest.json", { cache: "no-store" }).then(r => r.json()).then(items => {
-      state.items = items;
-      render(items);
-      document.getElementById("q").addEventListener("input", applySearch);
-    }).catch(err => {
-      document.getElementById("grid").innerHTML = "<p>Error cargando manifest.json.</p>";
-      console.error(err);
-    });
+    fetch("manifest.json", { cache: "no-store" })
+      .then(r => r.json())
+      .then(items => {
+        state.items = items;
+        render(items);
+        document.getElementById("q").addEventListener("input", applySearch);
+      })
+      .catch(err => {
+        document.getElementById("grid").innerHTML = "<p class=\"empty\">Error cargando manifest.json.</p>";
+        console.error(err);
+      });
   </script>
 </body>
 </html>
