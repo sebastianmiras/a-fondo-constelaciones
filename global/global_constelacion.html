@@ -10,17 +10,30 @@
     --green:#2e7d32; --purple:#6a1b9a; --red:#c62828; --orange:#ef6c00;
   }
   html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial}
-  #graph{position:absolute;inset:0 340px 28px 0}
-  #sidebar{position:absolute;top:0;right:0;bottom:28px;width:340px;background:var(--panel);border-left:1px solid #1f2937;padding:14px;overflow:auto}
-  #search{position:absolute;top:10px;left:10px;width:280px;background:var(--panel2);border:1px solid #1f2937;border-radius:10px;padding:6px 10px;color:var(--text)}
-  .controls{margin-top:8px;background:var(--panel2);border:1px solid #1f2937;border-radius:10px;padding:10px;font-size:12px}
-  .controls label{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:6px 0}
+  /* más alto útil: sin barra inferior, sin leyenda flotante */
+  #graph{position:absolute;inset:0 360px 0 0}
+  #sidebar{
+    position:absolute;top:0;right:0;bottom:0;width:360px;
+    background:var(--panel);border-left:1px solid #1f2937;padding:14px;overflow:auto
+  }
+  #search{
+    position:absolute;top:10px;left:10px;width:280px;
+    background:var(--panel2);border:1px solid #1f2937;border-radius:10px;
+    padding:6px 10px;color:var(--text)
+  }
+
+  .section{margin-bottom:14px;border:1px solid #1f2937;border-radius:10px;background:var(--panel2)}
+  .section h4{margin:0;padding:10px;border-bottom:1px solid #1f2937;font-size:13px;color:#cbd5e1}
+  .section .inner{padding:10px}
+
+  .legend .row{display:flex;align-items:center;gap:8px;margin:6px 0;font-size:13px}
+  .sw{width:12px;height:12px;border-radius:50%}
+  .arrowKey{display:flex;flex-direction:column;gap:4px;font-size:12px;color:#cbd5e1}
+
+  .controls label{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:8px 0;font-size:12px}
   .controls input[type="range"]{width:180px}
-  .legend{position:absolute;left:10px;bottom:4px;background:var(--panel2);border:1px solid #1f2937;border-radius:10px;padding:6px 10px;font-size:12px;line-height:1.25}
-  .legend .row{display:flex;align-items:center;gap:6px;margin:2px 0}
-  .sw{width:10px;height:10px;border-radius:50%}
-  .bar{position:absolute;left:0;right:340px;bottom:0;background:var(--panel2);border-top:1px solid #1f2937;font-size:12px;padding:4px 8px;color:#a3a3a3}
-  .bar a{color:#9ecbff;text-decoration:none}
+  .meta{font-size:12px;color:#a3a3a3;margin-bottom:8px}
+  pre{white-space:pre-wrap;background:var(--panel2);border:1px solid #1f2937;border-radius:10px;padding:10px;font-family:inherit;font-size:14px;line-height:1.35}
 
   .link{stroke:#94a3b8;stroke-opacity:.30;pointer-events:none}
   .link.mentions{stroke:#9aa4b2;stroke-opacity:.35}
@@ -42,49 +55,66 @@
 <input id="search" placeholder="Buscar autor o referencia…">
 
 <div id="graph"></div>
-<div id="sidebar">
-  <h3 style="margin:0 0 6px">Contexto</h3>
-  <div id="meta" style="font-size:12px;color:#a3a3a3;margin-bottom:8px">Selecciona un nodo</div>
-  <pre id="ctx" style="white-space:pre-wrap;background:var(--panel2);border:1px solid #1f2937;border-radius:10px;padding:10px;font-family:inherit;font-size:14px;line-height:1.35">—</pre>
 
-  <div class="controls">
-    <strong>Parámetros de la red</strong>
-    <label>
-      Repulsión autores
-      <input id="chargeAuthors" type="range" min="300" max="1200" step="20" value="620">
-      <span id="valAuthors">620</span>
-    </label>
-    <label>
-      Repulsión referencias
-      <input id="chargeRefs" type="range" min="200" max="800" step="20" value="320">
-      <span id="valRefs">320</span>
-    </label>
-    <label>
-      Distancia enlaces (×)
-      <input id="distMul" type="range" min="80" max="160" step="5" value="100">
-      <span id="valDist">1.00</span>
-    </label>
-    <label>
-      <input id="showAllRefLabels" type="checkbox">
-      Mostrar etiquetas de referencias siempre
-    </label>
+<!-- Panel derecho con contexto, leyenda y controles -->
+<div id="sidebar">
+  <div class="section">
+    <h4>Contexto</h4>
+    <div class="inner">
+      <div id="meta" class="meta">Selecciona un nodo</div>
+      <pre id="ctx">—</pre>
+    </div>
+  </div>
+
+  <div class="section legend">
+    <h4>Leyenda</h4>
+    <div class="inner">
+      <div class="row"><span class="sw" style="background:#ef6c00"></span> Culturales y artísticas</div>
+      <div class="row"><span class="sw" style="background:#6a1b9a"></span> Contexto socio-histórico</div>
+      <div class="row"><span class="sw" style="background:#c62828"></span> Personales y biográficas</div>
+      <div class="row"><span class="sw" style="background:#2e7d32"></span> Pensamiento y conocimiento</div>
+      <div style="height:8px"></div>
+      <div class="arrowKey">
+        <div>→ autor <em>menciona</em> referencia</div>
+        <div>→ referencia <em>pertenece a</em> categoría</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section controls">
+    <h4>Parámetros de la red</h4>
+    <div class="inner">
+      <label>
+        Repulsión autores
+        <span>
+          <input id="chargeAuthors" type="range" min="300" max="1200" step="20" value="620">
+          <strong id="valAuthors">620</strong>
+        </span>
+      </label>
+      <label>
+        Repulsión referencias
+        <span>
+          <input id="chargeRefs" type="range" min="200" max="800" step="20" value="320">
+          <strong id="valRefs">320</strong>
+        </span>
+      </label>
+      <label>
+        Distancia enlaces (×)
+        <span>
+          <input id="distMul" type="range" min="80" max="160" step="5" value="100">
+          <strong id="valDist">1.00</strong>
+        </span>
+      </label>
+      <label style="justify-content:flex-start;gap:10px">
+        <input id="showAllRefLabels" type="checkbox">
+        Mostrar etiquetas de referencias siempre
+      </label>
+    </div>
   </div>
 </div>
 
-<div class="legend">
-  <div class="row"><span class="sw" style="background:#ef6c00"></span> Culturales y artísticas</div>
-  <div class="row"><span class="sw" style="background:#6a1b9a"></span> Contexto socio-histórico</div>
-  <div class="row"><span class="sw" style="background:#c62828"></span> Personales y biográficas</div>
-  <div class="row"><span class="sw" style="background:#2e7d32"></span> Pensamiento y conocimiento</div>
-  <div style="margin:4px 0;border-top:1px solid #1f2937"></div>
-  <div class="row">→ autor <em>menciona</em> referencia</div>
-  <div class="row">→ referencia <em>pertenece a</em> categoría</div>
-</div>
-
-<div class="bar"><span>Arrastra para mover · rueda para zoom · doble clic para reajustar</span> · <a href="https://www.youtube.com" target="_blank">Ver entrevistas</a></div>
-
 <script>
-const W = window.innerWidth - 340, H = window.innerHeight - 28;
+const W = window.innerWidth - 360, H = window.innerHeight;
 
 // colores
 const colorBy = {
@@ -105,8 +135,8 @@ const defs = svg.append("defs");
 function arrow(id,color){
   const m = defs.append("marker")
     .attr("id", id).attr("viewBox", "0 -5 10 10")
-    .attr("refX", 9).attr("refY", 0)      // más corto
-    .attr("markerWidth", 5).attr("markerHeight", 5) // flecha más pequeña
+    .attr("refX", 9).attr("refY", 0)
+    .attr("markerWidth", 5).attr("markerHeight", 5)
     .attr("orient", "auto");
   m.append("path").attr("d","M0,-5L10,0L0,5").attr("fill",color).attr("opacity",0.75);
 }
@@ -117,7 +147,7 @@ arrow("arrow-belongs","#9fb3ff");
 const zoom = d3.zoom().scaleExtent([0.25, 4]).on("zoom", (ev)=> g.attr("transform", ev.transform));
 svg.call(zoom);
 
-// helpers radio/color
+// helpers
 function R(d){ return d.type==="categoria"?18 : d.type==="autor"?13 : 8; }
 function C(d){ return d.type==="categoria"? (colorBy[d.label]||"#888") : d.type==="autor"? colorBy.autor : (colorBy[d.group]||"#ccc"); }
 
@@ -142,7 +172,7 @@ Promise.all([ d3.csv("global_nodos.csv", d3.autoType), d3.csv("global_aristas.cs
   const id2 = new Map(nodes.map(d=>[d.id,d]));
   edges.forEach(e=>{ e.source=id2.get(e.source); e.target=id2.get(e.target); });
 
-  // nodos fijos de categoría (anclas en esquinas)
+  // Anclas categoría
   const anchors = {
     "Culturales y artísticas":    {x: W*0.74, y:H*0.30},
     "Contexto socio-histórico":   {x: W*0.26, y:H*0.30},
@@ -153,28 +183,28 @@ Promise.all([ d3.csv("global_nodos.csv", d3.autoType), d3.csv("global_aristas.cs
     if(n.type==="categoria"){ n.fx = anchors[n.label].x; n.fy = anchors[n.label].y; }
   });
 
-  // enlaces
+  // Enlaces
   const link = linkG.selectAll("line").data(edges).enter().append("line")
     .attr("class", d=>"link " + (d.relation==="belongs_to"?"belongs":"mentions"))
     .attr("stroke-width", d=> d.relation==="belongs_to"?1.0:0.9)
     .attr("marker-end", d=> d.relation==="belongs_to"?"url(#arrow-belongs)":"url(#arrow-mentions)");
 
-  // nodos
+  // Nodos
   const node = nodeG.selectAll("g").data(nodes).enter().append("g")
     .attr("class", d=>"node " + d.type)
     .call(drag());
 
   node.append("circle").attr("r", R).attr("fill", C);
 
-  // etiquetas: autores/categorías siempre visibles; referencias condicionadas
+  // Etiquetas
   const label = node.append("text")
     .attr("class","label")
     .text(d=>d.label)
     .attr("dy", d=> d.type==="categoria"? -R(d)-2 : 3)
     .attr("x", d=> d.type==="referencia"? R(d)+6 : d.type==="autor"? R(d)+6 : 0)
-    .classed("hidden", d=> d.type==="referencia"); // referencias ocultas al inicio
+    .classed("hidden", d=> d.type==="referencia"); // refs ocultas al inicio
 
-  // hover de referencias
+  // Hover de referencias
   node.on("mouseenter",(ev,d)=>{
     if(d.type==="referencia" && !showAllCb.checked) d3.select(ev.currentTarget).select("text").classed("hidden", false);
   }).on("mouseleave",(ev,d)=>{
@@ -188,7 +218,7 @@ Promise.all([ d3.csv("global_nodos.csv", d3.autoType), d3.csv("global_aristas.cs
     ctx.textContent  = (d.note && d.note.trim()) ? d.note : "—";
   });
 
-  // fuerzas (creamos objetos para poder reconfigurarlos con los sliders)
+  // Fuerzas
   const linkForce = d3.forceLink(edges).id(d=>d.id)
     .distance(l => (l.relation==="belongs_to" ? 140 : 95) * distMul)
     .strength(l => l.relation==="belongs_to" ? 0.6 : 0.35);
@@ -230,7 +260,7 @@ Promise.all([ d3.csv("global_nodos.csv", d3.autoType), d3.csv("global_aristas.cs
     };
   }
 
-  // búsqueda con atenuación y centrado del primer match
+  // Búsqueda
   document.getElementById("search").addEventListener("input", function(){
     const q=this.value.trim().toLowerCase();
     let first=null;
@@ -247,7 +277,7 @@ Promise.all([ d3.csv("global_nodos.csv", d3.autoType), d3.csv("global_aristas.cs
     if(first) centerOn(first.x, first.y, Math.max(1.2, currentZoom));
   });
 
-  // zoom y etiquetas
+  // Zoom y etiquetas
   let currentZoom = 1;
   svg.on("dblclick", ()=> fitToContent());
   svg.call(zoom.on("zoom.labels", (ev)=>{
@@ -272,7 +302,7 @@ Promise.all([ d3.csv("global_nodos.csv", d3.autoType), d3.csv("global_aristas.cs
     svg.transition().duration(450).call(zoom.transform, d3.zoomIdentity.translate(W/2,H/2).scale(k).translate(-x,-y));
   }
 
-  // ----- DRAG: arreglado -----
+  // Drag
   function drag(){
     function dragstarted(event, d){
       if (!event.active) sim.alphaTarget(0.3).restart();
@@ -283,13 +313,12 @@ Promise.all([ d3.csv("global_nodos.csv", d3.autoType), d3.csv("global_aristas.cs
     }
     function dragended(event, d){
       if (!event.active) sim.alphaTarget(0);
-      // liberamos todo excepto categorías (que deben quedar ancladas)
       if (d.type !== "categoria"){ d.fx = null; d.fy = null; }
     }
     return d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended);
   }
 
-  // ----- sliders: reconfiguran fuerzas y relanzan la simulación -----
+  // Sliders
   elAuthors.addEventListener("input", ()=>{
     chargeAuthors = +elAuthors.value; elValA.textContent = chargeAuthors;
     chargeForce.strength(d => d.type==="categoria" ? -2800 : d.type==="autor" ? -chargeAuthors : -chargeRefs);
@@ -307,9 +336,12 @@ Promise.all([ d3.csv("global_nodos.csv", d3.autoType), d3.csv("global_aristas.cs
   });
   showAllCb.addEventListener("change", ()=>{
     const show = showAllCb.checked;
-    label.filter(d=>d.type==="referencia").classed("hidden", !show && currentZoom<=1.1);
+    d3.selectAll(".label").filter((d)=>d.type==="referencia").classed("hidden", !show && currentZoom<=1.1);
   });
 });
+
+// búsqueda campo
+document.getElementById("search").addEventListener("focus", ()=>{});
 </script>
 </body>
 </html>
