@@ -252,4 +252,15 @@
     ],
     "thumb": "img/vargasllosa_redondo.png"
   }
+  {
+    "id": "global",
+    "title": "Constelación global",
+    "file": "global/global_constelacion.html",
+    "date": "",
+    "tags": [
+      "",
+      ""
+    ],
+    "thumb": "img/vargasllosa_redondo.png"
+  }
 ]
