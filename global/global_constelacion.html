@@ -10,13 +10,16 @@
     --green:#2e7d32; --purple:#6a1b9a; --red:#c62828; --orange:#ef6c00;
   }
   html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial}
-  #graph{position:absolute;inset:0 320px 24px 0}
-  #sidebar{position:absolute;top:0;right:0;bottom:24px;width:320px;background:var(--panel);border-left:1px solid #1f2937;padding:14px;overflow:auto}
+  #graph{position:absolute;inset:0 340px 28px 0}
+  #sidebar{position:absolute;top:0;right:0;bottom:28px;width:340px;background:var(--panel);border-left:1px solid #1f2937;padding:14px;overflow:auto}
   #search{position:absolute;top:10px;left:10px;width:280px;background:var(--panel2);border:1px solid #1f2937;border-radius:10px;padding:6px 10px;color:var(--text)}
+  .controls{margin-top:8px;background:var(--panel2);border:1px solid #1f2937;border-radius:10px;padding:10px;font-size:12px}
+  .controls label{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:6px 0}
+  .controls input[type="range"]{width:180px}
   .legend{position:absolute;left:10px;bottom:4px;background:var(--panel2);border:1px solid #1f2937;border-radius:10px;padding:6px 10px;font-size:12px;line-height:1.25}
   .legend .row{display:flex;align-items:center;gap:6px;margin:2px 0}
   .sw{width:10px;height:10px;border-radius:50%}
-  .bar{position:absolute;left:0;right:320px;bottom:0;background:var(--panel2);border-top:1px solid #1f2937;font-size:12px;padding:4px 8px;color:#a3a3a3}
+  .bar{position:absolute;left:0;right:340px;bottom:0;background:var(--panel2);border-top:1px solid #1f2937;font-size:12px;padding:4px 8px;color:#a3a3a3}
   .bar a{color:#9ecbff;text-decoration:none}
 
   .link{stroke:#94a3b8;stroke-opacity:.30;pointer-events:none}
@@ -43,6 +46,29 @@
   <h3 style="margin:0 0 6px">Contexto</h3>
   <div id="meta" style="font-size:12px;color:#a3a3a3;margin-bottom:8px">Selecciona un nodo</div>
   <pre id="ctx" style="white-space:pre-wrap;background:var(--panel2);border:1px solid #1f2937;border-radius:10px;padding:10px;font-family:inherit;font-size:14px;line-height:1.35">—</pre>
+
+  <div class="controls">
+    <strong>Parámetros de la red</strong>
+    <label>
+      Repulsión autores
+      <input id="chargeAuthors" type="range" min="300" max="1200" step="20" value="620">
+      <span id="valAuthors">620</span>
+    </label>
+    <label>
+      Repulsión referencias
+      <input id="chargeRefs" type="range" min="200" max="800" step="20" value="320">
+      <span id="valRefs">320</span>
+    </label>
+    <label>
+      Distancia enlaces (×)
+      <input id="distMul" type="range" min="80" max="160" step="5" value="100">
+      <span id="valDist">1.00</span>
+    </label>
+    <label>
+      <input id="showAllRefLabels" type="checkbox">
+      Mostrar etiquetas de referencias siempre
+    </label>
+  </div>
 </div>
 
 <div class="legend">
@@ -58,7 +84,7 @@
 <div class="bar"><span>Arrastra para mover · rueda para zoom · doble clic para reajustar</span> · <a href="https://www.youtube.com" target="_blank">Ver entrevistas</a></div>
 
 <script>
-const W = window.innerWidth - 320, H = window.innerHeight - 24;
+const W = window.innerWidth - 340, H = window.innerHeight - 28;
 
 // colores
 const colorBy = {
@@ -95,6 +121,21 @@ svg.call(zoom);
 function R(d){ return d.type==="categoria"?18 : d.type==="autor"?13 : 8; }
 function C(d){ return d.type==="categoria"? (colorBy[d.label]||"#888") : d.type==="autor"? colorBy.autor : (colorBy[d.group]||"#ccc"); }
 
+// controles UI
+const elAuthors = document.getElementById("chargeAuthors");
+const elRefs    = document.getElementById("chargeRefs");
+const elMul     = document.getElementById("distMul");
+const elValA    = document.getElementById("valAuthors");
+const elValR    = document.getElementById("valRefs");
+const elValD    = document.getElementById("valDist");
+const showAllCb = document.getElementById("showAllRefLabels");
+let chargeAuthors = +elAuthors.value; // 620
+let chargeRefs    = +elRefs.value;    // 320
+let distMul       = +elMul.value/100; // 1.00
+elValA.textContent = chargeAuthors;
+elValR.textContent = chargeRefs;
+elValD.textContent = distMul.toFixed(2);
+
 // carga
 Promise.all([ d3.csv("global_nodos.csv", d3.autoType), d3.csv("global_aristas.csv", d3.autoType) ])
 .then(([nodes, edges])=>{
@@ -115,13 +156,13 @@ Promise.all([ d3.csv("global_nodos.csv", d3.autoType), d3.csv("global_aristas.cs
   // enlaces
   const link = linkG.selectAll("line").data(edges).enter().append("line")
     .attr("class", d=>"link " + (d.relation==="belongs_to"?"belongs":"mentions"))
-    .attr("stroke-width", d=> d.relation==="belongs_to"?1.2:1.0)
+    .attr("stroke-width", d=> d.relation==="belongs_to"?1.0:0.9)
     .attr("marker-end", d=> d.relation==="belongs_to"?"url(#arrow-belongs)":"url(#arrow-mentions)");
 
   // nodos
   const node = nodeG.selectAll("g").data(nodes).enter().append("g")
     .attr("class", d=>"node " + d.type)
-    .call(d3.drag().on("start",dragstarted).on("drag",dragged).on("end",dragended));
+    .call(drag());
 
   node.append("circle").attr("r", R).attr("fill", C);
 
@@ -133,11 +174,11 @@ Promise.all([ d3.csv("global_nodos.csv", d3.autoType), d3.csv("global_aristas.cs
     .attr("x", d=> d.type==="referencia"? R(d)+6 : d.type==="autor"? R(d)+6 : 0)
     .classed("hidden", d=> d.type==="referencia"); // referencias ocultas al inicio
 
-  // hover: mostrar etiqueta de referencia
-  node.on("mouseenter", (ev,d)=>{
-    if(d.type==="referencia") d3.select(ev.currentTarget).select("text").classed("hidden", false);
+  // hover de referencias
+  node.on("mouseenter",(ev,d)=>{
+    if(d.type==="referencia" && !showAllCb.checked) d3.select(ev.currentTarget).select("text").classed("hidden", false);
   }).on("mouseleave",(ev,d)=>{
-    if(d.type==="referencia" && currentZoom<=1.1) d3.select(ev.currentTarget).select("text").classed("hidden", true);
+    if(d.type==="referencia" && !showAllCb.checked && currentZoom<=1.1) d3.select(ev.currentTarget).select("text").classed("hidden", true);
   });
 
   const meta = document.getElementById("meta");
@@ -147,19 +188,25 @@ Promise.all([ d3.csv("global_nodos.csv", d3.autoType), d3.csv("global_aristas.cs
     ctx.textContent  = (d.note && d.note.trim()) ? d.note : "—";
   });
 
-  // fuerzas
+  // fuerzas (creamos objetos para poder reconfigurarlos con los sliders)
+  const linkForce = d3.forceLink(edges).id(d=>d.id)
+    .distance(l => (l.relation==="belongs_to" ? 140 : 95) * distMul)
+    .strength(l => l.relation==="belongs_to" ? 0.6 : 0.35);
+
+  const chargeForce = d3.forceManyBody().strength(d =>
+    d.type==="categoria" ? -2800 : d.type==="autor" ? -chargeAuthors : -chargeRefs
+  );
+
+  const collideForce = d3.forceCollide().radius(d=>R(d)+8);
+
   const sim = d3.forceSimulation(nodes)
-    .force("link", d3.forceLink(edges).id(d=>d.id)
-      .distance(l => l.relation==="belongs_to" ? 140 : 95)
-      .strength(l => l.relation==="belongs_to" ? 0.6 : 0.35))
-    .force("charge", d3.forceManyBody().strength(d =>
-      d.type==="categoria" ? -2800 : d.type==="autor" ? -620 : -300))
-    .force("collide", d3.forceCollide().radius(d=>R(d)+8))
+    .force("link", linkForce)
+    .force("charge", chargeForce)
+    .force("collide", collideForce)
     .force("center", d3.forceCenter(W*0.5, H*0.52))
     .force("catPull", categoryPull());
 
   sim.on("tick", ()=>{
-    // recorte de líneas hasta los bordes de los nodos (para que la flecha no se meta)
     link.each(function(d){
       const sx=d.source.x, sy=d.source.y, tx=d.target.x, ty=d.target.y;
       const dx=tx-sx, dy=ty-sy, L=Math.hypot(dx,dy)||1, nx=dx/L, ny=dy/L;
@@ -200,12 +247,14 @@ Promise.all([ d3.csv("global_nodos.csv", d3.autoType), d3.csv("global_aristas.cs
     if(first) centerOn(first.x, first.y, Math.max(1.2, currentZoom));
   });
 
-  // zoom dependiente: mostrar etiquetas de referencias a partir de k>1.1
+  // zoom y etiquetas
   let currentZoom = 1;
   svg.on("dblclick", ()=> fitToContent());
   svg.call(zoom.on("zoom.labels", (ev)=>{
     currentZoom = ev.transform.k;
-    label.filter(d=>d.type==="referencia").classed("hidden", currentZoom<=1.1);
+    if(!showAllCb.checked){
+      label.filter(d=>d.type==="referencia").classed("hidden", currentZoom<=1.1);
+    }
   }));
 
   setTimeout(fitToContent, 900);
@@ -223,9 +272,43 @@ Promise.all([ d3.csv("global_nodos.csv", d3.autoType), d3.csv("global_aristas.cs
     svg.transition().duration(450).call(zoom.transform, d3.zoomIdentity.translate(W/2,H/2).scale(k).translate(-x,-y));
   }
 
-  function dragstarted(ev,d){ if(!ev.active) { d.fx=d.x; d.fy=d.y; } }
-  function dragged(ev,d){ d.fx=ev.x; d.fy=ev.y; }
-  function dragended(ev,d){ if(!ev.active && d.type!=="categoria"){ d.fx=null; d.fy=null; } }
+  // ----- DRAG: arreglado -----
+  function drag(){
+    function dragstarted(event, d){
+      if (!event.active) sim.alphaTarget(0.3).restart();
+      d.fx = d.x; d.fy = d.y;
+    }
+    function dragged(event, d){
+      d.fx = event.x; d.fy = event.y;
+    }
+    function dragended(event, d){
+      if (!event.active) sim.alphaTarget(0);
+      // liberamos todo excepto categorías (que deben quedar ancladas)
+      if (d.type !== "categoria"){ d.fx = null; d.fy = null; }
+    }
+    return d3.drag().on("start", dragstarted).on("drag", dragged).on("end", dragended);
+  }
+
+  // ----- sliders: reconfiguran fuerzas y relanzan la simulación -----
+  elAuthors.addEventListener("input", ()=>{
+    chargeAuthors = +elAuthors.value; elValA.textContent = chargeAuthors;
+    chargeForce.strength(d => d.type==="categoria" ? -2800 : d.type==="autor" ? -chargeAuthors : -chargeRefs);
+    sim.alpha(0.5).restart();
+  });
+  elRefs.addEventListener("input", ()=>{
+    chargeRefs = +elRefs.value; elValR.textContent = chargeRefs;
+    chargeForce.strength(d => d.type==="categoria" ? -2800 : d.type==="autor" ? -chargeAuthors : -chargeRefs);
+    sim.alpha(0.5).restart();
+  });
+  elMul.addEventListener("input", ()=>{
+    distMul = +elMul.value/100; elValD.textContent = distMul.toFixed(2);
+    linkForce.distance(l => (l.relation==="belongs_to" ? 140 : 95) * distMul);
+    sim.alpha(0.5).restart();
+  });
+  showAllCb.addEventListener("change", ()=>{
+    const show = showAllCb.checked;
+    label.filter(d=>d.type==="referencia").classed("hidden", !show && currentZoom<=1.1);
+  });
 });
 </script>
 </body>
