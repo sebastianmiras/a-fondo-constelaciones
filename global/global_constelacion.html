@@ -5,243 +5,228 @@
 <title>Constelación global</title>
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <style>
-  body {
-    margin: 0;
-    font-family: system-ui, sans-serif;
-    background-color: #0b0f14;
-    color: #e6edf3;
-    overflow: hidden;
+  :root{
+    --bg:#0b0f14; --panel:#111821; --panel2:#0e1520; --text:#e6edf3;
+    --green:#2e7d32; --purple:#6a1b9a; --red:#c62828; --orange:#ef6c00;
   }
-  #graph {
-    position: absolute;
-    top: 0; left: 0; right: 300px; bottom: 0;
-  }
-  #sidebar {
-    position: absolute;
-    top: 0; right: 0; bottom: 0;
-    width: 300px;
-    background: #111821;
-    border-left: 1px solid #222;
-    padding: 10px;
-    overflow-y: auto;
-  }
-  #searchBox {
-    position: absolute;
-    top: 10px; left: 10px;
-    width: 250px;
-    padding: 5px;
-    border: none;
-    border-radius: 4px;
-  }
-  .node circle {
-    stroke: #111;
-    stroke-width: 1.2px;
-  }
-  .node text {
-    font-size: 11px;
-    pointer-events: none;
-  }
-  .link {
-    stroke: #94a3b8;
-    stroke-opacity: .45;
-    pointer-events: none;
-  }
-  .link.mentions {
-    stroke: #9aa4b2;
-    stroke-opacity: .55;
-  }
-  .link.belongs {
-    stroke: #8ea2d8;
-    stroke-opacity: .65;
-    stroke-dasharray: 3 2;
-  }
-  .legend {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    font-size: 13px;
-    background: #0e1520;
-    padding: 6px 10px;
-    border-radius: 8px;
-  }
-  .legend div {
-    margin: 3px 0;
-  }
-  .legend span {
-    display: inline-block;
-    width: 14px; height: 14px;
-    margin-right: 6px;
-    vertical-align: middle;
-    border-radius: 50%;
-  }
-  .bar {
-    position: absolute;
-    bottom: 0; left: 0; right: 300px;
-    background: #0e1520;
-    font-size: 12px;
-    text-align: center;
-    padding: 3px;
-  }
-  .bar a { color: #9fb3ff; text-decoration: none; }
+  html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial}
+  #graph{position:absolute;inset:0 320px 24px 0}
+  #sidebar{position:absolute;top:0;right:0;bottom:24px;width:320px;background:var(--panel);border-left:1px solid #1f2937;padding:14px;overflow:auto}
+  #search{position:absolute;top:10px;left:10px;width:280px;background:var(--panel2);border:1px solid #1f2937;border-radius:10px;padding:6px 10px;color:var(--text)}
+  .legend{position:absolute;left:10px;bottom:4px;background:var(--panel2);border:1px solid #1f2937;border-radius:10px;padding:6px 10px;font-size:12px;line-height:1.25}
+  .legend .row{display:flex;align-items:center;gap:6px;margin:2px 0}
+  .sw{width:10px;height:10px;border-radius:50%}
+  .bar{position:absolute;left:0;right:320px;bottom:0;background:var(--panel2);border-top:1px solid #1f2937;font-size:12px;padding:4px 8px;color:#a3a3a3}
+  .bar a{color:#9ecbff;text-decoration:none}
+
+  .link{stroke:#94a3b8;stroke-opacity:.30;pointer-events:none}
+  .link.mentions{stroke:#9aa4b2;stroke-opacity:.35}
+  .link.belongs{stroke:#8ea2d8;stroke-opacity:.45;stroke-dasharray:3 2}
+
+  .node{cursor:grab}
+  .node:active{cursor:grabbing}
+  .node circle{stroke:#0b0f14;stroke-width:1.2px}
+  .node.author circle{fill:#0c1117;stroke:#cbd5e1;stroke-width:2}
+  .node.category circle{fill:transparent;stroke:#cbd5e1;stroke-dasharray:4 3;stroke-width:2}
+
+  .label{font-size:11px;fill:#cbd5e1;paint-order:stroke;stroke:rgba(11,15,20,.85);stroke-width:3px;stroke-linejoin:round}
+  .label.hidden{display:none}
+
+  .faded{opacity:.12}
 </style>
 </head>
 <body>
-
-<input id="searchBox" type="text" placeholder="Buscar…">
+<input id="search" placeholder="Buscar autor o referencia…">
 
 <div id="graph"></div>
-<div id="sidebar"><h3>Contexto</h3><div id="contexto"></div></div>
-<div class="legend">
-  <div><span style="background:#2e7d32"></span>Pensamiento y conocimiento</div>
-  <div><span style="background:#6a1b9a"></span>Contexto socio-histórico</div>
-  <div><span style="background:#c62828"></span>Personales y biográficas</div>
-  <div><span style="background:#ef6c00"></span>Culturales y artísticas</div>
-  <hr>
-  <div>→ autor <em>menciona</em> referencia</div>
-  <div>→ referencia <em>pertenece a</em> categoría</div>
+<div id="sidebar">
+  <h3 style="margin:0 0 6px">Contexto</h3>
+  <div id="meta" style="font-size:12px;color:#a3a3a3;margin-bottom:8px">Selecciona un nodo</div>
+  <pre id="ctx" style="white-space:pre-wrap;background:var(--panel2);border:1px solid #1f2937;border-radius:10px;padding:10px;font-family:inherit;font-size:14px;line-height:1.35">—</pre>
 </div>
-<div class="bar"><a href="https://www.youtube.com/" target="_blank">Ver entrevistas en YouTube</a></div>
+
+<div class="legend">
+  <div class="row"><span class="sw" style="background:#ef6c00"></span> Culturales y artísticas</div>
+  <div class="row"><span class="sw" style="background:#6a1b9a"></span> Contexto socio-histórico</div>
+  <div class="row"><span class="sw" style="background:#c62828"></span> Personales y biográficas</div>
+  <div class="row"><span class="sw" style="background:#2e7d32"></span> Pensamiento y conocimiento</div>
+  <div style="margin:4px 0;border-top:1px solid #1f2937"></div>
+  <div class="row">→ autor <em>menciona</em> referencia</div>
+  <div class="row">→ referencia <em>pertenece a</em> categoría</div>
+</div>
+
+<div class="bar"><span>Arrastra para mover · rueda para zoom · doble clic para reajustar</span> · <a href="https://www.youtube.com" target="_blank">Ver entrevistas</a></div>
 
 <script>
-const width = window.innerWidth - 300, height = window.innerHeight;
+const W = window.innerWidth - 320, H = window.innerHeight - 24;
 
-// Colores de grupos
-const colorMap = {
-  "Pensamiento y conocimiento": "#2e7d32",
-  "Contexto socio-histórico": "#6a1b9a",
-  "Personales y biográficas": "#c62828",
-  "Culturales y artísticas": "#ef6c00",
-  "autor": "#e6edf3"
+// colores
+const colorBy = {
+  "Culturales y artísticas":"#ef6c00",
+  "Contexto socio-histórico":"#6a1b9a",
+  "Personales y biográficas":"#c62828",
+  "Pensamiento y conocimiento":"#2e7d32",
+  "autor":"#e6edf3"
 };
 
-// SVG principal
-const svg = d3.select("#graph").append("svg")
-  .attr("width", width)
-  .attr("height", height);
+// svg
+const svg = d3.select("#graph").append("svg").attr("width", W).attr("height", H);
+const g = svg.append("g");
+const linkG = g.append("g"); // atrás
+const nodeG = g.append("g");
 
-const linkG = svg.append("g").attr("class","links");
-const nodeG = svg.append("g").attr("class","nodes");
-
-// Definir flechas
 const defs = svg.append("defs");
-function makeArrow(id, color){
+function arrow(id,color){
   const m = defs.append("marker")
-    .attr("id", id)
-    .attr("viewBox", "0 -5 10 10")
-    .attr("refX", 12)
-    .attr("refY", 0)
-    .attr("markerWidth", 7)
-    .attr("markerHeight", 7)
+    .attr("id", id).attr("viewBox", "0 -5 10 10")
+    .attr("refX", 9).attr("refY", 0)      // más corto
+    .attr("markerWidth", 5).attr("markerHeight", 5) // flecha más pequeña
     .attr("orient", "auto");
-  m.append("path")
-    .attr("d","M0,-5L10,0L0,5")
-    .attr("fill", color)
-    .attr("opacity", .95);
+  m.append("path").attr("d","M0,-5L10,0L0,5").attr("fill",color).attr("opacity",0.75);
 }
-makeArrow("arrow-mentions", "#b8c0cc");
-makeArrow("arrow-belongs", "#9fb3ff");
+arrow("arrow-mentions","#c9d1d9");
+arrow("arrow-belongs","#9fb3ff");
 
-// Cargar datos
-Promise.all([
-  d3.csv("global_nodos.csv"),
-  d3.csv("global_aristas.csv")
-]).then(([nodes, edges])=>{
-  const nodeById = new Map(nodes.map(d => [d.id, d]));
-  edges.forEach(d => {
-    d.source = nodeById.get(d.source);
-    d.target = nodeById.get(d.target);
+// zoom
+const zoom = d3.zoom().scaleExtent([0.25, 4]).on("zoom", (ev)=> g.attr("transform", ev.transform));
+svg.call(zoom);
+
+// helpers radio/color
+function R(d){ return d.type==="categoria"?18 : d.type==="autor"?13 : 8; }
+function C(d){ return d.type==="categoria"? (colorBy[d.label]||"#888") : d.type==="autor"? colorBy.autor : (colorBy[d.group]||"#ccc"); }
+
+// carga
+Promise.all([ d3.csv("global_nodos.csv", d3.autoType), d3.csv("global_aristas.csv", d3.autoType) ])
+.then(([nodes, edges])=>{
+  const id2 = new Map(nodes.map(d=>[d.id,d]));
+  edges.forEach(e=>{ e.source=id2.get(e.source); e.target=id2.get(e.target); });
+
+  // nodos fijos de categoría (anclas en esquinas)
+  const anchors = {
+    "Culturales y artísticas":    {x: W*0.74, y:H*0.30},
+    "Contexto socio-histórico":   {x: W*0.26, y:H*0.30},
+    "Personales y biográficas":   {x: W*0.26, y:H*0.74},
+    "Pensamiento y conocimiento": {x: W*0.74, y:H*0.74}
+  };
+  nodes.forEach(n=>{
+    if(n.type==="categoria"){ n.fx = anchors[n.label].x; n.fy = anchors[n.label].y; }
   });
 
-  // Simulación
-  const sim = d3.forceSimulation(nodes)
-    .force("link", d3.forceLink(edges).id(d=>d.id).distance(80).strength(0.7))
-    .force("charge", d3.forceManyBody().strength(-220))
-    .force("center", d3.forceCenter(width/2, height/2))
-    .force("collision", d3.forceCollide().radius(d=>radius(d)+4));
+  // enlaces
+  const link = linkG.selectAll("line").data(edges).enter().append("line")
+    .attr("class", d=>"link " + (d.relation==="belongs_to"?"belongs":"mentions"))
+    .attr("stroke-width", d=> d.relation==="belongs_to"?1.2:1.0)
+    .attr("marker-end", d=> d.relation==="belongs_to"?"url(#arrow-belongs)":"url(#arrow-mentions)");
 
-  // Enlaces
-  const link = linkG.selectAll("line")
-    .data(edges)
-    .enter().append("line")
-    .attr("class", d => "link " + (d.relation==="belongs_to" ? "belongs" : "mentions"))
-    .attr("stroke-width", d => d.relation==="belongs_to"?1.8:1.4)
-    .attr("marker-end", d => d.relation==="belongs_to" ? "url(#arrow-belongs)" : "url(#arrow-mentions)");
+  // nodos
+  const node = nodeG.selectAll("g").data(nodes).enter().append("g")
+    .attr("class", d=>"node " + d.type)
+    .call(d3.drag().on("start",dragstarted).on("drag",dragged).on("end",dragended));
 
-  // Nodos
-  const node = nodeG.selectAll("g")
-    .data(nodes)
-    .enter().append("g")
-    .attr("class","node")
-    .call(d3.drag()
-      .on("start",dragstarted)
-      .on("drag",dragged)
-      .on("end",dragended));
+  node.append("circle").attr("r", R).attr("fill", C);
 
-  node.append("circle")
-    .attr("r", radius)
-    .attr("fill", d => color(d));
-
-  node.append("text")
+  // etiquetas: autores/categorías siempre visibles; referencias condicionadas
+  const label = node.append("text")
+    .attr("class","label")
     .text(d=>d.label)
-    .attr("dy",3)
-    .attr("x", d=>radius(d)+4)
-    .style("font-size","10px");
+    .attr("dy", d=> d.type==="categoria"? -R(d)-2 : 3)
+    .attr("x", d=> d.type==="referencia"? R(d)+6 : d.type==="autor"? R(d)+6 : 0)
+    .classed("hidden", d=> d.type==="referencia"); // referencias ocultas al inicio
 
-  // Click -> mostrar contexto
-  node.on("click", (e,d)=>{
-    document.getElementById("contexto").innerText = d.note || "(sin contexto)";
+  // hover: mostrar etiqueta de referencia
+  node.on("mouseenter", (ev,d)=>{
+    if(d.type==="referencia") d3.select(ev.currentTarget).select("text").classed("hidden", false);
+  }).on("mouseleave",(ev,d)=>{
+    if(d.type==="referencia" && currentZoom<=1.1) d3.select(ev.currentTarget).select("text").classed("hidden", true);
   });
 
-  // Simulación tick con recorte de líneas
+  const meta = document.getElementById("meta");
+  const ctx  = document.getElementById("ctx");
+  node.on("click",(ev,d)=>{
+    meta.textContent = d.type==="referencia" ? d.group : (d.type==="autor" ? "Entrevistado" : "Categoría");
+    ctx.textContent  = (d.note && d.note.trim()) ? d.note : "—";
+  });
+
+  // fuerzas
+  const sim = d3.forceSimulation(nodes)
+    .force("link", d3.forceLink(edges).id(d=>d.id)
+      .distance(l => l.relation==="belongs_to" ? 140 : 95)
+      .strength(l => l.relation==="belongs_to" ? 0.6 : 0.35))
+    .force("charge", d3.forceManyBody().strength(d =>
+      d.type==="categoria" ? -2800 : d.type==="autor" ? -620 : -300))
+    .force("collide", d3.forceCollide().radius(d=>R(d)+8))
+    .force("center", d3.forceCenter(W*0.5, H*0.52))
+    .force("catPull", categoryPull());
+
   sim.on("tick", ()=>{
+    // recorte de líneas hasta los bordes de los nodos (para que la flecha no se meta)
     link.each(function(d){
-      const sx = d.source.x, sy = d.source.y, tx = d.target.x, ty = d.target.y;
-      const dx = tx - sx, dy = ty - sy;
-      const dist = Math.hypot(dx, dy) || 1;
-      const nx = dx/dist, ny = dy/dist;
-
-      const rSource = radius(d.source);
-      const rTarget = radius(d.target);
-
-      const x1 = sx + nx*(rSource+1);
-      const y1 = sy + ny*(rSource+1);
-      const x2 = tx - nx*(rTarget+3);
-      const y2 = ty - ny*(rTarget+3);
-
+      const sx=d.source.x, sy=d.source.y, tx=d.target.x, ty=d.target.y;
+      const dx=tx-sx, dy=ty-sy, L=Math.hypot(dx,dy)||1, nx=dx/L, ny=dy/L;
+      const rs=R(d.source), rt=R(d.target);
+      const x1=sx+nx*(rs+1), y1=sy+ny*(rs+1);
+      const x2=tx-nx*(rt+3), y2=ty-ny*(rt+3);
       d3.select(this).attr("x1",x1).attr("y1",y1).attr("x2",x2).attr("y2",y2);
     });
-
     node.attr("transform", d=>`translate(${d.x},${d.y})`);
   });
 
-  // Buscar
-  document.getElementById("searchBox").addEventListener("input", function(){
-    const term = this.value.toLowerCase();
-    node.style("opacity", d => d.label.toLowerCase().includes(term)?1:0.15);
-    link.style("opacity", d => (d.source.label.toLowerCase().includes(term) || d.target.label.toLowerCase().includes(term)) ? 0.9 : 0.05);
-  });
-});
+  function categoryPull(){
+    return (alpha)=>{
+      nodes.forEach(n=>{
+        if(n.type==="referencia"){
+          const a = anchors[n.group]; if(!a) return;
+          n.vx += (a.x - n.x) * 0.0009 * alpha;
+          n.vy += (a.y - n.y) * 0.0009 * alpha;
+        }
+      });
+    };
+  }
 
-// Funciones auxiliares
-function radius(d){
-  if(d.type==="categoria") return 16;
-  if(d.type==="autor") return 12;
-  return 8;
-}
-function color(d){
-  if(d.type==="categoria") return colorMap[d.label] || "#888";
-  if(d.type==="autor") return colorMap["autor"];
-  return colorMap[d.group] || "#ccc";
-}
-function dragstarted(e,d){
-  if(!e.active) d.fy = d.y, d.fx = d.x;
-}
-function dragged(e,d){
-  d.fx = e.x; d.fy = e.y;
-}
-function dragended(e,d){
-  if(!e.active){ d.fx=null; d.fy=null; }
-}
+  // búsqueda con atenuación y centrado del primer match
+  document.getElementById("search").addEventListener("input", function(){
+    const q=this.value.trim().toLowerCase();
+    let first=null;
+    node.classed("faded", d=>{
+      const hit=!q || d.label.toLowerCase().includes(q);
+      if(hit && !first) first=d;
+      return q && !hit;
+    });
+    link.classed("faded", l=>{
+      if(!q) return false;
+      const hs=l.source.label.toLowerCase().includes(q), ht=l.target.label.toLowerCase().includes(q);
+      return !(hs||ht);
+    });
+    if(first) centerOn(first.x, first.y, Math.max(1.2, currentZoom));
+  });
+
+  // zoom dependiente: mostrar etiquetas de referencias a partir de k>1.1
+  let currentZoom = 1;
+  svg.on("dblclick", ()=> fitToContent());
+  svg.call(zoom.on("zoom.labels", (ev)=>{
+    currentZoom = ev.transform.k;
+    label.filter(d=>d.type==="referencia").classed("hidden", currentZoom<=1.1);
+  }));
+
+  setTimeout(fitToContent, 900);
+
+  function fitToContent(pad=80){
+    const box = g.node().getBBox();
+    const s = Math.max(0.25, Math.min(2.2,
+      0.9/Math.max(box.width/(W-pad*2), box.height/(H-pad*2))
+    ));
+    const tx = (W - s*(box.x*2 + box.width))/2;
+    const ty = (H - s*(box.y*2 + box.height))/2;
+    svg.transition().duration(700).call(zoom.transform, d3.zoomIdentity.translate(tx,ty).scale(s));
+  }
+  function centerOn(x,y,k=1.4){
+    svg.transition().duration(450).call(zoom.transform, d3.zoomIdentity.translate(W/2,H/2).scale(k).translate(-x,-y));
+  }
+
+  function dragstarted(ev,d){ if(!ev.active) { d.fx=d.x; d.fy=d.y; } }
+  function dragged(ev,d){ d.fx=ev.x; d.fy=ev.y; }
+  function dragended(ev,d){ if(!ev.active && d.type!=="categoria"){ d.fx=null; d.fy=null; } }
+});
 </script>
 </body>
 </html>
